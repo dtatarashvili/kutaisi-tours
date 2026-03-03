@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kutaisi Premium Weekend Transfers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Noto+Sans+Georgian:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Noto Sans Georgian', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    },
+                    colors: { 
+                        brandBlue: '#1E3A8A', 
+                        brandGold: '#F59E0B', 
+                        brandLight: '#F9FAFB'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F9FAFB; color: #1F2937; scroll-behavior: smooth; }
+        .glass-card { background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #E5E7EB; }
+        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(30, 58, 138, 0.1); transition: all 0.3s ease; }
+        
+        .prose h3 { color: #1E3A8A; font-size: 1.25rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .prose p { margin-bottom: 0.75rem; color: #4B5563; }
+        .prose ul { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; color: #4B5563; font-weight: 500;}
+        .prose strong { color: #111827; }
+        
+        .loader { border: 3px solid rgba(245, 158, 11, 0.2); border-top: 3px solid #F59E0B; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- PRINT CSS LOGIC --- */
+        .tour-print-header, .hotel-print-section { display: none; }
+
+        @media print {
+            body { background-color: white !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            button, .no-print { display: none !important; }
+
+            /* MODE 1: PRINTING THE TOUR (Text Only) */
+            body.print-mode-tour header,
+            body.print-mode-tour nav,
+            body.print-mode-tour .vehicle-section,
+            body.print-mode-tour .routes-section,
+            body.print-mode-tour .ai-inputs,
+            body.print-mode-tour footer,
+            body.print-mode-tour #contact { display: none !important; }
+            body.print-mode-tour .tour-print-header { display: block !important; text-align: center; margin-bottom: 30px; border-bottom: 2px solid #1E3A8A; padding-bottom: 20px; }
+            body.print-mode-tour #ai-result-container { box-shadow: none !important; border: none !important; padding: 0 !important; display: block !important; }
+
+            /* MODE 2: PRINTING THE COLORFUL HOTEL BROCHURE */
+            body.print-mode-hotel #ai-planner, body.print-mode-hotel footer, body.print-mode-hotel #contact { display: none !important; }
+            body.print-mode-hotel @page { size: A4 portrait; margin: 0.5cm; }
+            
+            body.print-mode-hotel header { padding: 20px !important; background: #1E3A8A !important; color: white !important; border-radius: 15px; margin-bottom: 15px; }
+            body.print-mode-hotel header h1 { color: white !important; font-size: 2.5rem !important; margin-bottom: 5px !important;}
+            body.print-mode-hotel header p { color: #E5E7EB !important; font-size: 1.1rem !important; margin-bottom: 0 !important;}
+            
+            body.print-mode-hotel .vehicle-section { padding: 10px 0 !important; }
+            body.print-mode-hotel .vehicle-section .glass-card { display: flex !important; flex-direction: row !important; align-items: center !important; border: 2px solid #E5E7EB !important; padding: 15px !important; box-shadow: none !important; }
+            body.print-mode-hotel .vehicle-image-wrapper { width: 45% !important; display: block !important; }
+            body.print-mode-hotel .vehicle-text-wrapper { width: 55% !important; padding-left: 20px !important; }
+            body.print-mode-hotel .vehicle-text-wrapper h2 { font-size: 1.6rem !important; margin-bottom: 10px !important; }
+            body.print-mode-hotel .vehicle-text-wrapper ul li { margin-bottom: 5px !important; font-size: 0.95rem !important; }
+
+            body.print-mode-hotel .routes-section { padding: 10px 0 !important; }
+            body.print-mode-hotel .routes-section .grid { display: flex !important; flex-wrap: wrap !important; gap: 10px !important; justify-content: space-between !important; }
+            body.print-mode-hotel .route-card { width: 32% !important; padding: 15px !important; border: 2px solid #E5E7EB !important; background: white !important; box-shadow: none !important; margin-top: 0 !important; }
+            body.print-mode-hotel .route-card h3 { font-size: 1.2rem !important; margin-bottom: 5px !important;}
+            body.print-mode-hotel .route-card p { font-size: 0.9rem !important; margin-bottom: 5px !important;}
+            body.print-mode-hotel .route-card .text-3xl { font-size: 1.5rem !important; }
+            
+            body.print-mode-hotel .hotel-print-section { display: flex !important; margin-top: 15px; border: 2px dashed #1E3A8A; border-radius: 12px; padding: 15px; background: #EFF6FF !important; align-items: center; justify-content: space-between;}
+            body.print-mode-hotel .qr-placeholder { display: flex !important; align-items: center; justify-content: center; width: 90px; height: 90px; border: 3px solid #1E3A8A; background: white; border-radius: 10px; margin: 0 auto; }
+            body.print-mode-hotel .hotel-print-section h2 { font-size: 1.4rem !important; margin-bottom: 5px !important; }
+            body.print-mode-hotel .hotel-print-section p { font-size: 0.9rem !important; margin-bottom: 2px !important; }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brandGold selection:text-white">
+
+    <nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 no-print shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="font-serif font-bold text-2xl text-brandBlue">Kutaisi<span class="text-brandGold">Premium</span></div>
+            <a href="#contact" class="text-sm bg-brandBlue text-white px-5 py-2 rounded-lg hover:bg-blue-800 transition flex items-center gap-2 shadow-md">
+                Book Now
+            </a>
+        </div>
+    </nav>
+
+    <header class="relative pt-32 pb-20 text-center bg-brandBlue text-white overflow-hidden mt-0 rounded-b-[40px] shadow-lg mx-2 md:mx-4">
+        <div class="absolute inset-0 z-0 opacity-10 bg-[url('https://placehold.co/100x100/ffffff/ffffff?text=+')] bg-repeat"></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-4">
+            <div class="inline-block px-4 py-1 rounded-full border border-brandGold text-brandGold text-sm font-bold tracking-widest uppercase mb-6 bg-brandGold/10">
+                Exclusive Weekend Service
+            </div>
+            <h1 class="font-serif text-5xl md:text-7xl font-bold mb-4 leading-tight">
+                Private <span class="text-brandGold">Tours</span> & Transfers
+            </h1>
+            <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto font-light">
+                🇬🇧 English | 🇩🇪 Deutsch | 🇷🇺 Русский | 🇬🇪 ქართული<br>
+                Discover Georgia with a punctual, safe, and premium local guide.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 no-print">
+                <a href="#ai-planner" class="bg-white text-brandBlue px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2 shadow-lg">
+                    ✨ Create Custom Tour
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="vehicle-section py-12 max-w-6xl mx-auto px-4">
+        <div class="glass-card p-8 flex flex-col md:flex-row items-center gap-10">
+            <!-- 📸 აქ ჩავსვამთ 9 მარტს შენს და პრიუსის ერთობლივ ფოტოს -->
+            <div class="vehicle-image-wrapper w-full md:w-1/2">
+                <img src="https://placehold.co/800x600/1E3A8A/FFFFFF?text=Photo:+You+%26+Your+Prius" alt="Your Premium Driver and Vehicle" class="rounded-xl w-full shadow-md border border-gray-200 object-cover" style="aspect-ratio: 4/3;">
+            </div>
+            <div class="vehicle-text-wrapper w-full md:w-1/2">
+                <h2 class="font-serif text-3xl font-bold mb-4 text-brandBlue">Your Local Expert & <span class="text-brandGold">Premium Ride</span></h2>
+                <ul class="space-y-4 text-gray-600 text-lg">
+                    <li class="flex items-start gap-3"><i class="fas fa-user-tie text-brandBlue mt-1"></i> <div><strong>Professional Driver:</strong> Fluent in local routes, focusing on your safety and comfort.</div></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-leaf text-green-500 mt-1"></i> <div><strong>Eco-Friendly Hybrid:</strong> Toyota Prius offering a smooth and quiet journey.</div></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-wifi text-blue-400 mt-1"></i> <div><strong>Stay Connected:</strong> Free Wi-Fi hotspot available on board.</div></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-tint text-blue-300 mt-1"></i> <div><strong>Refreshments:</strong> Complimentary bottled water included.</div></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="routes-section py-12 max-w-6xl mx-auto px-4">
+        <div class="text-center mb-10">
+            <h2 class="font-serif text-4xl font-bold mb-4 text-brandBlue">Popular <span class="text-brandGold">Destinations</span></h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="route-card glass-card p-8 flex flex-col h-full border-t-4 border-t-brandBlue">
+                <h3 class="font-serif text-2xl font-bold mb-3 text-gray-800"><i class="fas fa-plane-arrival text-brandBlue mr-2"></i>Airport Transfer</h3>
+                <p class="text-gray-600 mb-6 flex-grow">Direct transfer from Kutaisi Airport (KUT) to your hotel.</p>
+                <div class="text-3xl font-bold text-brandGold border-t border-gray-100 pt-4">€15</div>
+            </div>
+            <div class="route-card glass-card p-8 flex flex-col h-full border-t-4 border-t-green-500">
+                <h3 class="font-serif text-2xl font-bold mb-3 text-gray-800"><i class="fas fa-mountain text-green-500 mr-2"></i>Caves & Canyons</h3>
+                <p class="text-gray-600 mb-6 flex-grow">Half-day tour: Prometheus Cave & Martvili Canyon.</p>
+                <div class="text-3xl font-bold text-brandGold border-t border-gray-100 pt-4">€60</div>
+            </div>
+            <div class="route-card glass-card p-8 flex flex-col h-full border-t-4 border-t-brandGold">
+                <h3 class="font-serif text-2xl font-bold mb-3 text-gray-800"><i class="fas fa-city text-brandGold mr-2"></i>City to City</h3>
+                <p class="text-gray-600 mb-6 flex-grow">Transfer from Kutaisi to Tbilisi or Batumi.</p>
+                <div class="text-3xl font-bold text-brandGold border-t border-gray-100 pt-4">€100</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOTEL PRINT ONLY SECTION -->
+    <div class="hotel-print-section max-w-6xl mx-auto px-4">
+        <div class="w-3/4 pr-4">
+            <h2 class="font-serif text-2xl font-bold text-brandBlue mb-2">✨ Custom AI Tour Planner</h2>
+            <p class="text-gray-700 mb-1">Scan the QR code to let our AI design your perfect tour based on your interests. It calculates mileage and duration instantly!</p>
+            <div class="flex items-center gap-6 mt-3">
+                <p class="text-lg font-bold text-brandGold"><i class="fab fa-whatsapp"></i> +995 568 004 140</p>
+                <p class="text-sm font-bold text-brandBlue bg-blue-100 px-3 py-1 rounded-full"><i class="fas fa-link"></i> bit.ly/KutaisiTours</p>
+            </div>
+        </div>
+        <div class="w-1/4 text-right flex flex-col items-center">
+            <div class="qr-placeholder"><i class="fas fa-qrcode text-5xl text-brandBlue"></i></div>
+            <p class="mt-2 font-bold text-xs text-brandBlue">Scan to Plan!</p>
+        </div>
+    </div>
+
+    <!-- AI Tour Planner Section -->
+    <section id="ai-planner" class="py-16 max-w-4xl mx-auto px-4">
+        <div class="glass-card p-10 border-t-8 border-t-brandGold shadow-xl">
+            <div class="text-center mb-10 ai-inputs">
+                <div class="inline-flex w-16 h-16 bg-yellow-50 text-brandGold rounded-full items-center justify-center text-3xl mb-4">✨</div>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold mb-3 text-brandBlue">Design Your Custom Tour</h2>
+                <p class="text-gray-500 text-lg">Powered by AI. Tell us what you love, and we'll calculate the route, mileage, and time.</p>
+            </div>
+
+            <div class="space-y-6 bg-gray-50 p-6 rounded-xl border border-gray-100 ai-inputs">
+                <div>
+                    <label class="block text-sm font-bold text-brandBlue mb-2 uppercase">What are your interests?</label>
+                    <input type="text" id="ai-interests" placeholder="e.g., Wine tasting, ancient monasteries, hidden waterfalls..." class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-brandBlue mb-2 uppercase">How much time do you have?</label>
+                    <select id="ai-duration" class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition appearance-none shadow-inner">
+                        <option value="4 hours (Half Day)">4 hours (Half Day)</option>
+                        <option value="8 hours (Full Day)">8 hours (Full Day)</option>
+                        <option value="12 hours (Extended Tour)">12 hours (Extended Tour)</option>
+                    </select>
+                </div>
+                <button id="generate-btn" onclick="generateCustomTour()" class="w-full bg-brandBlue text-white font-bold text-lg py-4 rounded-lg hover:bg-blue-800 transition-colors shadow-lg flex justify-center items-center gap-2">
+                    ✨ Generate Route & Calculate Mileage
+                </button>
+            </div>
+
+            <!-- Printable Header for Tour Document -->
+            <div class="tour-print-header">
+                <h1 class="font-serif text-4xl text-brandBlue font-bold">Kutaisi Premium Transfers</h1>
+                <p class="text-lg text-gray-600 mt-2">Your Personal Tour Itinerary</p>
+                <div class="mt-4 flex justify-center gap-6 font-bold text-brandBlue">
+                    <span><i class="fab fa-whatsapp text-brandGold"></i> +995 568 004 140</span>
+                    <span><i class="far fa-envelope text-brandGold"></i> dtatarashvili@gmail.com</span>
+                </div>
+            </div>
+
+            <!-- AI Response Container -->
+            <div id="ai-result-container" class="mt-8 hidden">
+                <div class="border-t border-gray-200 pt-8">
+                    <h3 class="font-serif text-2xl font-bold text-brandBlue mb-4 flex items-center gap-2 no-print"><i class="fas fa-map-marked-alt text-brandGold"></i> Your Custom Route</h3>
+                    
+                    <div id="ai-response-text" class="prose max-w-none text-gray-800 bg-blue-50/50 p-6 rounded-xl border border-blue-100 shadow-inner">
+                        <!-- AI Markdown renders here -->
+                    </div>
+                    
+                    <div class="mt-8 text-center bg-yellow-50 p-6 rounded-xl border border-yellow-200 no-print">
+                        <p class="text-gray-700 font-medium mb-4">Route generated! Print it out or send this data directly to our WhatsApp to get the final price based on the mileage.</p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <button onclick="printTouristTour()" class="bg-white border-2 border-brandBlue text-brandBlue px-8 py-3 rounded-full font-bold text-lg hover:bg-blue-50 transition shadow-md flex items-center justify-center gap-3">
+                                <i class="fas fa-print"></i> ამობეჭდე შენი ტური
+                            </button>
+                            <button onclick="copyAndBook()" class="bg-[#25D366] text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-green-600 transition shadow-md flex items-center justify-center gap-3">
+                                <i class="fab fa-whatsapp text-xl"></i> Send to WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 max-w-4xl mx-auto px-4 text-center border-t border-gray-200 mt-12 no-print">
+        <h2 class="font-serif text-4xl font-bold mb-4 text-brandBlue">Contact & <span class="text-brandGold">Booking</span></h2>
+        
+        <div class="flex flex-col sm:flex-row justify-center gap-6 mt-8">
+            <a href="https://wa.me/995568004140" target="_blank" class="bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold text-xl hover:bg-green-600 transition shadow-lg flex items-center justify-center gap-3">
+                <i class="fab fa-whatsapp text-2xl"></i> +995 568 004 140
+            </a>
+            <a href="mailto:dtatarashvili@gmail.com" class="bg-white border-2 border-brandBlue text-brandBlue px-8 py-4 rounded-xl font-bold text-xl hover:bg-blue-50 transition flex items-center justify-center gap-3 shadow-md">
+                <i class="far fa-envelope text-2xl"></i> dtatarashvili@gmail.com
+            </a>
+        </div>
+    </section>
+
+    <footer class="text-center py-10 bg-gray-900 text-gray-400 mt-12 no-print">
+        <p class="mb-4">&copy; 2026 Premium Weekend Transfers Kutaisi. All rights reserved.</p>
+        <button onclick="printHotelBrochure()" class="text-xs bg-gray-800 text-gray-300 px-4 py-2 rounded hover:text-white border border-gray-700 transition flex items-center justify-center gap-2 mx-auto mt-4">
+            <i class="fas fa-print"></i> Admin: Print Hotel Brochures
+        </button>
+    </footer>
+
+    <!-- Gemini API Logic -->
+    <script>
+        const apiKey = ""; 
+        const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+        async function fetchWithRetry(url, options, maxRetries = 5) {
+            let delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    if (i === maxRetries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delays[i]));
+                }
+            }
+        }
+
+        async function generateCustomTour() {
+            const interests = document.getElementById('ai-interests').value.trim();
+            const duration = document.getElementById('ai-duration').value;
+            const btn = document.getElementById('generate-btn');
+            const resultContainer = document.getElementById('ai-result-container');
+            const responseText = document.getElementById('ai-response-text');
+
+            if (!interests) { alert('Please enter some interests first.'); return; }
+
+            btn.innerHTML = '<span class="loader"></span> Calculating Route & Mileage...';
+            btn.disabled = true; btn.classList.add('opacity-70', 'cursor-not-allowed');
+            resultContainer.classList.add('hidden');
+
+            const systemInstruction = `You are an expert, premium local tour guide based in Kutaisi, Georgia. 
+            The user wants to book a private tour in a comfortable Toyota Prius on a weekend. 
+            Create a highly realistic custom itinerary starting and ending in Kutaisi based on their inputs.
+            
+            CRITICAL FORMAT:
+            ### Route Sequence
+            1. Kutaisi (Start)
+            2. [Location 1]
+            3. [Location 2]
+            4. Kutaisi (End)
+            
+            ### Logistics
+            * **Estimated Total Mileage:** [X] km
+            * **Estimated Required Time:** [X] hours
+            
+            Do NOT include pricing. Keep it professional. Use Markdown format.`;
+
+            const prompt = `Create a custom ${duration} tour starting from Kutaisi based on these interests: ${interests}.`;
+            const payload = { contents: [{ parts: [{ text: prompt }] }], systemInstruction: { parts: [{ text: systemInstruction }] } };
+
+            try {
+                const data = await fetchWithRetry(modelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (data && data.candidates && data.candidates[0].content) {
+                    responseText.innerHTML = marked.parse(data.candidates[0].content.parts[0].text);
+                    resultContainer.classList.remove('hidden');
+                } else throw new Error("Invalid response");
+            } catch (error) {
+                responseText.innerHTML = `<p class="text-red-500 font-bold">Error calculating route. Please WhatsApp +995568004140.</p>`;
+                resultContainer.classList.remove('hidden');
+            } finally {
+                btn.innerHTML = '✨ Generate Route & Calculate Mileage';
+                btn.disabled = false; btn.classList.remove('opacity-70', 'cursor-not-allowed');
+            }
+        }
+
+        function copyAndBook() {
+            const textToCopy = document.getElementById('ai-response-text').innerText;
+            const waMessage = encodeURIComponent("Hello! I used your AI Tour Planner. Can I get a price quote based on this mileage?\n\n" + textToCopy);
+            window.open('https://wa.me/995568004140?text=' + waMessage, '_blank');
+        }
+
+        function printTouristTour() {
+            document.body.classList.add('print-mode-tour');
+            document.body.classList.remove('print-mode-hotel');
+            window.print();
+            setTimeout(() => { document.body.classList.remove('print-mode-tour'); }, 500);
+        }
+
+        function printHotelBrochure() {
+            document.body.classList.add('print-mode-hotel');
+            document.body.classList.remove('print-mode-tour');
+            window.print();
+            setTimeout(() => { document.body.classList.remove('print-mode-hotel'); }, 500);
+        }
+    </script>
+</body>
+</html>
