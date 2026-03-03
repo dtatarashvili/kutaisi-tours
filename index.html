@@ -19,7 +19,8 @@
                     colors: { 
                         brandBlue: '#1E3A8A', 
                         brandGold: '#F59E0B', 
-                        brandLight: '#F9FAFB'
+                        brandLight: '#F9FAFB',
+                        waGreen: '#16a34a'
                     }
                 }
             }
@@ -30,7 +31,6 @@
         .glass-card { background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #E5E7EB; }
         .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(30, 58, 138, 0.1); transition: all 0.3s ease; }
         
-        /* Markdown formatting for AI Output */
         .prose h3 { color: #1E3A8A; font-size: 1.25rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
         .prose p { margin-bottom: 0.75rem; color: #4B5563; }
         .prose ul { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; color: #4B5563; font-weight: 500;}
@@ -46,8 +46,7 @@
             body { background-color: white !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             button, .no-print { display: none !important; }
             
-            /* Override Tailwind's large paddings globally in print */
-            section { padding-top: 5px !important; padding-bottom: 5px !important; }
+            section { padding-top: 4px !important; padding-bottom: 4px !important; }
 
             /* MODE 1: PRINTING THE TOUR (Text Only) */
             body.print-mode-tour header,
@@ -75,7 +74,7 @@
             body.print-mode-hotel .vehicle-section { padding: 4px 0 !important; }
             body.print-mode-hotel .vehicle-section .glass-card { display: flex !important; flex-direction: row !important; align-items: center !important; border: 2px solid #E5E7EB !important; padding: 8px !important; box-shadow: none !important; }
             body.print-mode-hotel .vehicle-image-wrapper { width: 38% !important; display: block !important; }
-            body.print-mode-hotel .vehicle-image-wrapper img { max-height: 115px !important; object-fit: cover; border-radius: 8px !important; } 
+            body.print-mode-hotel .vehicle-image-wrapper img { max-height: 105px !important; object-fit: cover; border-radius: 8px !important; } 
             body.print-mode-hotel .vehicle-text-wrapper { width: 62% !important; padding-left: 10px !important; }
             body.print-mode-hotel .vehicle-text-wrapper h2 { font-size: 1.25rem !important; margin-bottom: 3px !important; }
             body.print-mode-hotel .vehicle-text-wrapper ul { margin-bottom: 0 !important; }
@@ -93,14 +92,21 @@
             body.print-mode-hotel .route-card .text-3xl { font-size: 1.15rem !important; padding-top: 3px !important; margin-bottom: 0 !important;}
             body.print-mode-hotel .route-card .w-14 { width: 32px !important; height: 32px !important; font-size: 1rem !important; margin-bottom: 5px !important; }
             
-            body.print-mode-hotel .hotel-print-section { display: flex !important; margin-top: 5px !important; border: 2px dashed #1E3A8A; border-radius: 10px; padding: 8px 12px !important; background: #EFF6FF !important; align-items: center; justify-content: space-between;}
-            body.print-mode-hotel .qr-placeholder { display: flex !important; align-items: center; justify-content: center; width: 65px !important; height: 65px !important; border: 2px solid #1E3A8A; background: white; border-radius: 8px; margin: 0 auto; overflow: hidden; }
+            /* შეცვლილი ფუტერი კონტაქტებით და დიდი ლინკით */
+            body.print-mode-hotel .hotel-print-section { display: flex !important; flex-direction: row !important; margin-top: 5px !important; border: 2px dashed #1E3A8A; border-radius: 10px; padding: 8px 12px !important; background: #EFF6FF !important; align-items: center; justify-content: space-between;}
+            body.print-mode-hotel .qr-placeholder { display: flex !important; align-items: center; justify-content: center; width: 80px !important; height: 80px !important; border: 2px solid #1E3A8A; background: white; border-radius: 8px; margin: 0 auto; overflow: hidden; }
             body.print-mode-hotel .qr-placeholder img { width: 100%; height: 100%; object-fit: contain; }
-            body.print-mode-hotel .qr-placeholder i { font-size: 2rem !important; }
+            body.print-mode-hotel .qr-placeholder i { font-size: 2.5rem !important; }
             body.print-mode-hotel .hotel-print-section h2 { font-size: 1.15rem !important; margin-bottom: 2px !important; }
-            body.print-mode-hotel .hotel-print-section p { font-size: 0.8rem !important; margin-bottom: 2px !important; line-height: 1.1 !important; }
-            body.print-mode-hotel .hotel-print-section .text-lg { font-size: 0.95rem !important; margin-top: 2px !important; margin-bottom: 0 !important; }
-            body.print-mode-hotel .hotel-print-section .text-sm { margin-top: 0 !important; }
+            body.print-mode-hotel .hotel-print-section .desc-text { font-size: 0.75rem !important; margin-bottom: 4px !important; line-height: 1.1 !important; color: #4B5563 !important;}
+            
+            /* WhatsApp მწვანედ ბეჭდვისას */
+            body.print-mode-hotel .print-wa-text { color: #16a34a !important; font-size: 1.05rem !important; font-weight: bold !important; }
+            body.print-mode-hotel .print-email-text { color: #374151 !important; font-size: 0.9rem !important; font-weight: bold !important; }
+            
+            /* დიდი ლინკის სტილი (BIT.LY) */
+            body.print-mode-hotel .print-big-link { display: inline-block !important; background-color: #DBEAFE !important; border: 2px solid #1E3A8A !important; padding: 4px 12px !important; border-radius: 8px !important; margin-top: 4px !important; }
+            body.print-mode-hotel .print-big-link span { color: #1E3A8A !important; font-size: 1.3rem !important; font-weight: 800 !important; letter-spacing: 0.5px !important; }
         }
     </style>
 </head>
@@ -189,19 +195,28 @@
 
     <!-- HOTEL PRINT ONLY SECTION -->
     <div class="hotel-print-section max-w-6xl mx-auto px-4">
-        <div class="w-3/4 pr-4">
-            <h2 class="font-serif text-2xl font-bold text-brandBlue mb-2">✨ Custom AI Tour Planner</h2>
-            <p class="text-gray-700 mb-1">Scan the QR code to let our AI design your perfect tour based on your interests. It calculates mileage and duration instantly!</p>
-            <div class="flex items-center gap-6 mt-3">
-                <p class="text-lg font-bold text-brandGold"><i class="fab fa-whatsapp"></i> +995 568 004 140</p>
-                <p class="text-sm font-bold text-brandBlue bg-blue-100 px-3 py-1 rounded-full"><i class="fas fa-link"></i> tinyurl.com/KutaisiTours</p>
+        <div class="w-[80%] pr-4 flex flex-col justify-center">
+            <h2 class="font-serif font-bold text-brandBlue">✨ Custom AI Tour Planner</h2>
+            <p class="desc-text text-gray-700">Scan the QR code to let our AI design your perfect tour based on your interests. It calculates mileage and duration instantly!</p>
+            
+            <div class="flex items-center gap-6 mt-1 mb-1">
+                <p class="print-wa-text"><i class="fab fa-whatsapp"></i> +995 568 004 140</p>
+                <p class="print-email-text"><i class="far fa-envelope"></i> dtatarashvili@gmail.com</p>
+            </div>
+            
+            <!-- დიდი, თვალში საცემი მოკლე ლინკი -->
+            <div>
+                <div class="print-big-link shadow-sm">
+                    <span><i class="fas fa-globe text-brandGold mr-2"></i>bit.ly/3MWnA2g</span>
+                </div>
             </div>
         </div>
-        <div class="w-1/4 text-right flex flex-col items-center">
+        
+        <div class="w-[20%] text-center flex flex-col items-center justify-center">
             <div class="qr-placeholder">
-                <i class="fas fa-qrcode text-5xl text-brandBlue"></i>
+                <i class="fas fa-qrcode text-brandBlue"></i>
             </div>
-            <p class="mt-2 font-bold text-xs text-brandBlue">Scan to Plan!</p>
+            <p class="mt-1 font-bold text-[0.7rem] text-brandBlue uppercase tracking-wider">Scan to Plan!</p>
         </div>
     </div>
 
@@ -237,7 +252,7 @@
                 <h1 class="font-serif text-4xl text-brandBlue font-bold">Kutaisi Premium Transfers</h1>
                 <p class="text-lg text-gray-600 mt-2">Your Personal Tour Itinerary</p>
                 <div class="mt-4 flex justify-center gap-6 font-bold text-brandBlue">
-                    <span><i class="fab fa-whatsapp text-brandGold"></i> +995 568 004 140</span>
+                    <span><i class="fab fa-whatsapp text-green-600"></i> +995 568 004 140</span>
                     <span><i class="far fa-envelope text-brandGold"></i> dtatarashvili@gmail.com</span>
                 </div>
             </div>
