@@ -30,6 +30,7 @@
         .glass-card { background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #E5E7EB; }
         .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(30, 58, 138, 0.1); transition: all 0.3s ease; }
         
+        /* Markdown formatting for AI Output */
         .prose h3 { color: #1E3A8A; font-size: 1.25rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
         .prose p { margin-bottom: 0.75rem; color: #4B5563; }
         .prose ul { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; color: #4B5563; font-weight: 500;}
@@ -44,6 +45,9 @@
         @media print {
             body { background-color: white !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             button, .no-print { display: none !important; }
+            
+            /* Override Tailwind's large paddings globally in print */
+            section { padding-top: 5px !important; padding-bottom: 5px !important; }
 
             /* MODE 1: PRINTING THE TOUR (Text Only) */
             body.print-mode-tour header,
@@ -53,35 +57,50 @@
             body.print-mode-tour .ai-inputs,
             body.print-mode-tour footer,
             body.print-mode-tour #contact { display: none !important; }
+            
             body.print-mode-tour .tour-print-header { display: block !important; text-align: center; margin-bottom: 30px; border-bottom: 2px solid #1E3A8A; padding-bottom: 20px; }
             body.print-mode-tour #ai-result-container { box-shadow: none !important; border: none !important; padding: 0 !important; display: block !important; }
 
-            /* MODE 2: PRINTING THE COLORFUL HOTEL BROCHURE */
+            /* MODE 2: PRINTING THE COLORFUL HOTEL BROCHURE (EXTREME 1-PAGE OPTIMIZATION) */
             body.print-mode-hotel #ai-planner, body.print-mode-hotel footer, body.print-mode-hotel #contact { display: none !important; }
-            body.print-mode-hotel @page { size: A4 portrait; margin: 0.5cm; }
             
-            body.print-mode-hotel header { padding: 20px !important; background: #1E3A8A !important; color: white !important; border-radius: 15px; margin-bottom: 15px; }
-            body.print-mode-hotel header h1 { color: white !important; font-size: 2.5rem !important; margin-bottom: 5px !important;}
-            body.print-mode-hotel header p { color: #E5E7EB !important; font-size: 1.1rem !important; margin-bottom: 0 !important;}
+            body.print-mode-hotel @page { size: A4 portrait; margin: 3mm; }
+            body.print-mode-hotel { font-size: 11pt !important; }
             
-            body.print-mode-hotel .vehicle-section { padding: 10px 0 !important; }
-            body.print-mode-hotel .vehicle-section .glass-card { display: flex !important; flex-direction: row !important; align-items: center !important; border: 2px solid #E5E7EB !important; padding: 15px !important; box-shadow: none !important; }
-            body.print-mode-hotel .vehicle-image-wrapper { width: 45% !important; display: block !important; }
-            body.print-mode-hotel .vehicle-text-wrapper { width: 55% !important; padding-left: 20px !important; }
-            body.print-mode-hotel .vehicle-text-wrapper h2 { font-size: 1.6rem !important; margin-bottom: 10px !important; }
-            body.print-mode-hotel .vehicle-text-wrapper ul li { margin-bottom: 5px !important; font-size: 0.95rem !important; }
+            body.print-mode-hotel header { padding: 8px !important; background: #1E3A8A !important; color: white !important; border-radius: 10px; margin-bottom: 5px !important; }
+            body.print-mode-hotel header h1 { color: white !important; font-size: 1.8rem !important; margin-bottom: 2px !important;}
+            body.print-mode-hotel header p { color: #E5E7EB !important; font-size: 0.9rem !important; margin-bottom: 0 !important;}
+            body.print-mode-hotel header .inline-block { display: none !important; } 
+            
+            body.print-mode-hotel .vehicle-section { padding: 4px 0 !important; }
+            body.print-mode-hotel .vehicle-section .glass-card { display: flex !important; flex-direction: row !important; align-items: center !important; border: 2px solid #E5E7EB !important; padding: 8px !important; box-shadow: none !important; }
+            body.print-mode-hotel .vehicle-image-wrapper { width: 38% !important; display: block !important; }
+            body.print-mode-hotel .vehicle-image-wrapper img { max-height: 115px !important; object-fit: cover; border-radius: 8px !important; } 
+            body.print-mode-hotel .vehicle-text-wrapper { width: 62% !important; padding-left: 10px !important; }
+            body.print-mode-hotel .vehicle-text-wrapper h2 { font-size: 1.25rem !important; margin-bottom: 3px !important; }
+            body.print-mode-hotel .vehicle-text-wrapper ul { margin-bottom: 0 !important; }
+            body.print-mode-hotel .vehicle-text-wrapper ul li { margin-bottom: 2px !important; font-size: 0.85rem !important; }
 
-            body.print-mode-hotel .routes-section { padding: 10px 0 !important; }
-            body.print-mode-hotel .routes-section .grid { display: flex !important; flex-wrap: wrap !important; gap: 10px !important; justify-content: space-between !important; }
-            body.print-mode-hotel .route-card { width: 32% !important; padding: 15px !important; border: 2px solid #E5E7EB !important; background: white !important; box-shadow: none !important; margin-top: 0 !important; }
-            body.print-mode-hotel .route-card h3 { font-size: 1.2rem !important; margin-bottom: 5px !important;}
-            body.print-mode-hotel .route-card p { font-size: 0.9rem !important; margin-bottom: 5px !important;}
-            body.print-mode-hotel .route-card .text-3xl { font-size: 1.5rem !important; }
+            body.print-mode-hotel .routes-section { padding: 4px 0 !important; }
+            body.print-mode-hotel .routes-section .text-center { margin-bottom: 5px !important; }
+            body.print-mode-hotel .routes-section .text-center h2 { font-size: 1.5rem !important; margin-bottom: 0 !important; }
+            body.print-mode-hotel .routes-section .text-center p { display: none !important; }
             
-            body.print-mode-hotel .hotel-print-section { display: flex !important; margin-top: 15px; border: 2px dashed #1E3A8A; border-radius: 12px; padding: 15px; background: #EFF6FF !important; align-items: center; justify-content: space-between;}
-            body.print-mode-hotel .qr-placeholder { display: flex !important; align-items: center; justify-content: center; width: 90px; height: 90px; border: 3px solid #1E3A8A; background: white; border-radius: 10px; margin: 0 auto; }
-            body.print-mode-hotel .hotel-print-section h2 { font-size: 1.4rem !important; margin-bottom: 5px !important; }
-            body.print-mode-hotel .hotel-print-section p { font-size: 0.9rem !important; margin-bottom: 2px !important; }
+            body.print-mode-hotel .routes-section .grid { display: flex !important; flex-wrap: wrap !important; gap: 5px !important; justify-content: space-between !important; }
+            body.print-mode-hotel .route-card { width: 32.5% !important; padding: 8px !important; border: 2px solid #E5E7EB !important; background: white !important; box-shadow: none !important; margin-top: 0 !important; }
+            body.print-mode-hotel .route-card h3 { font-size: 1rem !important; margin-bottom: 2px !important;}
+            body.print-mode-hotel .route-card p { font-size: 0.75rem !important; margin-bottom: 2px !important; line-height: 1.1 !important;}
+            body.print-mode-hotel .route-card .text-3xl { font-size: 1.15rem !important; padding-top: 3px !important; margin-bottom: 0 !important;}
+            body.print-mode-hotel .route-card .w-14 { width: 32px !important; height: 32px !important; font-size: 1rem !important; margin-bottom: 5px !important; }
+            
+            body.print-mode-hotel .hotel-print-section { display: flex !important; margin-top: 5px !important; border: 2px dashed #1E3A8A; border-radius: 10px; padding: 8px 12px !important; background: #EFF6FF !important; align-items: center; justify-content: space-between;}
+            body.print-mode-hotel .qr-placeholder { display: flex !important; align-items: center; justify-content: center; width: 65px !important; height: 65px !important; border: 2px solid #1E3A8A; background: white; border-radius: 8px; margin: 0 auto; overflow: hidden; }
+            body.print-mode-hotel .qr-placeholder img { width: 100%; height: 100%; object-fit: contain; }
+            body.print-mode-hotel .qr-placeholder i { font-size: 2rem !important; }
+            body.print-mode-hotel .hotel-print-section h2 { font-size: 1.15rem !important; margin-bottom: 2px !important; }
+            body.print-mode-hotel .hotel-print-section p { font-size: 0.8rem !important; margin-bottom: 2px !important; line-height: 1.1 !important; }
+            body.print-mode-hotel .hotel-print-section .text-lg { font-size: 0.95rem !important; margin-top: 2px !important; margin-bottom: 0 !important; }
+            body.print-mode-hotel .hotel-print-section .text-sm { margin-top: 0 !important; }
         }
     </style>
 </head>
@@ -119,14 +138,14 @@
 
     <section class="vehicle-section py-12 max-w-6xl mx-auto px-4">
         <div class="glass-card p-8 flex flex-col md:flex-row items-center gap-10">
-            <!-- 📸 აქ ჩავსვამთ 9 მარტს შენს და პრიუსის ერთობლივ ფოტოს -->
+            <!-- 📸 9 მარტის ფოტოს ადგილი -->
             <div class="vehicle-image-wrapper w-full md:w-1/2">
                 <img src="https://placehold.co/800x600/1E3A8A/FFFFFF?text=Photo:+You+%26+Your+Prius" alt="Your Premium Driver and Vehicle" class="rounded-xl w-full shadow-md border border-gray-200 object-cover" style="aspect-ratio: 4/3;">
             </div>
             <div class="vehicle-text-wrapper w-full md:w-1/2">
                 <h2 class="font-serif text-3xl font-bold mb-4 text-brandBlue">Your Local Expert & <span class="text-brandGold">Premium Ride</span></h2>
                 <ul class="space-y-4 text-gray-600 text-lg">
-                    <li class="flex items-start gap-3"><i class="fas fa-user-tie text-brandBlue mt-1"></i> <div><strong>Professional Driver:</strong> Fluent in local routes, focusing on your safety and comfort.</div></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-user-tie text-brandBlue mt-1"></i> <div><strong>Professional Driver:</strong> Fluent in local routes, focusing on safety and comfort.</div></li>
                     <li class="flex items-start gap-3"><i class="fas fa-leaf text-green-500 mt-1"></i> <div><strong>Eco-Friendly Hybrid:</strong> Toyota Prius offering a smooth and quiet journey.</div></li>
                     <li class="flex items-start gap-3"><i class="fas fa-wifi text-blue-400 mt-1"></i> <div><strong>Stay Connected:</strong> Free Wi-Fi hotspot available on board.</div></li>
                     <li class="flex items-start gap-3"><i class="fas fa-tint text-blue-300 mt-1"></i> <div><strong>Refreshments:</strong> Complimentary bottled water included.</div></li>
@@ -138,22 +157,32 @@
     <section class="routes-section py-12 max-w-6xl mx-auto px-4">
         <div class="text-center mb-10">
             <h2 class="font-serif text-4xl font-bold mb-4 text-brandBlue">Popular <span class="text-brandGold">Destinations</span></h2>
+            <p class="text-gray-500 no-print">Transparent pricing. Zero hidden fees.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="route-card glass-card p-8 flex flex-col h-full border-t-4 border-t-brandBlue">
-                <h3 class="font-serif text-2xl font-bold mb-3 text-gray-800"><i class="fas fa-plane-arrival text-brandBlue mr-2"></i>Airport Transfer</h3>
+                <div class="w-14 h-14 bg-blue-50 text-brandBlue rounded-full flex items-center justify-center text-2xl mb-4">
+                    <i class="fas fa-plane-arrival"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold mb-3 text-gray-800">Airport Transfer</h3>
                 <p class="text-gray-600 mb-6 flex-grow">Direct transfer from Kutaisi Airport (KUT) to your hotel.</p>
-                <div class="text-3xl font-bold text-brandGold border-t border-gray-100 pt-4">€15</div>
+                <div class="text-3xl font-bold text-brandGold border-t border-gray-100 pt-4 mt-auto">€15</div>
             </div>
             <div class="route-card glass-card p-8 flex flex-col h-full border-t-4 border-t-green-500">
-                <h3 class="font-serif text-2xl font-bold mb-3 text-gray-800"><i class="fas fa-mountain text-green-500 mr-2"></i>Caves & Canyons</h3>
+                <div class="w-14 h-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-2xl mb-4">
+                    <i class="fas fa-mountain"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold mb-3 text-gray-800">Caves & Canyons</h3>
                 <p class="text-gray-600 mb-6 flex-grow">Half-day tour: Prometheus Cave & Martvili Canyon.</p>
-                <div class="text-3xl font-bold text-brandGold border-t border-gray-100 pt-4">€60</div>
+                <div class="text-3xl font-bold text-brandGold border-t border-gray-100 pt-4 mt-auto">€60</div>
             </div>
             <div class="route-card glass-card p-8 flex flex-col h-full border-t-4 border-t-brandGold">
-                <h3 class="font-serif text-2xl font-bold mb-3 text-gray-800"><i class="fas fa-city text-brandGold mr-2"></i>City to City</h3>
+                <div class="w-14 h-14 bg-yellow-50 text-brandGold rounded-full flex items-center justify-center text-2xl mb-4">
+                    <i class="fas fa-city"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold mb-3 text-gray-800">City to City</h3>
                 <p class="text-gray-600 mb-6 flex-grow">Transfer from Kutaisi to Tbilisi or Batumi.</p>
-                <div class="text-3xl font-bold text-brandGold border-t border-gray-100 pt-4">€100</div>
+                <div class="text-3xl font-bold text-brandGold border-t border-gray-100 pt-4 mt-auto">€100</div>
             </div>
         </div>
     </section>
@@ -165,16 +194,18 @@
             <p class="text-gray-700 mb-1">Scan the QR code to let our AI design your perfect tour based on your interests. It calculates mileage and duration instantly!</p>
             <div class="flex items-center gap-6 mt-3">
                 <p class="text-lg font-bold text-brandGold"><i class="fab fa-whatsapp"></i> +995 568 004 140</p>
-                <p class="text-sm font-bold text-brandBlue bg-blue-100 px-3 py-1 rounded-full"><i class="fas fa-link"></i> bit.ly/KutaisiTours</p>
+                <p class="text-sm font-bold text-brandBlue bg-blue-100 px-3 py-1 rounded-full"><i class="fas fa-link"></i> tinyurl.com/KutaisiTours</p>
             </div>
         </div>
         <div class="w-1/4 text-right flex flex-col items-center">
-            <div class="qr-placeholder"><i class="fas fa-qrcode text-5xl text-brandBlue"></i></div>
+            <div class="qr-placeholder">
+                <i class="fas fa-qrcode text-5xl text-brandBlue"></i>
+            </div>
             <p class="mt-2 font-bold text-xs text-brandBlue">Scan to Plan!</p>
         </div>
     </div>
 
-    <!-- AI Tour Planner Section -->
+    <!-- AI Tour Planner Section integrating Gemini API -->
     <section id="ai-planner" class="py-16 max-w-4xl mx-auto px-4">
         <div class="glass-card p-10 border-t-8 border-t-brandGold shadow-xl">
             <div class="text-center mb-10 ai-inputs">
@@ -256,7 +287,7 @@
         </button>
     </footer>
 
-    <!-- Gemini API Logic -->
+    <!-- Gemini API Logic for Tour Planning -->
     <script>
         const apiKey = ""; 
         const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
@@ -306,14 +337,24 @@
             Do NOT include pricing. Keep it professional. Use Markdown format.`;
 
             const prompt = `Create a custom ${duration} tour starting from Kutaisi based on these interests: ${interests}.`;
-            const payload = { contents: [{ parts: [{ text: prompt }] }], systemInstruction: { parts: [{ text: systemInstruction }] } };
+            const payload = { 
+                contents: [{ parts: [{ text: prompt }] }], 
+                systemInstruction: { parts: [{ text: systemInstruction }] } 
+            };
 
             try {
-                const data = await fetchWithRetry(modelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const data = await fetchWithRetry(modelUrl, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify(payload) 
+                });
+                
                 if (data && data.candidates && data.candidates[0].content) {
                     responseText.innerHTML = marked.parse(data.candidates[0].content.parts[0].text);
                     resultContainer.classList.remove('hidden');
-                } else throw new Error("Invalid response");
+                } else {
+                    throw new Error("Invalid response");
+                }
             } catch (error) {
                 responseText.innerHTML = `<p class="text-red-500 font-bold">Error calculating route. Please WhatsApp +995568004140.</p>`;
                 resultContainer.classList.remove('hidden');
@@ -344,5 +385,4 @@
         }
     </script>
 </body>
-
 </html>
