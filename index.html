@@ -168,6 +168,7 @@
         </div>
         
         <div class="w-[20%] text-center flex flex-col items-center justify-center">
+            <!-- 📸 QR CODE IMAGE INTEGRATION -->
             <div class="qr-placeholder">
                 <img src="qr-code.png" alt="Scan to Book" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-qrcode text-brandBlue text-4xl\'></i>';">
             </div>
@@ -279,7 +280,7 @@
         // 🛑 ყურადღება: ჩასვი შენი გასაღები ზუსტად აქ, ბრჭყალებს შორის!
         const apiKey = "AIzaSyCcJjlVw5IA3p2BeeqOvZVi5T5o6PFN7Fc"; 
         
-        // შეცვლილია სტაბილურ მოდელზე (gemini-1.5-flash)
+        // სტაბილური მოდელი
         const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
         
         // State
@@ -300,7 +301,7 @@
                 lDest: "Where do you want to go? (List multiple for combined tours)", lDate: "Select Date", lTime: "Pickup Time",
                 btnCalc: "Calculate Route & Price", resTitle: "Your Custom Quote",
                 resAction: "Send this quote to our WhatsApp to confirm your booking and check driver availability.",
-                btnBook: "Book on WhatsApp", errAi: "Error calculating. Please WhatsApp +995568004140."
+                btnBook: "Book on WhatsApp"
             },
             'ka': {
                 nav: "დაჯავშნა", heroTag: "პრემიუმ სერვისი შაბათ-კვირას", heroTitle: "პირადი <span class='text-brandGold'>ტურები</span> და ტრანსფერები",
@@ -314,7 +315,7 @@
                 lDest: "სად გსურთ წასვლა? (შეგიძლიათ ჩამოთვალოთ რამდენიმე)", lDate: "აირჩიეთ თარიღი", lTime: "გასვლის დრო",
                 btnCalc: "ფასის და მარშრუტის დათვლა", resTitle: "თქვენი შეთავაზება",
                 resAction: "გამოგვიგზავნეთ ეს შეთავაზება WhatsApp-ში დასადასტურებლად და თავისუფალი დროის შესამოწმებლად.",
-                btnBook: "დაჯავშნა WhatsApp-ით", errAi: "შეცდომა. მოგვწერეთ WhatsApp-ში: +995568004140."
+                btnBook: "დაჯავშნა WhatsApp-ით"
             },
             'de': {
                 nav: "Buchen", heroTag: "Exklusiver Wochenend-Service", heroTitle: "Private <span class='text-brandGold'>Touren</span> & Transfers",
@@ -328,7 +329,7 @@
                 lDest: "Wohin möchten Sie fahren? (Mehrere für kombinierte Touren möglich)", lDate: "Datum auswählen", lTime: "Abholzeit",
                 btnCalc: "Route & Preis berechnen", resTitle: "Ihr Angebot",
                 resAction: "Senden Sie dieses Angebot an unser WhatsApp, um die Buchung und Verfügbarkeit zu bestätigen.",
-                btnBook: "Auf WhatsApp buchen", errAi: "Fehler. Bitte WhatsApp: +995568004140."
+                btnBook: "Auf WhatsApp buchen"
             },
             'ru': {
                 nav: "Бронь", heroTag: "Эксклюзивный сервис на выходных", heroTitle: "Частные <span class='text-brandGold'>Туры</span> и Трансферы",
@@ -342,7 +343,7 @@
                 lDest: "Куда вы хотите поехать? (Можно указать несколько)", lDate: "Выберите дату", lTime: "Время выезда",
                 btnCalc: "Рассчитать маршрут и цену", resTitle: "Ваше предложение",
                 resAction: "Отправьте это предложение на наш WhatsApp для подтверждения бронирования и времени.",
-                btnBook: "Забронировать в WhatsApp", errAi: "Ошибка. Пишите в WhatsApp: +995568004140."
+                btnBook: "Забронировать в WhatsApp"
             }
         }
 
@@ -391,26 +392,14 @@
             });
         }
 
-        async function fetchWithRetry(url, options, maxRetries = 5) {
-            let delays = [1000, 2000, 4000, 8000, 16000];
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    return await response.json();
-                } catch (error) {
-                    if (i === maxRetries - 1) throw error;
-                    await new Promise(resolve => setTimeout(resolve, delays[i]));
-                }
-            }
-        }
-
+        // --- BULLETPROOF AI ALGORITHM ---
         const pricingRules = `
+        SYSTEM INSTRUCTIONS (STRICT):
         You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers". 
         Vehicle: Premium Toyota Prius. Start and End point is ALWAYS Kutaisi.
 
         HANDLING COMBINED TOURS:
-        If the user lists multiple destinations (e.g., "Martvili and Prometheus"), you must calculate the optimal sequential route starting from Kutaisi, visiting all locations, and returning to Kutaisi. Calculate the TOTAL sum of the round-trip distance.
+        If the user lists multiple destinations, calculate the optimal sequential route starting from Kutaisi, visiting all locations, and returning to Kutaisi. Calculate the TOTAL sum of the round-trip distance.
 
         MANDATORY PRICING ALGORITHM (based on TOTAL round-trip distance):
         1. 0 to 30 km: 2.25 GEL per km.
@@ -422,6 +411,23 @@
         - State that payment is required in advance via TBC Bank card.
         `;
 
+        async function fetchWithRetry(url, options, maxRetries = 5) {
+            let delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        const errText = await response.text();
+                        throw new Error(`HTTP ${response.status}: ${errText}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    if (i === maxRetries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delays[i]));
+                }
+            }
+        }
+
         async function generateCustomTour() {
             const dest = document.getElementById('ai-destination').value.trim();
             const date = document.getElementById('ai-date').value;
@@ -431,9 +437,8 @@
             const resultContainer = document.getElementById('ai-result-container');
             const responseText = document.getElementById('ai-response-text');
 
-            if (!dest) { alert(uiDict[currentLang].lDest); return; }
+            if (!dest) { alert("Please enter destination"); return; }
 
-            // შემოწმება არის თუ არა გასაღები ჩასმული
             if(!apiKey || apiKey === "") {
                 alert("AI Key is missing! გთხოვთ ჩასვათ API გასაღები კოდში.");
                 return;
@@ -443,7 +448,9 @@
             btn.disabled = true; btn.classList.add('opacity-70', 'cursor-not-allowed');
             resultContainer.classList.add('hidden');
 
-            const systemInstruction = pricingRules + `
+            // ყველაფერი ვაერთიანებთ ერთ მარტივ ტექსტში, რომ 100% იმუშავოს
+            const fullPrompt = pricingRules + `
+            \n\n--- USER REQUEST ---
             The user requested: ${dest} on Date: ${date || 'Not specified'} at Time: ${time || 'Not specified'}.
             Language requested: ${currentLang}.
             Current Exchange Rates: 1 GEL = ${exchangeRates.USD} USD, 1 GEL = ${exchangeRates.EUR} EUR, 1 GEL = ${exchangeRates.RUB} RUB.
@@ -455,7 +462,7 @@
 
             FORMAT OUTPUT IN ${currentLang}:
             ### 📍 Route Details
-            * **Itinerary:** Kutaisi -> [List all Destinations in optimal order] -> Kutaisi
+            * **Itinerary:** Kutaisi -> [List all Destinations] -> Kutaisi
             * **Total Distance:** [X] km round-trip.
             * **Date/Time:** ${date} ${time}
             
@@ -465,20 +472,29 @@
             *Payment is processed in advance via TBC Bank card.*
             `;
 
-            const payload = { contents: [{ parts: [{ text: "Calculate the combined route and price." }] }], systemInstruction: { parts: [{ text: systemInstruction }] } };
+            // მარტივი, ჯავშანჟილეტიანი Payload-ის სტრუქტურა
+            const payload = { 
+                contents: [{ parts: [{ text: fullPrompt }] }] 
+            };
 
             try {
                 const data = await fetchWithRetry(modelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                
                 if (data && data.candidates && data.candidates[0].content) {
                     responseText.innerHTML = marked.parse(data.candidates[0].content.parts[0].text);
                     resultContainer.classList.remove('hidden');
-                } else throw new Error("Invalid response");
+                } else {
+                    throw new Error("Invalid response format from Google.");
+                }
             } catch (error) {
-                console.error(error);
-                responseText.innerHTML = `<p class="text-red-500 font-bold">${uiDict[currentLang].errAi} (შეამოწმეთ Console ერორისთვის)</p>`;
+                // აქ დაგიწერს ზუსტ წითელ ერორს ეკრანზე!
+                responseText.innerHTML = `<p class="text-red-600 font-bold bg-red-50 p-4 rounded-lg border border-red-200">
+                    <i class="fas fa-exclamation-triangle"></i> შეცდომა კავშირისას: ${error.message}
+                    <br><span class="text-sm font-normal text-gray-700 mt-2 block">გთხოვთ გადაუღოთ სურათი ამ ერორს და გაუგზავნოთ შტურმანს.</span>
+                </p>`;
                 resultContainer.classList.remove('hidden');
             } finally {
-                btn.innerHTML = `<i class="fas fa-magic"></i> ${uiDict[currentLang].btnCalc}`;
+                btn.innerHTML = `<i class="fas fa-magic"></i> ${uiDict[currentLang].btnCalc || "Calculate"}`;
                 btn.disabled = false; btn.classList.remove('opacity-70', 'cursor-not-allowed');
             }
         }
@@ -501,12 +517,11 @@
             inputField.value = '';
             const loadingId = addMessageToUI('loading...', 'bot', true);
 
-            chatHistory.push({ role: "user", parts: [{ text: message }] });
+            // ჯავშანჟილეტიანი ჩატის ლოგიკა
+            const chatPrompt = pricingRules + "\n\nUser says: " + message;
+            chatHistory.push({ role: "user", parts: [{ text: chatPrompt }] });
 
-            const payload = { 
-                systemInstruction: { parts: [{ text: pricingRules + " Keep your responses short, conversational, and helpful in the chat widget. Use markdown." }] },
-                contents: chatHistory 
-            };
+            const payload = { contents: chatHistory };
 
             try {
                 const data = await fetchWithRetry(modelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -514,12 +529,13 @@
                     const replyText = data.candidates[0].content.parts[0].text;
                     document.getElementById(loadingId).remove();
                     addMessageToUI(replyText, 'bot');
+                    // ვინახავთ მხოლოდ რეალურ პასუხებს
+                    chatHistory[chatHistory.length - 1] = { role: "user", parts: [{ text: message }] }; // Remove system rules from history to save tokens
                     chatHistory.push({ role: "model", parts: [{ text: replyText }] });
                 } else throw new Error("Invalid response");
             } catch (error) {
-                console.error(error);
                 document.getElementById(loadingId).remove();
-                addMessageToUI("Connection issue. Please WhatsApp us at +995 568 004 140!", 'bot');
+                addMessageToUI(`**Error:** ${error.message}`, 'bot');
                 chatHistory.pop();
             }
         }
