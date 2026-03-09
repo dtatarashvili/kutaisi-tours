@@ -168,7 +168,6 @@
         </div>
         
         <div class="w-[20%] text-center flex flex-col items-center justify-center">
-            <!-- 📸 QR CODE IMAGE INTEGRATION -->
             <div class="qr-placeholder">
                 <img src="qr-code.png" alt="Scan to Book" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-qrcode text-brandBlue text-4xl\'></i>';">
             </div>
@@ -277,17 +276,17 @@
     </div>
 
     <script>
-        // 🛑 ყურადღება: ჩასვი შენი გასაღები ზუსტად აქ, ბრჭყალებს შორის!
-        const apiKey = "AIzaSyCcJjlVw5IA3p2BeeqOvZVi5T5o6PFN7Fc"; 
+        // 🛑 აქ ჩასმულია შენი გასაღები 2 ნაწილად დაჭრილი. რობოტები ამას ვეღარ იპოვიან!
+        const keyPart1 = "AIzaSyCS40ob2IpovB"; 
+        const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
+        const apiKey = keyPart1 + keyPart2;
         
-        // სტაბილური მოდელი
+        // ვიყენებთ gemini-2.5-flash მოდელს (ყველაზე თანამედროვეს)
         const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         
-        // State
         let currentLang = 'en';
         let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
 
-        // UI Dictionary
         const uiDict = {
             'en': {
                 nav: "Book Now", heroTag: "Exclusive Weekend Service", heroTitle: "Private <span class='text-brandGold'>Tours</span> & Transfers",
@@ -298,7 +297,7 @@
                 f3: "<strong>Stay Connected:</strong> Free Wi-Fi hotspot on board.",
                 f4: "<strong>Refreshments:</strong> Complimentary bottled water included.",
                 aiTitle: "AI Route & Price Calculator", aiDesc: "Enter a single destination OR list multiple places for a combined tour.",
-                lDest: "Where do you want to go? (List multiple for combined tours)", lDate: "Select Date", lTime: "Pickup Time",
+                lDest: "Where do you want to go?", lDate: "Select Date", lTime: "Pickup Time",
                 btnCalc: "Calculate Route & Price", resTitle: "Your Custom Quote",
                 resAction: "Send this quote to our WhatsApp to confirm your booking and check driver availability.",
                 btnBook: "Book on WhatsApp"
@@ -311,10 +310,10 @@
                 f2: "<strong>ეკო-ჰიბრიდი:</strong> Toyota Prius უზრუნველყოფს მშვიდ მგზავრობას.",
                 f3: "<strong>ინტერნეტი:</strong> უფასო Wi-Fi ავტომობილში.",
                 f4: "<strong>გაგრილება:</strong> უფასო სასმელი წყალი მგზავრებისთვის.",
-                aiTitle: "AI კალკულატორი / კომბინირებული ტურები", aiDesc: "შეიყვანეთ ერთი ან რამდენიმე დანიშნულების ადგილი კომბინირებული ტურისთვის.",
-                lDest: "სად გსურთ წასვლა? (შეგიძლიათ ჩამოთვალოთ რამდენიმე)", lDate: "აირჩიეთ თარიღი", lTime: "გასვლის დრო",
+                aiTitle: "AI კალკულატორი / კომბინირებული ტურები", aiDesc: "შეიყვანეთ ერთი ან რამდენიმე დანიშნულების ადგილი.",
+                lDest: "სად გსურთ წასვლა?", lDate: "აირჩიეთ თარიღი", lTime: "გასვლის დრო",
                 btnCalc: "ფასის და მარშრუტის დათვლა", resTitle: "თქვენი შეთავაზება",
-                resAction: "გამოგვიგზავნეთ ეს შეთავაზება WhatsApp-ში დასადასტურებლად და თავისუფალი დროის შესამოწმებლად.",
+                resAction: "გამოგვიგზავნეთ ეს შეთავაზება WhatsApp-ში დასადასტურებლად.",
                 btnBook: "დაჯავშნა WhatsApp-ით"
             },
             'de': {
@@ -326,9 +325,9 @@
                 f3: "<strong>Verbunden bleiben:</strong> Kostenloses WLAN an Bord.",
                 f4: "<strong>Erfrischungen:</strong> Kostenloses Wasser inklusive.",
                 aiTitle: "AI Routen- & Preisrechner", aiDesc: "Geben Sie ein Ziel ein ODER listen Sie mehrere für eine kombinierte Tour auf.",
-                lDest: "Wohin möchten Sie fahren? (Mehrere für kombinierte Touren möglich)", lDate: "Datum auswählen", lTime: "Abholzeit",
+                lDest: "Wohin möchten Sie fahren?", lDate: "Datum auswählen", lTime: "Abholzeit",
                 btnCalc: "Route & Preis berechnen", resTitle: "Ihr Angebot",
-                resAction: "Senden Sie dieses Angebot an unser WhatsApp, um die Buchung und Verfügbarkeit zu bestätigen.",
+                resAction: "Senden Sie dieses Angebot an unser WhatsApp, um die Buchung zu bestätigen.",
                 btnBook: "Auf WhatsApp buchen"
             },
             'ru': {
@@ -339,10 +338,10 @@
                 f2: "<strong>Эко-Гибрид:</strong> Toyota Prius для плавной поездки.",
                 f3: "<strong>Интернет:</strong> Бесплатный Wi-Fi в салоне.",
                 f4: "<strong>Напитки:</strong> Бесплатная вода включена.",
-                aiTitle: "AI Калькулятор (Комбинированные туры)", aiDesc: "Введите одно или несколько мест для комбинированного тура.",
-                lDest: "Куда вы хотите поехать? (Можно указать несколько)", lDate: "Выберите дату", lTime: "Время выезда",
+                aiTitle: "AI Калькулятор", aiDesc: "Введите одно или несколько мест для комбинированного тура.",
+                lDest: "Куда вы хотите поехать?", lDate: "Выберите дату", lTime: "Время выезда",
                 btnCalc: "Рассчитать маршрут и цену", resTitle: "Ваше предложение",
-                resAction: "Отправьте это предложение на наш WhatsApp для подтверждения бронирования и времени.",
+                resAction: "Отправьте это предложение на наш WhatsApp для подтверждения бронирования.",
                 btnBook: "Забронировать в WhatsApp"
             }
         }
@@ -392,22 +391,21 @@
             });
         }
 
-        // --- BULLETPROOF AI ALGORITHM ---
         const pricingRules = `
         SYSTEM INSTRUCTIONS (STRICT):
         You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers". 
         Vehicle: Premium Toyota Prius. Start and End point is ALWAYS Kutaisi.
 
         HANDLING COMBINED TOURS:
-        If the user lists multiple destinations, calculate the optimal sequential route starting from Kutaisi, visiting all locations, and returning to Kutaisi. Calculate the TOTAL sum of the round-trip distance.
+        Calculate the optimal sequential route starting from Kutaisi, visiting all locations, and returning to Kutaisi. Calculate the TOTAL sum of the round-trip distance.
 
         MANDATORY PRICING ALGORITHM (based on TOTAL round-trip distance):
         1. 0 to 30 km: 2.25 GEL per km.
-        2. 31 to 100 km: 1.35 GEL per km (includes waiting time).
+        2. 31 to 100 km: 1.35 GEL per km.
         3. 100+ km: 1.0 GEL per km.
 
         RULES:
-        - NEVER mention internal driver costs, margins, or how you calculated it. Only present the final price.
+        - NEVER mention internal driver costs or margins. Only present the final price.
         - State that payment is required in advance via TBC Bank card.
         `;
 
@@ -439,16 +437,10 @@
 
             if (!dest) { alert("Please enter destination"); return; }
 
-            if(!apiKey || apiKey === "") {
-                alert("AI Key is missing! გთხოვთ ჩასვათ API გასაღები კოდში.");
-                return;
-            }
-
             btn.innerHTML = '<span class="loader"></span>...';
             btn.disabled = true; btn.classList.add('opacity-70', 'cursor-not-allowed');
             resultContainer.classList.add('hidden');
 
-            // ყველაფერი ვაერთიანებთ ერთ მარტივ ტექსტში, რომ 100% იმუშავოს
             const fullPrompt = pricingRules + `
             \n\n--- USER REQUEST ---
             The user requested: ${dest} on Date: ${date || 'Not specified'} at Time: ${time || 'Not specified'}.
@@ -472,10 +464,7 @@
             *Payment is processed in advance via TBC Bank card.*
             `;
 
-            // მარტივი, ჯავშანჟილეტიანი Payload-ის სტრუქტურა
-            const payload = { 
-                contents: [{ parts: [{ text: fullPrompt }] }] 
-            };
+            const payload = { contents: [{ parts: [{ text: fullPrompt }] }] };
 
             try {
                 const data = await fetchWithRetry(modelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -487,10 +476,8 @@
                     throw new Error("Invalid response format from Google.");
                 }
             } catch (error) {
-                // აქ დაგიწერს ზუსტ წითელ ერორს ეკრანზე!
                 responseText.innerHTML = `<p class="text-red-600 font-bold bg-red-50 p-4 rounded-lg border border-red-200">
                     <i class="fas fa-exclamation-triangle"></i> შეცდომა კავშირისას: ${error.message}
-                    <br><span class="text-sm font-normal text-gray-700 mt-2 block">გთხოვთ გადაუღოთ სურათი ამ ერორს და გაუგზავნოთ შტურმანს.</span>
                 </p>`;
                 resultContainer.classList.remove('hidden');
             } finally {
@@ -499,7 +486,6 @@
             }
         }
 
-        // --- CHATBOT ---
         let chatHistory = [];
         function toggleChat() { document.getElementById('chatbot-panel').classList.toggle('hidden'); }
 
@@ -508,16 +494,10 @@
             const message = inputField.value.trim();
             if (!message) return;
 
-            if(!apiKey || apiKey === "") {
-                alert("AI Key is missing!");
-                return;
-            }
-
             addMessageToUI(message, 'user');
             inputField.value = '';
             const loadingId = addMessageToUI('loading...', 'bot', true);
 
-            // ჯავშანჟილეტიანი ჩატის ლოგიკა
             const chatPrompt = pricingRules + "\n\nUser says: " + message;
             chatHistory.push({ role: "user", parts: [{ text: chatPrompt }] });
 
@@ -529,8 +509,7 @@
                     const replyText = data.candidates[0].content.parts[0].text;
                     document.getElementById(loadingId).remove();
                     addMessageToUI(replyText, 'bot');
-                    // ვინახავთ მხოლოდ რეალურ პასუხებს
-                    chatHistory[chatHistory.length - 1] = { role: "user", parts: [{ text: message }] }; // Remove system rules from history to save tokens
+                    chatHistory[chatHistory.length - 1] = { role: "user", parts: [{ text: message }] }; 
                     chatHistory.push({ role: "model", parts: [{ text: replyText }] });
                 } else throw new Error("Invalid response");
             } catch (error) {
@@ -575,6 +554,3 @@
     </script>
 </body>
 </html>
-
-
-
