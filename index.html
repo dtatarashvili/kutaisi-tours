@@ -12,13 +12,13 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { 
+                    fontFamily: {
                         sans: ['Noto Sans Georgian', 'sans-serif'],
                         serif: ['Playfair Display', 'serif']
                     },
-                    colors: { 
-                        brandBlue: '#1E3A8A', 
-                        brandGold: '#F59E0B', 
+                    colors: {
+                        brandBlue: '#1E3A8A',
+                        brandGold: '#F59E0B',
                         brandLight: '#F9FAFB',
                         waGreen: '#25D366'
                     }
@@ -30,12 +30,16 @@
         body { background-color: #F9FAFB; color: #1F2937; scroll-behavior: smooth; }
         .glass-card { background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #E5E7EB; }
         .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(30, 58, 138, 0.1); transition: all 0.3s ease; }
-        
+       
         .prose h3 { color: #1E3A8A; font-size: 1.2rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
         .prose p { margin-bottom: 0.75rem; color: #4B5563; }
         .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4B5563; font-weight: 500;}
         .prose strong { color: #111827; }
-        
+       
+        .chat-prose p { margin-bottom: 0.5rem; }
+        .chat-prose ul { list-style-type: disc; padding-left: 1rem; margin-bottom: 0.5rem; }
+        .chat-prose strong { color: #1E3A8A; }
+
         .loader { border: 3px solid rgba(245, 158, 11, 0.2); border-top: 3px solid #F59E0B; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
@@ -44,8 +48,8 @@
 
         @media print {
             body { background-color: white !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-            button, .no-print, #lang-selector { display: none !important; }
-            
+            button, .no-print, #lang-selector, #chatbot-panel, #chatbot-toggle { display: none !important; }
+           
             section { padding-top: 2px !important; padding-bottom: 2px !important; }
 
             /* TOURIST PRINT MODE */
@@ -57,16 +61,16 @@
             body.print-mode-hotel #ai-planner, body.print-mode-hotel footer, body.print-mode-hotel #contact { display: none !important; }
             body.print-mode-hotel @page { size: A4 portrait; margin: 4mm; }
             body.print-mode-hotel { font-size: 10.5pt !important; }
-            
+           
             body.print-mode-hotel header { padding: 6px !important; background: #1E3A8A !important; color: white !important; border-radius: 8px; margin-bottom: 4px !important; }
             body.print-mode-hotel header h1 { color: white !important; font-size: 1.6rem !important; margin-bottom: 0 !important;}
             body.print-mode-hotel header p { color: #E5E7EB !important; font-size: 0.85rem !important; margin-bottom: 0 !important;}
-            body.print-mode-hotel header .inline-block { display: none !important; } 
-            
+            body.print-mode-hotel header .inline-block { display: none !important; }
+           
             body.print-mode-hotel .vehicle-section { padding: 2px 0 !important; }
             body.print-mode-hotel .vehicle-section .glass-card { display: flex !important; flex-direction: row !important; align-items: center !important; border: 2px solid #E5E7EB !important; padding: 6px !important; box-shadow: none !important; }
             body.print-mode-hotel .vehicle-image-wrapper { width: 35% !important; display: block !important; }
-            body.print-mode-hotel .vehicle-image-wrapper img { max-height: 100px !important; object-fit: cover; border-radius: 6px !important; } 
+            body.print-mode-hotel .vehicle-image-wrapper img { max-height: 100px !important; object-fit: cover; border-radius: 6px !important; }
             body.print-mode-hotel .vehicle-text-wrapper { width: 65% !important; padding-left: 10px !important; }
             body.print-mode-hotel .vehicle-text-wrapper h2 { font-size: 1.1rem !important; margin-bottom: 2px !important; }
             body.print-mode-hotel .vehicle-text-wrapper ul { margin-bottom: 0 !important; }
@@ -76,25 +80,27 @@
             body.print-mode-hotel .routes-section .text-center { margin-bottom: 4px !important; }
             body.print-mode-hotel .routes-section .text-center h2 { font-size: 1.3rem !important; margin-bottom: 0 !important; }
             body.print-mode-hotel .routes-section .text-center p { display: none !important; }
-            
+           
             body.print-mode-hotel .routes-section .grid { display: flex !important; flex-wrap: wrap !important; gap: 4px !important; justify-content: space-between !important; }
             body.print-mode-hotel .route-card { width: 32.5% !important; padding: 6px !important; border: 2px solid #E5E7EB !important; background: white !important; box-shadow: none !important; margin-top: 0 !important; }
             body.print-mode-hotel .route-card h3 { font-size: 0.95rem !important; margin-bottom: 1px !important;}
             body.print-mode-hotel .route-card p { font-size: 0.7rem !important; margin-bottom: 1px !important; line-height: 1.1 !important;}
             body.print-mode-hotel .route-card .text-3xl { font-size: 1.1rem !important; padding-top: 2px !important; margin-bottom: 0 !important;}
             body.print-mode-hotel .route-card .w-14 { width: 28px !important; height: 28px !important; font-size: 0.9rem !important; margin-bottom: 4px !important; }
-            
-            /* HOTEL FOOTER - GREEN WHATSAPP & EMAIL */
+           
+            /* HOTEL FOOTER - GREEN WHATSAPP, EMAIL & QR CODE */
             body.print-mode-hotel .hotel-print-section { display: flex !important; flex-direction: row !important; margin-top: 4px !important; border: 2px dashed #1E3A8A; border-radius: 8px; padding: 6px 10px !important; background: #EFF6FF !important; align-items: center; justify-content: space-between;}
             body.print-mode-hotel .hotel-print-section .desc-text { font-size: 0.7rem !important; margin-bottom: 2px !important; line-height: 1.1 !important; color: #4B5563 !important;}
-            
+           
             body.print-mode-hotel .print-wa-text { color: #25D366 !important; font-size: 0.95rem !important; font-weight: bold !important; display: flex; align-items: center; gap: 5px;}
             body.print-mode-hotel .print-email-text { color: #1E3A8A !important; font-size: 0.85rem !important; font-weight: bold !important; display: flex; align-items: center; gap: 5px;}
-            
+           
             body.print-mode-hotel .print-big-link { display: inline-block !important; background-color: #DBEAFE !important; border: 2px solid #1E3A8A !important; padding: 4px 10px !important; border-radius: 6px !important; margin-top: 2px !important; }
             body.print-mode-hotel .print-big-link span { color: #1E3A8A !important; font-size: 1.1rem !important; font-weight: 800 !important; letter-spacing: 0.5px !important; }
-            
+           
+            /* QR CODE CSS UPDATE */
             body.print-mode-hotel .qr-placeholder { display: flex !important; align-items: center; justify-content: center; width: 70px !important; height: 70px !important; border: 2px solid #1E3A8A; background: white; border-radius: 6px; margin: 0 auto; overflow: hidden; }
+            body.print-mode-hotel .qr-placeholder img { width: 100%; height: 100%; object-fit: contain; }
         }
     </style>
 </head>
@@ -143,46 +149,49 @@
         </div>
     </section>
 
-    <!-- HOTEL PRINT ONLY SECTION -->
+    <!-- HOTEL PRINT ONLY SECTION WITH UPLOADED QR CODE -->
     <div class="hotel-print-section max-w-6xl mx-auto px-4">
         <div class="w-[80%] pr-4 flex flex-col justify-center">
             <h2 class="font-serif font-bold text-brandBlue">✨ Custom AI Tour Planner</h2>
-            <p class="desc-text text-gray-700">Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!</p>
-            
+            <p class="desc-text text-gray-700">Scan the QR code to let our AI design your perfect tour or combined trips based on your interests. It calculates exact prices instantly!</p>
+           
             <div class="flex items-center gap-6 mt-1 mb-1">
-                <!-- Green WhatsApp -->
                 <p class="print-wa-text"><i class="fab fa-whatsapp text-lg"></i> +995 568 004 140</p>
                 <p class="print-email-text"><i class="far fa-envelope text-lg"></i> dtatarashvili@gmail.com</p>
             </div>
-            
+           
             <div>
                 <div class="print-big-link shadow-sm">
-                    <span><i class="fas fa-globe text-brandGold mr-2"></i>https://dtatarashvili.github.io/kutaisi-tours/</span>
+                    <span><i class="fas fa-globe text-brandGold mr-2"></i>bit.ly/3MWnA2g</span>
                 </div>
             </div>
         </div>
-        
+       
         <div class="w-[20%] text-center flex flex-col items-center justify-center">
-            <!-- QR Code Placeholder. Replace <i> with <img> when you have the QR -->
-            <div class="qr-placeholder"><i class="fas fa-qrcode text-brandBlue text-4xl"></i></div>
+            <!-- 📸 QR CODE IMAGE INTEGRATION -->
+            <!-- Make sure qr-code.png is uploaded to your GitHub repository! -->
+            <div class="qr-placeholder">
+                <img src="qr-code.png" alt="Scan to Book" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-qrcode text-brandBlue text-4xl\'></i>';">
+            </div>
             <p class="mt-1 font-bold text-[0.65rem] text-brandBlue uppercase tracking-wider">Scan to Plan!</p>
         </div>
     </div>
 
-    <!-- AI Tour Planner UI -->
+    <!-- AI Tour Planner UI (Now explicitly supporting COMBINED TOURS) -->
     <section id="ai-planner" class="py-12 max-w-4xl mx-auto px-4">
         <div class="glass-card p-8 md:p-10 border-t-8 border-t-brandGold shadow-xl relative overflow-hidden">
-            <div class="absolute -right-10 -top-10 text-brandGold opacity-10 text-9xl"><i class="fas fa-robot"></i></div>
-            
+            <div class="absolute -right-10 -top-10 text-brandGold opacity-10 text-9xl"><i class="fas fa-route"></i></div>
+           
             <div class="text-center mb-8 ai-inputs relative z-10">
                 <h2 class="font-serif text-3xl md:text-4xl font-bold mb-2 text-brandBlue" id="ai-title">AI Route & Price Calculator</h2>
-                <p class="text-gray-500 text-lg" id="ai-desc">Enter your destination and date. Our AI calculates your exact price based on distance.</p>
+                <p class="text-gray-500 text-lg" id="ai-desc">Enter a single destination OR list multiple places for a combined tour. Our AI calculates your exact price.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-xl border border-gray-100 ai-inputs relative z-10">
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-dest">Where do you want to go?</label>
-                    <input type="text" id="ai-destination" placeholder="e.g., Martvili Canyon, Tbilisi, or Airport..." class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
+                    <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-dest">Where do you want to go? (List multiple for combined tours)</label>
+                    <!-- Updated placeholder to encourage combined tours -->
+                    <input type="text" id="ai-destination" placeholder="e.g., Prometheus Cave, Martvili Canyon, and Okatse..." class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-date">Select Date</label>
@@ -192,7 +201,7 @@
                     <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-time">Pickup Time</label>
                     <input type="time" id="ai-time" class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner text-gray-700">
                 </div>
-                
+               
                 <div class="md:col-span-2 mt-2">
                     <button id="generate-btn" onclick="generateCustomTour()" class="w-full bg-brandBlue text-white font-bold text-lg py-4 rounded-lg hover:bg-blue-800 transition-colors shadow-lg flex justify-center items-center gap-2">
                         <i class="fas fa-magic"></i> <span id="btn-calc">Calculate Route & Price</span>
@@ -204,11 +213,11 @@
             <div id="ai-result-container" class="mt-8 hidden relative z-10">
                 <div class="border-t border-gray-200 pt-8">
                     <h3 class="font-serif text-2xl font-bold text-brandBlue mb-4 flex items-center gap-2 no-print"><i class="fas fa-file-invoice-dollar text-brandGold"></i> <span id="res-title">Your Custom Quote</span></h3>
-                    
+                   
                     <div id="ai-response-text" class="prose max-w-none text-gray-800 bg-blue-50/50 p-6 rounded-xl border border-blue-100 shadow-inner">
                         <!-- AI Markdown renders here -->
                     </div>
-                    
+                   
                     <div class="mt-6 text-center bg-yellow-50 p-6 rounded-xl border border-yellow-200 no-print">
                         <p class="text-gray-700 font-medium mb-4" id="res-action">Send this quote to our WhatsApp to confirm your booking and check driver availability.</p>
                         <div class="flex justify-center">
@@ -222,7 +231,20 @@
         </div>
     </section>
 
-    <footer class="text-center py-10 bg-gray-900 text-gray-400 border-t border-gray-800 no-print">
+    <section id="contact" class="py-16 max-w-4xl mx-auto px-4 text-center border-t border-gray-200 mt-12 no-print">
+        <h2 class="font-serif text-4xl font-bold mb-4 text-brandBlue">Contact & <span class="text-brandGold">Booking</span></h2>
+       
+        <div class="flex flex-col sm:flex-row justify-center gap-6 mt-8">
+            <a href="https://wa.me/995568004140" target="_blank" class="bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold text-xl hover:bg-green-600 transition shadow-lg flex items-center justify-center gap-3">
+                <i class="fab fa-whatsapp text-2xl"></i> +995 568 004 140
+            </a>
+            <a href="mailto:dtatarashvili@gmail.com" class="bg-white border-2 border-brandBlue text-brandBlue px-8 py-4 rounded-xl font-bold text-xl hover:bg-blue-50 transition flex items-center justify-center gap-3 shadow-md">
+                <i class="far fa-envelope text-2xl"></i> dtatarashvili@gmail.com
+            </a>
+        </div>
+    </section>
+
+    <footer class="text-center py-10 bg-gray-900 text-gray-400 border-t border-gray-800 no-print pb-32">
         <div class="flex justify-center gap-6 mb-6">
             <a href="https://wa.me/995568004140" target="_blank" class="text-white hover:text-waGreen transition text-2xl"><i class="fab fa-whatsapp"></i></a>
             <a href="mailto:dtatarashvili@gmail.com" class="text-white hover:text-blue-400 transition text-2xl"><i class="far fa-envelope"></i></a>
@@ -233,17 +255,41 @@
         </button>
     </footer>
 
+    <!-- NATIVE GEMINI AI CHATBOT WIDGET -->
+    <button id="chatbot-toggle" onclick="toggleChat()" class="fixed bottom-6 right-6 w-16 h-16 bg-brandGold text-white rounded-full shadow-2xl flex items-center justify-center text-3xl hover:bg-yellow-600 transition-transform hover:scale-110 z-50 no-print">
+        <i class="fas fa-robot"></i>
+    </button>
+
+    <div id="chatbot-panel" class="hidden fixed bottom-24 right-6 w-[360px] max-w-[90vw] h-[550px] max-h-[75vh] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col z-50 overflow-hidden no-print">
+        <div class="bg-brandBlue p-4 text-white flex justify-between items-center shadow-md">
+            <div>
+                <h3 class="font-bold font-serif flex items-center gap-2"><i class="fas fa-robot text-brandGold"></i> AI Manager</h3>
+                <p class="text-xs text-blue-200">Online & ready to calculate prices</p>
+            </div>
+            <button onclick="toggleChat()" class="text-white hover:text-gray-300 text-2xl"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-3">
+            <div class="bg-blue-100 text-brandBlue p-3 rounded-xl rounded-tl-sm self-start max-w-[85%] text-sm shadow-sm">
+                Hello! I am the AI Booking Manager for Kutaisi Premium Transfers. Tell me where you want to go, and I will calculate the exact price for your trip!
+            </div>
+        </div>
+        <div class="p-3 bg-white border-t border-gray-200 flex gap-2">
+            <input type="text" id="chat-input" placeholder="Ask for a route or price..." class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brandGold transition" onkeypress="handleChatKeyPress(event)">
+            <button onclick="sendChatMessage()" class="bg-brandGold text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition shadow-md"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
     <!-- App Logic -->
     <script>
         // System Config
-        const apiKey = ""; 
+        const apiKey = "";
         const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-        
+       
         // State
         let currentLang = 'en';
-        let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 }; // Fallback rates
+        let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
 
-        // UI Dictionary for static text
+        // UI Dictionary
         const uiDict = {
             'en': {
                 nav: "Book Now", heroTag: "Exclusive Weekend Service", heroTitle: "Private <span class='text-brandGold'>Tours</span> & Transfers",
@@ -253,8 +299,8 @@
                 f2: "<strong>Eco-Friendly Hybrid:</strong> Toyota Prius offering a smooth journey.",
                 f3: "<strong>Stay Connected:</strong> Free Wi-Fi hotspot on board.",
                 f4: "<strong>Refreshments:</strong> Complimentary bottled water included.",
-                aiTitle: "AI Route & Price Calculator", aiDesc: "Enter your destination and date. Our AI calculates your exact price based on distance.",
-                lDest: "Where do you want to go?", lDate: "Select Date", lTime: "Pickup Time",
+                aiTitle: "AI Route & Price Calculator", aiDesc: "Enter a single destination OR list multiple places for a combined tour.",
+                lDest: "Where do you want to go? (List multiple for combined tours)", lDate: "Select Date", lTime: "Pickup Time",
                 btnCalc: "Calculate Route & Price", resTitle: "Your Custom Quote",
                 resAction: "Send this quote to our WhatsApp to confirm your booking and check driver availability.",
                 btnBook: "Book on WhatsApp", errAi: "Error calculating. Please WhatsApp +995568004140."
@@ -267,8 +313,8 @@
                 f2: "<strong>ეკო-ჰიბრიდი:</strong> Toyota Prius უზრუნველყოფს მშვიდ მგზავრობას.",
                 f3: "<strong>ინტერნეტი:</strong> უფასო Wi-Fi ავტომობილში.",
                 f4: "<strong>გაგრილება:</strong> უფასო სასმელი წყალი მგზავრებისთვის.",
-                aiTitle: "AI მარშრუტის და ფასის კალკულატორი", aiDesc: "შეიყვანეთ დანიშნულების ადგილი. ჩვენი AI დაითვლის ზუსტ მანძილს და ფასს.",
-                lDest: "სად გსურთ წასვლა?", lDate: "აირჩიეთ თარიღი", lTime: "გასვლის დრო",
+                aiTitle: "AI კალკულატორი / კომბინირებული ტურები", aiDesc: "შეიყვანეთ ერთი ან რამდენიმე დანიშნულების ადგილი კომბინირებული ტურისთვის.",
+                lDest: "სად გსურთ წასვლა? (შეგიძლიათ ჩამოთვალოთ რამდენიმე)", lDate: "აირჩიეთ თარიღი", lTime: "გასვლის დრო",
                 btnCalc: "ფასის და მარშრუტის დათვლა", resTitle: "თქვენი შეთავაზება",
                 resAction: "გამოგვიგზავნეთ ეს შეთავაზება WhatsApp-ში დასადასტურებლად და თავისუფალი დროის შესამოწმებლად.",
                 btnBook: "დაჯავშნა WhatsApp-ით", errAi: "შეცდომა. მოგვწერეთ WhatsApp-ში: +995568004140."
@@ -281,10 +327,10 @@
                 f2: "<strong>Eco-Hybrid:</strong> Toyota Prius für eine ruhige Fahrt.",
                 f3: "<strong>Verbunden bleiben:</strong> Kostenloses WLAN an Bord.",
                 f4: "<strong>Erfrischungen:</strong> Kostenloses Wasser inklusive.",
-                aiTitle: "AI Routen- & Preisrechner", aiDesc: "Geben Sie Ihr Ziel ein. Unsere KI berechnet Ihren genauen Preis.",
-                lDest: "Wohin möchten Sie fahren?", lDate: "Datum auswählen", lTime: "Abholzeit",
+                aiTitle: "AI Routen- & Preisrechner", aiDesc: "Geben Sie ein Ziel ein ODER listen Sie mehrere für eine kombinierte Tour auf.",
+                lDest: "Wohin möchten Sie fahren? (Mehrere für kombinierte Touren möglich)", lDate: "Datum auswählen", lTime: "Abholzeit",
                 btnCalc: "Route & Preis berechnen", resTitle: "Ihr Angebot",
-                resAction: "Senden Sie dieses Angebot an unser WhatsApp, um die Buchung zu bestätigen.",
+                resAction: "Senden Sie dieses Angebot an unser WhatsApp, um die Buchung und Verfügbarkeit zu bestätigen.",
                 btnBook: "Auf WhatsApp buchen", errAi: "Fehler. Bitte WhatsApp: +995568004140."
             },
             'ru': {
@@ -295,21 +341,18 @@
                 f2: "<strong>Эко-Гибрид:</strong> Toyota Prius для плавной поездки.",
                 f3: "<strong>Интернет:</strong> Бесплатный Wi-Fi в салоне.",
                 f4: "<strong>Напитки:</strong> Бесплатная вода включена.",
-                aiTitle: "AI Калькулятор маршрута и цены", aiDesc: "Введите пункт назначения. Наш ИИ рассчитает точную цену.",
-                lDest: "Куда вы хотите поехать?", lDate: "Выберите дату", lTime: "Время выезда",
+                aiTitle: "AI Калькулятор (Комбинированные туры)", aiDesc: "Введите одно или несколько мест для комбинированного тура.",
+                lDest: "Куда вы хотите поехать? (Можно указать несколько)", lDate: "Выберите дату", lTime: "Время выезда",
                 btnCalc: "Рассчитать маршрут и цену", resTitle: "Ваше предложение",
-                resAction: "Отправьте это предложение на наш WhatsApp для подтверждения бронирования.",
+                resAction: "Отправьте это предложение на наш WhatsApp для подтверждения бронирования и времени.",
                 btnBook: "Забронировать в WhatsApp", errAi: "Ошибка. Пишите в WhatsApp: +995568004140."
             }
         }
 
-        // Initialize
         window.onload = async () => {
-            // Set today as min date
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('ai-date').setAttribute('min', today);
-            
-            // Try fetching real exchange rates
+           
             try {
                 const res = await fetch('https://open.er-api.com/v6/latest/GEL');
                 const data = await res.json();
@@ -324,8 +367,7 @@
         function setLang(lang) {
             currentLang = lang;
             const dict = uiDict[lang];
-            
-            // Update UI text
+           
             document.getElementById('nav-btn').innerHTML = dict.nav;
             document.getElementById('hero-tag').innerHTML = dict.heroTag;
             document.getElementById('hero-title').innerHTML = dict.heroTitle;
@@ -345,7 +387,6 @@
             document.getElementById('res-action').innerHTML = dict.resAction;
             document.getElementById('btn-book').innerHTML = dict.btnBook;
 
-            // Opacity logic for flags
             ['en','de','ru','ka'].forEach(l => {
                 const el = document.querySelector(`span[onclick="setLang('${l}')"]`);
                 if(l === lang) { el.classList.remove('opacity-50'); el.classList.add('opacity-100', 'scale-110'); }
@@ -367,11 +408,29 @@
             }
         }
 
+        // --- UPDATED AI KNOWLEDGE BASE (SUPPORTS COMBINED TOURS) ---
+        const pricingRules = `
+        You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers".
+        Vehicle: Premium Toyota Prius. Start and End point is ALWAYS Kutaisi.
+
+        HANDLING COMBINED TOURS:
+        If the user lists multiple destinations (e.g., "Martvili and Prometheus"), you must calculate the optimal sequential route starting from Kutaisi, visiting all locations, and returning to Kutaisi. Calculate the TOTAL sum of the round-trip distance.
+
+        MANDATORY PRICING ALGORITHM (based on TOTAL round-trip distance):
+        1. 0 to 30 km: 2.25 GEL per km.
+        2. 31 to 100 km: 1.35 GEL per km (includes waiting time).
+        3. 100+ km: 1.0 GEL per km.
+
+        RULES:
+        - NEVER mention internal driver costs, margins, or how you calculated it. Only present the final price.
+        - State that payment is required in advance via TBC Bank card.
+        `;
+
         async function generateCustomTour() {
             const dest = document.getElementById('ai-destination').value.trim();
             const date = document.getElementById('ai-date').value;
             const time = document.getElementById('ai-time').value;
-            
+           
             const btn = document.getElementById('generate-btn');
             const resultContainer = document.getElementById('ai-result-container');
             const responseText = document.getElementById('ai-response-text');
@@ -382,41 +441,29 @@
             btn.disabled = true; btn.classList.add('opacity-70', 'cursor-not-allowed');
             resultContainer.classList.add('hidden');
 
-            // --- THE CORE ALGORITHM PASSED TO AI ---
-            const systemInstruction = `
-            You are an expert Booking Manager AI for 'Kutaisi Premium Weekend Transfers'.
-            Vehicle: Premium Toyota Prius. Start and End point is ALWAYS Kutaisi.
-            The user wants to travel to: ${dest} on Date: ${date || 'Not specified'} at Time: ${time || 'Not specified'}.
-
-            CRITICAL PRICING ALGORITHM (You MUST follow this math):
-            1. First, estimate the total round-trip distance from Kutaisi in kilometers.
-            2. If total distance is 0 to 30 km: Price is 2.25 GEL per km.
-            3. If total distance is 31 to 100 km: Price is 1.35 GEL per km (this includes waiting time).
-            4. If total distance is over 100 km: Price is 1.0 GEL per km.
-            5. NEVER mention internal driver costs, margins, or how you calculated it. Only present the final price.
-
-            CURRENCY RULES:
-            The base price is in GEL. 
-            The user's requested language is: ${currentLang}.
+            const systemInstruction = pricingRules + `
+            The user requested: ${dest} on Date: ${date || 'Not specified'} at Time: ${time || 'Not specified'}.
+            Language requested: ${currentLang}.
             Current Exchange Rates: 1 GEL = ${exchangeRates.USD} USD, 1 GEL = ${exchangeRates.EUR} EUR, 1 GEL = ${exchangeRates.RUB} RUB.
-            - If language is 'en', show price as: [Price] GEL (~ [Converted] USD).
-            - If language is 'de', show price as: [Price] GEL (~ [Converted] EUR).
-            - If language is 'ru', show price as: [Price] GEL (~ [Converted] RUB).
+           
+            - If language is 'en', format price as: [Price] GEL (~ [Converted] USD).
+            - If language is 'de', format price as: [Price] GEL (~ [Converted] EUR).
+            - If language is 'ru', format price as: [Price] GEL (~ [Converted] RUB).
             - If language is 'ka', show ONLY GEL. NO brackets.
 
-            FORMAT (Output in language: ${currentLang}):
-            ### 📍 Route
-            * Kutaisi -> [Destinations] -> Kutaisi
-            * Estimated Distance: [X] km round-trip.
-            * Date/Time: ${date} ${time}
-            
-            ### 💰 Price
-            * **Final Price:** [Formatted Price based on Currency Rules]
-            
-            *Note: Payment is required in advance via TBC Bank card.*
+            FORMAT OUTPUT IN ${currentLang}:
+            ### 📍 Route Details
+            * **Itinerary:** Kutaisi -> [List all Destinations in optimal order] -> Kutaisi
+            * **Total Distance:** [X] km round-trip.
+            * **Date/Time:** ${date} ${time}
+           
+            ### 💰 Price Quote
+            * **Final Price:** [Formatted Price]
+           
+            *Payment is processed in advance via TBC Bank card.*
             `;
 
-            const payload = { contents: [{ parts: [{ text: "Calculate route and price based on your system instructions." }] }], systemInstruction: { parts: [{ text: systemInstruction }] } };
+            const payload = { contents: [{ parts: [{ text: "Calculate the combined route and price." }] }], systemInstruction: { parts: [{ text: systemInstruction }] } };
 
             try {
                 const data = await fetchWithRetry(modelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -433,16 +480,72 @@
             }
         }
 
+        // --- CHATBOT ---
+        let chatHistory = [];
+        function toggleChat() { document.getElementById('chatbot-panel').classList.toggle('hidden'); }
+
+        async function sendChatMessage() {
+            const inputField = document.getElementById('chat-input');
+            const message = inputField.value.trim();
+            if (!message) return;
+
+            addMessageToUI(message, 'user');
+            inputField.value = '';
+            const loadingId = addMessageToUI('loading...', 'bot', true);
+
+            chatHistory.push({ role: "user", parts: [{ text: message }] });
+
+            const payload = {
+                systemInstruction: { parts: [{ text: pricingRules + " Keep your responses short, conversational, and helpful in the chat widget. Use markdown." }] },
+                contents: chatHistory
+            };
+
+            try {
+                const data = await fetchWithRetry(modelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (data && data.candidates && data.candidates[0].content) {
+                    const replyText = data.candidates[0].content.parts[0].text;
+                    document.getElementById(loadingId).remove();
+                    addMessageToUI(replyText, 'bot');
+                    chatHistory.push({ role: "model", parts: [{ text: replyText }] });
+                } else throw new Error("Invalid response");
+            } catch (error) {
+                document.getElementById(loadingId).remove();
+                addMessageToUI("Connection issue. Please WhatsApp us at +995 568 004 140!", 'bot');
+                chatHistory.pop();
+            }
+        }
+
+        function addMessageToUI(text, sender, isLoading = false) {
+            const container = document.getElementById('chat-messages');
+            const msgDiv = document.createElement('div');
+            const id = 'msg-' + Date.now();
+            msgDiv.id = id;
+
+            if (sender === 'user') {
+                msgDiv.className = 'bg-brandBlue text-white p-3 rounded-xl rounded-tr-sm self-end max-w-[85%] text-sm shadow-sm';
+                msgDiv.textContent = text;
+            } else {
+                msgDiv.className = 'bg-blue-100 text-brandBlue p-3 rounded-xl rounded-tl-sm self-start max-w-[85%] text-sm shadow-sm chat-prose';
+                if (isLoading) msgDiv.innerHTML = '<span class="loader" style="width:16px; height:16px; border-width: 2px;"></span>';
+                else msgDiv.innerHTML = marked.parse(text);
+            }
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+            return id;
+        }
+
+        function handleChatKeyPress(event) { if (event.key === 'Enter') sendChatMessage(); }
+
         function copyAndBook() {
             const textToCopy = document.getElementById('ai-response-text').innerText;
-            const waMessage = encodeURIComponent("Hello! I got this quote from your site. Is the driver available?\n\n" + textToCopy);
+            const waMessage = encodeURIComponent("Hello! I got this quote from your site. Is the driver available for this time?\n\n" + textToCopy);
             window.open('https://wa.me/995568004140?text=' + waMessage, '_blank');
         }
 
-        function printHotelBrochure() { 
-            document.body.classList.add('print-mode-hotel'); 
-            window.print(); 
-            setTimeout(() => { document.body.classList.remove('print-mode-hotel'); }, 500); 
+        function printHotelBrochure() {
+            document.body.classList.add('print-mode-hotel');
+            window.print();
+            setTimeout(() => { document.body.classList.remove('print-mode-hotel'); }, 500);
         }
     </script>
 </body>
