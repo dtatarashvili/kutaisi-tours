@@ -20,7 +20,8 @@
                         brandBlue: '#1E3A8A', 
                         brandGold: '#F59E0B', 
                         brandLight: '#F9FAFB',
-                        waGreen: '#25D366'
+                        waGreen: '#25D366',
+                        tbcBlue: '#00A3E0' /* TBC Bank Color */
                     }
                 }
             }
@@ -48,7 +49,7 @@
 
         @media print {
             body { background-color: white !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-            button, .no-print, #lang-selector, #chatbot-panel, #chatbot-toggle { display: none !important; }
+            button, .no-print, #lang-selector, #chatbot-panel, #chatbot-toggle, #tbc-modal { display: none !important; }
             
             section { padding-top: 2px !important; padding-bottom: 2px !important; }
 
@@ -60,46 +61,46 @@
             /* HOTEL BROCHURE MODE */
             body.print-mode-hotel #ai-planner, body.print-mode-hotel footer, body.print-mode-hotel #contact { display: none !important; }
             body.print-mode-hotel @page { size: A4 portrait; margin: 4mm; }
-            body.print-mode-hotel { font-size: 10.5pt !important; }
+            body.print-mode-hotel { font-size: 10pt !important; }
             
-            body.print-mode-hotel header { padding: 6px !important; background: #1E3A8A !important; color: white !important; border-radius: 8px; margin-bottom: 4px !important; }
-            body.print-mode-hotel header h1 { color: white !important; font-size: 1.6rem !important; margin-bottom: 0 !important;}
-            body.print-mode-hotel header p { color: #E5E7EB !important; font-size: 0.85rem !important; margin-bottom: 0 !important;}
+            body.print-mode-hotel header { padding: 4px !important; background: #1E3A8A !important; color: white !important; border-radius: 8px; margin-bottom: 4px !important; }
+            body.print-mode-hotel header h1 { color: white !important; font-size: 1.5rem !important; margin-bottom: 0 !important;}
+            body.print-mode-hotel header p { color: #E5E7EB !important; font-size: 0.8rem !important; margin-bottom: 0 !important;}
             body.print-mode-hotel header .inline-block { display: none !important; } 
             
             body.print-mode-hotel .vehicle-section { padding: 2px 0 !important; }
-            body.print-mode-hotel .vehicle-section .glass-card { display: flex !important; flex-direction: row !important; align-items: center !important; border: 2px solid #E5E7EB !important; padding: 6px !important; box-shadow: none !important; }
+            body.print-mode-hotel .vehicle-section .glass-card { display: flex !important; flex-direction: row !important; align-items: center !important; border: 2px solid #E5E7EB !important; padding: 4px 6px !important; box-shadow: none !important; }
             body.print-mode-hotel .vehicle-image-wrapper { width: 35% !important; display: block !important; }
-            body.print-mode-hotel .vehicle-image-wrapper img { max-height: 100px !important; object-fit: cover; border-radius: 6px !important; } 
+            body.print-mode-hotel .vehicle-image-wrapper img { max-height: 95px !important; object-fit: cover; border-radius: 6px !important; } 
             body.print-mode-hotel .vehicle-text-wrapper { width: 65% !important; padding-left: 10px !important; }
-            body.print-mode-hotel .vehicle-text-wrapper h2 { font-size: 1.1rem !important; margin-bottom: 2px !important; }
+            body.print-mode-hotel .vehicle-text-wrapper h2 { font-size: 1rem !important; margin-bottom: 2px !important; }
             body.print-mode-hotel .vehicle-text-wrapper ul { margin-bottom: 0 !important; }
-            body.print-mode-hotel .vehicle-text-wrapper ul li { margin-bottom: 1px !important; font-size: 0.8rem !important; }
+            body.print-mode-hotel .vehicle-text-wrapper ul li { margin-bottom: 1px !important; font-size: 0.75rem !important; line-height: 1.1 !important;}
 
             body.print-mode-hotel .routes-section { padding: 2px 0 !important; }
             body.print-mode-hotel .routes-section .text-center { margin-bottom: 4px !important; }
-            body.print-mode-hotel .routes-section .text-center h2 { font-size: 1.3rem !important; margin-bottom: 0 !important; }
+            body.print-mode-hotel .routes-section .text-center h2 { font-size: 1.2rem !important; margin-bottom: 0 !important; }
             body.print-mode-hotel .routes-section .text-center p { display: none !important; }
             
             body.print-mode-hotel .routes-section .grid { display: flex !important; flex-wrap: wrap !important; gap: 4px !important; justify-content: space-between !important; }
-            body.print-mode-hotel .route-card { width: 32.5% !important; padding: 6px !important; border: 2px solid #E5E7EB !important; background: white !important; box-shadow: none !important; margin-top: 0 !important; }
-            body.print-mode-hotel .route-card h3 { font-size: 0.95rem !important; margin-bottom: 1px !important;}
-            body.print-mode-hotel .route-card p { font-size: 0.7rem !important; margin-bottom: 1px !important; line-height: 1.1 !important;}
-            body.print-mode-hotel .route-card .text-3xl { font-size: 1.1rem !important; padding-top: 2px !important; margin-bottom: 0 !important;}
-            body.print-mode-hotel .route-card .w-14 { width: 28px !important; height: 28px !important; font-size: 0.9rem !important; margin-bottom: 4px !important; }
+            body.print-mode-hotel .route-card { width: 32.5% !important; padding: 4px 6px !important; border: 2px solid #E5E7EB !important; background: white !important; box-shadow: none !important; margin-top: 0 !important; }
+            body.print-mode-hotel .route-card h3 { font-size: 0.9rem !important; margin-bottom: 1px !important;}
+            body.print-mode-hotel .route-card p { font-size: 0.65rem !important; margin-bottom: 1px !important; line-height: 1.1 !important;}
+            body.print-mode-hotel .route-card .text-3xl { font-size: 1rem !important; padding-top: 2px !important; margin-bottom: 0 !important;}
+            body.print-mode-hotel .route-card .w-14 { width: 24px !important; height: 24px !important; font-size: 0.8rem !important; margin-bottom: 2px !important; }
             
-            /* HOTEL FOOTER - GREEN WHATSAPP, EMAIL & QR CODE */
-            body.print-mode-hotel .hotel-print-section { display: flex !important; flex-direction: row !important; margin-top: 4px !important; border: 2px dashed #1E3A8A; border-radius: 8px; padding: 6px 10px !important; background: #EFF6FF !important; align-items: center; justify-content: space-between;}
+            /* HOTEL FOOTER - GREEN WHATSAPP, EMAIL & BIGGER QR CODE */
+            body.print-mode-hotel .hotel-print-section { display: flex !important; flex-direction: row !important; margin-top: 4px !important; border: 2px dashed #1E3A8A; border-radius: 8px; padding: 4px 10px !important; background: #EFF6FF !important; align-items: center; justify-content: space-between;}
             body.print-mode-hotel .hotel-print-section .desc-text { font-size: 0.7rem !important; margin-bottom: 2px !important; line-height: 1.1 !important; color: #4B5563 !important;}
             
             body.print-mode-hotel .print-wa-text { color: #25D366 !important; font-size: 0.95rem !important; font-weight: bold !important; display: flex; align-items: center; gap: 5px;}
             body.print-mode-hotel .print-email-text { color: #1E3A8A !important; font-size: 0.85rem !important; font-weight: bold !important; display: flex; align-items: center; gap: 5px;}
             
-            body.print-mode-hotel .print-big-link { display: inline-block !important; background-color: #DBEAFE !important; border: 2px solid #1E3A8A !important; padding: 4px 10px !important; border-radius: 6px !important; margin-top: 2px !important; }
-            body.print-mode-hotel .print-big-link span { color: #1E3A8A !important; font-size: 1.1rem !important; font-weight: 800 !important; letter-spacing: 0.5px !important; }
+            body.print-mode-hotel .print-big-link { display: inline-block !important; background-color: #DBEAFE !important; border: 2px solid #1E3A8A !important; padding: 2px 8px !important; border-radius: 6px !important; margin-top: 2px !important; }
+            body.print-mode-hotel .print-big-link span { color: #1E3A8A !important; font-size: 0.85rem !important; font-weight: 800 !important; letter-spacing: 0.5px !important; }
             
-            /* QR CODE CSS UPDATE */
-            body.print-mode-hotel .qr-placeholder { display: flex !important; align-items: center; justify-content: center; width: 70px !important; height: 70px !important; border: 2px solid #1E3A8A; background: white; border-radius: 6px; margin: 0 auto; overflow: hidden; }
+            /* BIGGER QR CODE */
+            body.print-mode-hotel .qr-placeholder { display: flex !important; align-items: center; justify-content: center; width: 110px !important; height: 110px !important; border: 2px solid #1E3A8A; background: white; border-radius: 6px; margin: 0 auto; overflow: hidden; }
             body.print-mode-hotel .qr-placeholder img { width: 100%; height: 100%; object-fit: contain; }
         }
     </style>
@@ -133,7 +134,7 @@
 
     <section class="vehicle-section py-12 max-w-6xl mx-auto px-4">
         <div class="glass-card p-8 flex flex-col md:flex-row items-center gap-10">
-            <!-- 📸 Place your image here on March 9th -->
+            <!-- 📸 Place your image here -->
             <div class="vehicle-image-wrapper w-full md:w-1/2">
                 <img src="https://placehold.co/800x600/1E3A8A/FFFFFF?text=Photo:+You+%26+Your+Prius" alt="Your Premium Driver and Vehicle" class="rounded-xl w-full shadow-md border border-gray-200 object-cover" style="aspect-ratio: 4/3;">
             </div>
@@ -144,30 +145,37 @@
                     <li class="flex items-start gap-3"><i class="fas fa-leaf text-green-500 mt-1"></i> <div id="feat-2"><strong>Eco-Friendly Hybrid:</strong> Toyota Prius offering a smooth and quiet journey.</div></li>
                     <li class="flex items-start gap-3"><i class="fas fa-wifi text-blue-400 mt-1"></i> <div id="feat-3"><strong>Stay Connected:</strong> Free Wi-Fi hotspot available on board.</div></li>
                     <li class="flex items-start gap-3"><i class="fas fa-tint text-blue-300 mt-1"></i> <div id="feat-4"><strong>Refreshments:</strong> Complimentary bottled water included.</div></li>
+                    <!-- New 4 Languages Bullet -->
+                    <li class="flex items-start gap-3"><i class="fas fa-language text-brandGold mt-1"></i> <div id="feat-5"><strong>Languages:</strong> Driver speaks English, German, Russian, and Georgian.</div></li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <!-- HOTEL PRINT ONLY SECTION WITH UPLOADED QR CODE -->
-    <div class="hotel-print-section max-w-6xl mx-auto px-4">
-        <div class="w-[80%] pr-4 flex flex-col justify-center">
+    <!-- HOTEL PRINT ONLY SECTION -->
+    <div class="hotel-print-section max-w-6xl mx-auto px-4 relative">
+        <!-- New Translated Top Text for PDF -->
+        <div id="print-top-text" class="absolute -top-6 left-0 w-full text-center text-brandBlue font-bold text-sm tracking-widest uppercase">Premium Weekend Service</div>
+        
+        <div class="w-[75%] pr-4 flex flex-col justify-center mt-2">
             <h2 class="font-serif font-bold text-brandBlue">✨ Custom AI Tour Planner</h2>
-            <p class="desc-text text-gray-700">Scan the QR code to let our AI design your perfect tour or combined trips based on your interests. It calculates exact prices instantly!</p>
+            <p class="desc-text text-gray-700" id="print-desc">Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!</p>
             
             <div class="flex items-center gap-6 mt-1 mb-1">
                 <p class="print-wa-text"><i class="fab fa-whatsapp text-lg"></i> +995 568 004 140</p>
                 <p class="print-email-text"><i class="far fa-envelope text-lg"></i> dtatarashvili@gmail.com</p>
             </div>
             
+            <!-- Updated to Full Link -->
             <div>
                 <div class="print-big-link shadow-sm">
-                    <span><i class="fas fa-globe text-brandGold mr-2"></i>bit.ly/3MWnA2g</span>
+                    <span><i class="fas fa-globe text-brandGold mr-2"></i>https://dtatarashvili.github.io/kutaisi-tours/</span>
                 </div>
             </div>
         </div>
         
-        <div class="w-[20%] text-center flex flex-col items-center justify-center">
+        <div class="w-[25%] text-center flex flex-col items-center justify-center mt-2">
+            <!-- 📸 BIGGER QR CODE -->
             <div class="qr-placeholder">
                 <img src="qr-code.png" alt="Scan to Book" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-qrcode text-brandBlue text-4xl\'></i>';">
             </div>
@@ -186,9 +194,15 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-xl border border-gray-100 ai-inputs relative z-10">
+                <!-- Start is implicitly Kutaisi -->
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-dest">Where do you want to go? (List multiple for combined tours)</label>
-                    <input type="text" id="ai-destination" placeholder="e.g., Prometheus Cave, Martvili Canyon, and Okatse..." class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
+                    <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-dest">Where do you want to go? (Intermediate Stops)</label>
+                    <input type="text" id="ai-destination" placeholder="e.g., Prometheus Cave, Martvili Canyon..." class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
+                </div>
+                <!-- NEW: End Location -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-end">End Location (Default: Kutaisi)</label>
+                    <input type="text" id="ai-end-location" placeholder="e.g., Tbilisi, Batumi, or leave empty to return to Kutaisi" class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-date">Select Date</label>
@@ -212,13 +226,18 @@
                     <h3 class="font-serif text-2xl font-bold text-brandBlue mb-4 flex items-center gap-2 no-print"><i class="fas fa-file-invoice-dollar text-brandGold"></i> <span id="res-title">Your Custom Quote</span></h3>
                     
                     <div id="ai-response-text" class="prose max-w-none text-gray-800 bg-blue-50/50 p-6 rounded-xl border border-blue-100 shadow-inner">
+                        <!-- AI Result Here -->
                     </div>
                     
                     <div class="mt-6 text-center bg-yellow-50 p-6 rounded-xl border border-yellow-200 no-print">
                         <p class="text-gray-700 font-medium mb-4" id="res-action">Send this quote to our WhatsApp to confirm your booking and check driver availability.</p>
-                        <div class="flex justify-center">
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
                             <button onclick="copyAndBook()" class="bg-[#25D366] text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-green-600 transition shadow-md flex items-center justify-center gap-3 w-full sm:w-auto">
                                 <i class="fab fa-whatsapp text-xl"></i> <span id="btn-book">Book on WhatsApp</span>
+                            </button>
+                            <!-- NEW: TBC Payment Button -->
+                            <button onclick="openTbcModal()" class="bg-tbcBlue text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-blue-500 transition shadow-md flex items-center justify-center gap-3 w-full sm:w-auto">
+                                <i class="fas fa-credit-card text-xl"></i> <span id="btn-pay">Pay with TBC Bank</span>
                             </button>
                         </div>
                     </div>
@@ -226,6 +245,21 @@
             </div>
         </div>
     </section>
+
+    <!-- TBC Payment Modal -->
+    <div id="tbc-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl relative">
+            <button onclick="closeTbcModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 text-2xl"><i class="fas fa-times"></i></button>
+            <div class="text-center mb-6">
+                <i class="fas fa-university text-5xl text-tbcBlue mb-4"></i>
+                <h3 class="text-2xl font-bold text-brandBlue mb-2" id="tbc-title">TBC Bank Payment</h3>
+                <p class="text-gray-600" id="tbc-desc">To secure your booking, please confirm the date with the driver via WhatsApp first. You will receive a direct payment link or IBAN.</p>
+            </div>
+            <button onclick="copyAndBook()" class="w-full bg-[#25D366] text-white py-3 rounded-xl font-bold flex justify-center items-center gap-2 hover:bg-green-600 transition">
+                <i class="fab fa-whatsapp"></i> WhatsApp Driver Now
+            </button>
+        </div>
+    </div>
 
     <section id="contact" class="py-16 max-w-4xl mx-auto px-4 text-center border-t border-gray-200 mt-12 no-print">
         <h2 class="font-serif text-4xl font-bold mb-4 text-brandBlue">Contact & <span class="text-brandGold">Booking</span></h2>
@@ -251,42 +285,17 @@
         </button>
     </footer>
 
-    <!-- NATIVE GEMINI AI CHATBOT WIDGET -->
-    <button id="chatbot-toggle" onclick="toggleChat()" class="fixed bottom-6 right-6 w-16 h-16 bg-brandGold text-white rounded-full shadow-2xl flex items-center justify-center text-3xl hover:bg-yellow-600 transition-transform hover:scale-110 z-50 no-print">
-        <i class="fas fa-robot"></i>
-    </button>
-
-    <div id="chatbot-panel" class="hidden fixed bottom-24 right-6 w-[360px] max-w-[90vw] h-[550px] max-h-[75vh] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col z-50 overflow-hidden no-print">
-        <div class="bg-brandBlue p-4 text-white flex justify-between items-center shadow-md">
-            <div>
-                <h3 class="font-bold font-serif flex items-center gap-2"><i class="fas fa-robot text-brandGold"></i> AI Manager</h3>
-                <p class="text-xs text-blue-200">Online & ready to calculate prices</p>
-            </div>
-            <button onclick="toggleChat()" class="text-white hover:text-gray-300 text-2xl"><i class="fas fa-times"></i></button>
-        </div>
-        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-3">
-            <div class="bg-blue-100 text-brandBlue p-3 rounded-xl rounded-tl-sm self-start max-w-[85%] text-sm shadow-sm">
-                Hello! I am the AI Booking Manager for Kutaisi Premium Transfers. Tell me where you want to go, and I will calculate the exact price for your trip!
-            </div>
-        </div>
-        <div class="p-3 bg-white border-t border-gray-200 flex gap-2">
-            <input type="text" id="chat-input" placeholder="Ask for a route or price..." class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brandGold transition" onkeypress="handleChatKeyPress(event)">
-            <button onclick="sendChatMessage()" class="bg-brandGold text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition shadow-md"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
-
     <script>
-        // 🛑 აქ ჩასმულია შენი გასაღები 2 ნაწილად დაჭრილი. რობოტები ამას ვეღარ იპოვიან!
+        // 🛑 AI KEY (გაყოფილი)
         const keyPart1 = "AIzaSyCS40ob2IpovB"; 
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
         const apiKey = keyPart1 + keyPart2;
-        
-        // ვიყენებთ gemini-2.5-flash მოდელს (ყველაზე თანამედროვეს)
         const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         
         let currentLang = 'en';
         let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
 
+        // TRANSLATION DICTIONARY
         const uiDict = {
             'en': {
                 nav: "Book Now", heroTag: "Exclusive Weekend Service", heroTitle: "Private <span class='text-brandGold'>Tours</span> & Transfers",
@@ -296,11 +305,16 @@
                 f2: "<strong>Eco-Friendly Hybrid:</strong> Toyota Prius offering a smooth journey.",
                 f3: "<strong>Stay Connected:</strong> Free Wi-Fi hotspot on board.",
                 f4: "<strong>Refreshments:</strong> Complimentary bottled water included.",
+                f5: "<strong>Languages:</strong> Driver speaks English, German, Russian, and Georgian.",
                 aiTitle: "AI Route & Price Calculator", aiDesc: "Enter a single destination OR list multiple places for a combined tour.",
-                lDest: "Where do you want to go?", lDate: "Select Date", lTime: "Pickup Time",
+                lDest: "Where do you want to go? (Intermediate Stops)", 
+                lEnd: "End Location (Default: Kutaisi)", lDate: "Select Date", lTime: "Pickup Time",
                 btnCalc: "Calculate Route & Price", resTitle: "Your Custom Quote",
                 resAction: "Send this quote to our WhatsApp to confirm your booking and check driver availability.",
-                btnBook: "Book on WhatsApp"
+                btnBook: "Book on WhatsApp", btnPay: "Pay with TBC Bank", printTop: "Premium Weekend Service",
+                // AI Output Localization Formats
+                aiRouteHeader: "### 📍 Route Details", aiItin: "Itinerary", aiDist: "Total Distance", aiDate: "Date/Time",
+                aiPriceHeader: "### 💰 Price Quote", aiFinal: "Final Price"
             },
             'ka': {
                 nav: "დაჯავშნა", heroTag: "პრემიუმ სერვისი შაბათ-კვირას", heroTitle: "პირადი <span class='text-brandGold'>ტურები</span> და ტრანსფერები",
@@ -310,11 +324,15 @@
                 f2: "<strong>ეკო-ჰიბრიდი:</strong> Toyota Prius უზრუნველყოფს მშვიდ მგზავრობას.",
                 f3: "<strong>ინტერნეტი:</strong> უფასო Wi-Fi ავტომობილში.",
                 f4: "<strong>გაგრილება:</strong> უფასო სასმელი წყალი მგზავრებისთვის.",
+                f5: "<strong>ენები:</strong> მძღოლი საუბრობს ინგლისურად, გერმანულად, რუსულად და ქართულად.",
                 aiTitle: "AI კალკულატორი / კომბინირებული ტურები", aiDesc: "შეიყვანეთ ერთი ან რამდენიმე დანიშნულების ადგილი.",
-                lDest: "სად გსურთ წასვლა?", lDate: "აირჩიეთ თარიღი", lTime: "გასვლის დრო",
+                lDest: "სად გსურთ წასვლა? (შუალედური გაჩერებები)", 
+                lEnd: "ტურის დასრულების ადგილი (დეფოლტად: ქუთაისი)", lDate: "აირჩიეთ თარიღი", lTime: "გასვლის დრო",
                 btnCalc: "ფასის და მარშრუტის დათვლა", resTitle: "თქვენი შეთავაზება",
                 resAction: "გამოგვიგზავნეთ ეს შეთავაზება WhatsApp-ში დასადასტურებლად.",
-                btnBook: "დაჯავშნა WhatsApp-ით"
+                btnBook: "დაჯავშნა WhatsApp-ით", btnPay: "გადახდა თიბისი ბანკით", printTop: "პრემიუმ სერვისი შაბათ-კვირას",
+                aiRouteHeader: "### 📍 მარშრუტის დეტალები", aiItin: "მიმართულება", aiDist: "საერთო მანძილი", aiDate: "თარიღი/დრო",
+                aiPriceHeader: "### 💰 ფასი", aiFinal: "საბოლოო ფასი"
             },
             'de': {
                 nav: "Buchen", heroTag: "Exklusiver Wochenend-Service", heroTitle: "Private <span class='text-brandGold'>Touren</span> & Transfers",
@@ -324,11 +342,15 @@
                 f2: "<strong>Eco-Hybrid:</strong> Toyota Prius für eine ruhige Fahrt.",
                 f3: "<strong>Verbunden bleiben:</strong> Kostenloses WLAN an Bord.",
                 f4: "<strong>Erfrischungen:</strong> Kostenloses Wasser inklusive.",
+                f5: "<strong>Sprachen:</strong> Fahrer spricht Englisch, Deutsch, Russisch und Georgisch.",
                 aiTitle: "AI Routen- & Preisrechner", aiDesc: "Geben Sie ein Ziel ein ODER listen Sie mehrere für eine kombinierte Tour auf.",
-                lDest: "Wohin möchten Sie fahren?", lDate: "Datum auswählen", lTime: "Abholzeit",
+                lDest: "Wohin möchten Sie fahren? (Zwischenstopps)", 
+                lEnd: "Endziel (Standard: Kutaisi)", lDate: "Datum auswählen", lTime: "Abholzeit",
                 btnCalc: "Route & Preis berechnen", resTitle: "Ihr Angebot",
                 resAction: "Senden Sie dieses Angebot an unser WhatsApp, um die Buchung zu bestätigen.",
-                btnBook: "Auf WhatsApp buchen"
+                btnBook: "Auf WhatsApp buchen", btnPay: "Mit TBC Bank bezahlen", printTop: "Premium Wochenend-Service",
+                aiRouteHeader: "### 📍 Routendetails", aiItin: "Reiseroute", aiDist: "Gesamtstrecke", aiDate: "Datum/Uhrzeit",
+                aiPriceHeader: "### 💰 Preisangebot", aiFinal: "Endpreis"
             },
             'ru': {
                 nav: "Бронь", heroTag: "Эксклюзивный сервис на выходных", heroTitle: "Частные <span class='text-brandGold'>Туры</span> и Трансферы",
@@ -338,18 +360,22 @@
                 f2: "<strong>Эко-Гибрид:</strong> Toyota Prius для плавной поездки.",
                 f3: "<strong>Интернет:</strong> Бесплатный Wi-Fi в салоне.",
                 f4: "<strong>Напитки:</strong> Бесплатная вода включена.",
+                f5: "<strong>Языки:</strong> Водитель говорит на английском, немецком, русском и грузинском.",
                 aiTitle: "AI Калькулятор", aiDesc: "Введите одно или несколько мест для комбинированного тура.",
-                lDest: "Куда вы хотите поехать?", lDate: "Выберите дату", lTime: "Время выезда",
+                lDest: "Куда вы хотите поехать? (Промежуточные остановки)", 
+                lEnd: "Место завершения (По умолчанию: Кутаиси)", lDate: "Выберите дату", lTime: "Время выезда",
                 btnCalc: "Рассчитать маршрут и цену", resTitle: "Ваше предложение",
                 resAction: "Отправьте это предложение на наш WhatsApp для подтверждения бронирования.",
-                btnBook: "Забронировать в WhatsApp"
+                btnBook: "Забронировать в WhatsApp", btnPay: "Оплата через TBC Bank", printTop: "Премиум сервис на выходных",
+                aiRouteHeader: "### 📍 Детали маршрута", aiItin: "Маршрут", aiDist: "Общее расстояние", aiDate: "Дата/Время",
+                aiPriceHeader: "### 💰 Цена", aiFinal: "Итоговая цена"
             }
         }
 
         window.onload = async () => {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('ai-date').setAttribute('min', today);
-            
+            setLang('en'); // Init lang
             try {
                 const res = await fetch('https://open.er-api.com/v6/latest/GEL');
                 const data = await res.json();
@@ -374,15 +400,24 @@
             document.getElementById('feat-2').innerHTML = dict.f2;
             document.getElementById('feat-3').innerHTML = dict.f3;
             document.getElementById('feat-4').innerHTML = dict.f4;
+            document.getElementById('feat-5').innerHTML = dict.f5;
+            document.getElementById('print-top-text').innerHTML = dict.printTop;
             document.getElementById('ai-title').innerHTML = dict.aiTitle;
             document.getElementById('ai-desc').innerHTML = dict.aiDesc;
             document.getElementById('label-dest').innerHTML = dict.lDest;
+            document.getElementById('label-end').innerHTML = dict.lEnd;
             document.getElementById('label-date').innerHTML = dict.lDate;
             document.getElementById('label-time').innerHTML = dict.lTime;
             document.getElementById('btn-calc').innerHTML = dict.btnCalc;
             document.getElementById('res-title').innerHTML = dict.resTitle;
             document.getElementById('res-action').innerHTML = dict.resAction;
             document.getElementById('btn-book').innerHTML = dict.btnBook;
+            document.getElementById('btn-pay').innerHTML = dict.btnPay;
+
+            // Modal translations
+            document.getElementById('tbc-title').innerHTML = dict.btnPay;
+            if(lang === 'ka') document.getElementById('tbc-desc').innerHTML = "ჯავშნის დასადასტურებლად, გთხოვთ ჯერ მოგვწეროთ WhatsApp-ში. ჩვენ გამოგიგზავნით თიბისი ბანკის გადახდის ლინკს ან რეკვიზიტებს.";
+            else document.getElementById('tbc-desc').innerHTML = "To secure your booking, please confirm availability via WhatsApp first. We will send you a direct TBC Bank payment link.";
 
             ['en','de','ru','ka'].forEach(l => {
                 const el = document.querySelector(`span[onclick="setLang('${l}')"]`);
@@ -394,19 +429,18 @@
         const pricingRules = `
         SYSTEM INSTRUCTIONS (STRICT):
         You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers". 
-        Vehicle: Premium Toyota Prius. Start and End point is ALWAYS Kutaisi.
+        Vehicle: Premium Toyota Prius. 
 
-        HANDLING COMBINED TOURS:
-        Calculate the optimal sequential route starting from Kutaisi, visiting all locations, and returning to Kutaisi. Calculate the TOTAL sum of the round-trip distance.
+        HANDLING ROUTES & END LOCATIONS:
+        Start point is ALWAYS Kutaisi. 
+        If an End Location is provided, calculate the distance from Kutaisi -> Destinations -> End Location. (One-way trip to end location).
+        If NO End Location is provided, assume it's a round-trip back to Kutaisi. Calculate the TOTAL sum of the distance.
 
-        MANDATORY PRICING ALGORITHM (based on TOTAL round-trip distance):
+        MANDATORY PRICING ALGORITHM (based on TOTAL calculated distance):
         1. 0 to 30 km: 2.25 GEL per km.
         2. 31 to 100 km: 1.35 GEL per km.
         3. 100+ km: 1.0 GEL per km.
-
-        RULES:
-        - NEVER mention internal driver costs or margins. Only present the final price.
-        - State that payment is required in advance via TBC Bank card.
+        - NEVER mention internal costs. Only present final price.
         `;
 
         async function fetchWithRetry(url, options, maxRetries = 5) {
@@ -428,14 +462,22 @@
 
         async function generateCustomTour() {
             const dest = document.getElementById('ai-destination').value.trim();
+            let endLoc = document.getElementById('ai-end-location').value.trim();
             const date = document.getElementById('ai-date').value;
             const time = document.getElementById('ai-time').value;
+            const dict = uiDict[currentLang];
             
             const btn = document.getElementById('generate-btn');
             const resultContainer = document.getElementById('ai-result-container');
             const responseText = document.getElementById('ai-response-text');
 
-            if (!dest) { alert("Please enter destination"); return; }
+            if (!dest && !endLoc) { alert("Please enter destination"); return; }
+            if (!endLoc) endLoc = "Kutaisi (Return)";
+
+            if(!apiKey || apiKey === "") {
+                alert("AI Key is missing!");
+                return;
+            }
 
             btn.innerHTML = '<span class="loader"></span>...';
             btn.disabled = true; btn.classList.add('opacity-70', 'cursor-not-allowed');
@@ -443,7 +485,9 @@
 
             const fullPrompt = pricingRules + `
             \n\n--- USER REQUEST ---
-            The user requested: ${dest} on Date: ${date || 'Not specified'} at Time: ${time || 'Not specified'}.
+            Destinations: ${dest} 
+            End Location: ${endLoc}
+            Date: ${date || 'Not specified'} at Time: ${time || 'Not specified'}.
             Language requested: ${currentLang}.
             Current Exchange Rates: 1 GEL = ${exchangeRates.USD} USD, 1 GEL = ${exchangeRates.EUR} EUR, 1 GEL = ${exchangeRates.RUB} RUB.
             
@@ -452,23 +496,20 @@
             - If language is 'ru', format price as: [Price] GEL (~ [Converted] RUB).
             - If language is 'ka', show ONLY GEL. NO brackets.
 
-            FORMAT OUTPUT IN ${currentLang}:
-            ### 📍 Route Details
-            * **Itinerary:** Kutaisi -> [List all Destinations] -> Kutaisi
-            * **Total Distance:** [X] km round-trip.
-            * **Date/Time:** ${date} ${time}
+            FORMAT OUTPUT EXACTLY LIKE THIS (USE THESE EXACT TRANSLATED HEADERS):
+            ${dict.aiRouteHeader}
+            * **${dict.aiItin}:** Kutaisi -> ${dest ? dest + ' -> ' : ''}${endLoc}
+            * **${dict.aiDist}:** [X] km.
+            * **${dict.aiDate}:** ${date} ${time}
             
-            ### 💰 Price Quote
-            * **Final Price:** [Formatted Price]
-            
-            *Payment is processed in advance via TBC Bank card.*
+            ${dict.aiPriceHeader}
+            * **${dict.aiFinal}:** [Formatted Price]
             `;
 
             const payload = { contents: [{ parts: [{ text: fullPrompt }] }] };
 
             try {
                 const data = await fetchWithRetry(modelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                
                 if (data && data.candidates && data.candidates[0].content) {
                     responseText.innerHTML = marked.parse(data.candidates[0].content.parts[0].text);
                     resultContainer.classList.remove('hidden');
@@ -476,75 +517,22 @@
                     throw new Error("Invalid response format from Google.");
                 }
             } catch (error) {
-                responseText.innerHTML = `<p class="text-red-600 font-bold bg-red-50 p-4 rounded-lg border border-red-200">
-                    <i class="fas fa-exclamation-triangle"></i> შეცდომა კავშირისას: ${error.message}
-                </p>`;
+                responseText.innerHTML = `<p class="text-red-600 font-bold bg-red-50 p-4 rounded-lg border border-red-200">შეცდომა: ${error.message}</p>`;
                 resultContainer.classList.remove('hidden');
             } finally {
-                btn.innerHTML = `<i class="fas fa-magic"></i> ${uiDict[currentLang].btnCalc || "Calculate"}`;
+                btn.innerHTML = `<i class="fas fa-magic"></i> ${dict.btnCalc}`;
                 btn.disabled = false; btn.classList.remove('opacity-70', 'cursor-not-allowed');
             }
         }
 
-        let chatHistory = [];
-        function toggleChat() { document.getElementById('chatbot-panel').classList.toggle('hidden'); }
-
-        async function sendChatMessage() {
-            const inputField = document.getElementById('chat-input');
-            const message = inputField.value.trim();
-            if (!message) return;
-
-            addMessageToUI(message, 'user');
-            inputField.value = '';
-            const loadingId = addMessageToUI('loading...', 'bot', true);
-
-            const chatPrompt = pricingRules + "\n\nUser says: " + message;
-            chatHistory.push({ role: "user", parts: [{ text: chatPrompt }] });
-
-            const payload = { contents: chatHistory };
-
-            try {
-                const data = await fetchWithRetry(modelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                if (data && data.candidates && data.candidates[0].content) {
-                    const replyText = data.candidates[0].content.parts[0].text;
-                    document.getElementById(loadingId).remove();
-                    addMessageToUI(replyText, 'bot');
-                    chatHistory[chatHistory.length - 1] = { role: "user", parts: [{ text: message }] }; 
-                    chatHistory.push({ role: "model", parts: [{ text: replyText }] });
-                } else throw new Error("Invalid response");
-            } catch (error) {
-                document.getElementById(loadingId).remove();
-                addMessageToUI(`**Error:** ${error.message}`, 'bot');
-                chatHistory.pop();
-            }
-        }
-
-        function addMessageToUI(text, sender, isLoading = false) {
-            const container = document.getElementById('chat-messages');
-            const msgDiv = document.createElement('div');
-            const id = 'msg-' + Date.now();
-            msgDiv.id = id;
-
-            if (sender === 'user') {
-                msgDiv.className = 'bg-brandBlue text-white p-3 rounded-xl rounded-tr-sm self-end max-w-[85%] text-sm shadow-sm';
-                msgDiv.textContent = text;
-            } else {
-                msgDiv.className = 'bg-blue-100 text-brandBlue p-3 rounded-xl rounded-tl-sm self-start max-w-[85%] text-sm shadow-sm chat-prose';
-                if (isLoading) msgDiv.innerHTML = '<span class="loader" style="width:16px; height:16px; border-width: 2px;"></span>';
-                else msgDiv.innerHTML = marked.parse(text);
-            }
-            container.appendChild(msgDiv);
-            container.scrollTop = container.scrollHeight;
-            return id;
-        }
-
-        function handleChatKeyPress(event) { if (event.key === 'Enter') sendChatMessage(); }
-
         function copyAndBook() {
             const textToCopy = document.getElementById('ai-response-text').innerText;
-            const waMessage = encodeURIComponent("Hello! I got this quote from your site. Is the driver available for this time?\n\n" + textToCopy);
+            const waMessage = encodeURIComponent("Hello! I got this quote from your site. Is the driver available?\n\n" + textToCopy);
             window.open('https://wa.me/995568004140?text=' + waMessage, '_blank');
         }
+
+        function openTbcModal() { document.getElementById('tbc-modal').classList.remove('hidden'); }
+        function closeTbcModal() { document.getElementById('tbc-modal').classList.add('hidden'); }
 
         function printHotelBrochure() { 
             document.body.classList.add('print-mode-hotel'); 
