@@ -285,8 +285,8 @@
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
         const apiKey = keyPart1 + keyPart2;
         
-        // 🔄 შეცვლილია gemini-2.0-flash-ზე, რომელმაც 1500-იანი ლიმიტი უნდა მოგვცეს.
-        const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+        // 🚀 ძრავა შეიცვალა gemini-1.5-flash-8b-ზე (გვაძლევს 1500 უფასო მოთხოვნას დღეში!)
+        const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key=${apiKey}`;
         
         let currentLang = 'en';
         let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
