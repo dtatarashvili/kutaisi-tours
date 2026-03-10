@@ -280,13 +280,13 @@
     </div>
 
     <script>
-        // 🛑 შენი ახალი გაყოფილი გასაღები 
+        // 🛑 შენი გაყოფილი გასაღები თავის ადგილზეა
         const keyPart1 = "AIzaSyCS40ob2IpovB"; 
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
         const apiKey = keyPart1 + keyPart2;
         
-        // 🚀 ერთადერთი მუშა მოდელი: gemini-2.0-flash (ბარათის მიბმის შემდეგ 100% იმუშავებს)
-        const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+        // 🚀 ძრავა დაბრუნდა უახლეს მოდელზე (gemini-2.5-flash), რომელსაც ახლა უკვე ულიმიტო ძალა აქვს ბარათის გამო!
+        const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         
         let currentLang = 'en';
         let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
