@@ -413,6 +413,16 @@
             });
         }
 
+        // 💰 JavaScript Helper - სუფთა მათემატიკა ვალუტებისთვის
+        function formatPriceStr(price, lang) {
+            let p = parseFloat(price);
+            if (lang === 'ka') return `${p.toFixed(2)} GEL`;
+            if (lang === 'en') return `${p.toFixed(2)} GEL (~ ${(p * exchangeRates.USD).toFixed(2)} USD)`;
+            if (lang === 'de') return `${p.toFixed(2)} GEL (~ ${(p * exchangeRates.EUR).toFixed(2)} EUR)`;
+            if (lang === 'ru') return `${p.toFixed(2)} GEL (~ ${(p * exchangeRates.RUB).toFixed(2)} RUB)`;
+            return `${p.toFixed(2)} GEL`;
+        }
+
         // 🚀 Google Maps ჩატვირთვა
         function loadGoogleMaps() {
             return new Promise((resolve, reject) => {
@@ -429,7 +439,7 @@
         }
 
         // მარშრუტის კილომეტრაჟის დათვლა
-        async function runMapsRequest(directionsService, request) {
+        async function runMapsRequest(directionsService, request, lang) {
             return new Promise((resolve, reject) => {
                 directionsService.route(request, (result, status) => {
                     if (status === 'OK') {
@@ -449,15 +459,18 @@
                             });
                         });
 
+                        // 💰 ტარიფის დათვლა ზუსტი JavaScript ლოგიკით
                         let price = 0;
                         if (totalKm <= 30) price = totalKm * 2.25;
                         else if (totalKm <= 100) price = totalKm * 1.35;
                         else price = totalKm * 1.0;
 
+                        let formattedPriceStr = formatPriceStr(price, lang);
+
                         resolve({
                             distanceKm: parseFloat(totalKm.toFixed(1)),
                             estimatedTimeMins: Math.round(totalMins),
-                            priceGEL: price.toFixed(2),
+                            formattedPrice: formattedPriceStr,
                             segments: segments
                         });
                     } else { reject(status); }
@@ -465,7 +478,7 @@
             });
         }
 
-        async function getMapsData(destStr, endLocStr) {
+        async function getMapsData(destStr, endLocStr, lang) {
             const directionsService = new google.maps.DirectionsService();
             const rawDestArray = destStr.split(/[,დაиand]+/).map(s => s.trim()).filter(s => s);
             
@@ -478,7 +491,6 @@
                 destination += ', Georgia';
             }
 
-            // ვქმნით მოთხოვნას 
             const createReq = (optimize) => ({
                 origin: 'Kutaisi Center, Georgia',
                 destination: destination,
@@ -488,17 +500,17 @@
             });
 
             if (rawDestArray.length <= 1) {
-                const res = await runMapsRequest(directionsService, createReq(false));
+                const res = await runMapsRequest(directionsService, createReq(false), lang);
                 return { optimized: res, original: res, isOptimized: false };
             } else {
                 // ვაგზავნით 2 დამოუკიდებელ მოთხოვნას
                 const [resOrig, resOpt] = await Promise.all([
-                    runMapsRequest(directionsService, createReq(false)), 
-                    runMapsRequest(directionsService, createReq(true))
+                    runMapsRequest(directionsService, createReq(false), lang), 
+                    runMapsRequest(directionsService, createReq(true), lang)
                 ]);
                 
                 // ვამოწმებთ თუ ოპტიმიზებული ვარიანტი რეალურად უფრო მოკლეა
-                let isOptimized = resOpt.distanceKm < (resOrig.distanceKm - 0.5); // 0.5კმ ცდომილების დაშვება
+                let isOptimized = resOpt.distanceKm < (resOrig.distanceKm - 0.5);
                 return { optimized: resOpt, original: resOrig, isOptimized: isOptimized };
             }
         }
@@ -540,23 +552,22 @@
                 let mapsData = null;
                 try {
                     await loadGoogleMaps();
-                    mapsData = await getMapsData(dest, endLocRaw);
+                    mapsData = await getMapsData(dest, endLocRaw, currentLang);
                 } catch(e) { console.log("Maps Data Failed:", e); }
 
                 let fullPrompt = `
                 You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers".
-                CRITICAL RULE - OFF-ROAD ZONES: No tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. If requested, set status to "OFFROAD" and return refusal message.
+                CRITICAL RULE - OFF-ROAD ZONES: No tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. If requested, set status to "OFFROAD" and return refusal message in the requested language.
                 
                 User Request: Destinations: ${dest} | End: ${endLoc || 'Kutaisi'} | Lang: ${currentLang}.
-                Rates: 1GEL=${exchangeRates.USD}USD, 1GEL=${exchangeRates.EUR}EUR, 1GEL=${exchangeRates.RUB}RUB.
-                Price Format: [Price] GEL (~ [Converted] USD/EUR/RUB). If language is 'ka', show ONLY GEL.
                 `;
 
                 if (mapsData) {
                     fullPrompt += `
-                    GOOGLE MAPS DATA (ABSOLUTE TRUTH):
-                    Optimized Route: Distance: ${mapsData.optimized.distanceKm} km, Time: ${mapsData.optimized.estimatedTimeMins} mins, Price: ${mapsData.optimized.priceGEL} GEL, Segments: ${JSON.stringify(mapsData.optimized.segments)}.
-                    Original Route: Distance: ${mapsData.original.distanceKm} km, Time: ${mapsData.original.estimatedTimeMins} mins, Price: ${mapsData.original.priceGEL} GEL, Segments: ${JSON.stringify(mapsData.original.segments)}.
+                    GOOGLE MAPS DATA (ABSOLUTE TRUTH - I HAVE ALREADY CALCULATED EVERYTHING IN JAVASCRIPT):
+                    You MUST return exactly this data back to me in JSON format. Do not change distances or prices!
+                    Optimized Route: Distance: ${mapsData.optimized.distanceKm} km, Time: ${mapsData.optimized.estimatedTimeMins} mins, Price: "${mapsData.optimized.formattedPrice}", Segments: ${JSON.stringify(mapsData.optimized.segments)}.
+                    Original Route: Distance: ${mapsData.original.distanceKm} km, Time: ${mapsData.original.estimatedTimeMins} mins, Price: "${mapsData.original.formattedPrice}", Segments: ${JSON.stringify(mapsData.original.segments)}.
                     `;
                     if (mapsData.isOptimized) {
                         fullPrompt += `Set status to "OPTIMIZED". YOU MUST POPULATE BOTH 'optimizedRoute' AND 'originalRoute'.`;
@@ -567,7 +578,7 @@
                     fullPrompt += `Calculate logical route. Set status to STANDARD.`;
                 }
 
-                // 🛑 რკინისებრი Schema - ორიგინალი ვარიანტის დამალვა აკრძალულია!
+                // 🛑 რკინისებრი Schema
                 const payload = { 
                     contents: [{ parts: [{ text: fullPrompt }] }],
                     generationConfig: {
@@ -590,7 +601,7 @@
                                     }
                                 }
                             },
-                            required: ["status", "optimizedRoute", "originalRoute"] // ეს აიძულებს AI-ს ორივე ვარიანტი დაწეროს!
+                            required: ["status", "optimizedRoute", "originalRoute"] 
                         }
                     }
                 };
