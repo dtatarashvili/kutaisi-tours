@@ -131,7 +131,6 @@
 
     <section class="vehicle-section py-12 max-w-6xl mx-auto px-4">
         <div class="glass-card p-8 flex flex-col md:flex-row items-center gap-10">
-            <!-- 📸 Place your image here -->
             <div class="vehicle-image-wrapper w-full md:w-1/2">
                 <img src="https://placehold.co/800x600/1E3A8A/FFFFFF?text=Photo:+You+%26+Your+Prius" alt="Your Premium Driver and Vehicle" class="rounded-xl w-full shadow-md border border-gray-200 object-cover" style="aspect-ratio: 4/3;">
             </div>
@@ -281,13 +280,13 @@
     </div>
 
     <script>
-        // 🛑 შენი ახალი გაყოფილი გასაღები
+        // 🛑 შენი ახალი გაყოფილი გასაღები 
         const keyPart1 = "AIzaSyCS40ob2IpovB"; 
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
         const apiKey = keyPart1 + keyPart2;
         
-        // 🚀 ერთადერთი მოდელი, რომელიც 2026 წლის ამ Preview გარემოში მუშაობს:
-        const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        // 🚀 ერთადერთი მუშა მოდელი: gemini-2.0-flash (ბარათის მიბმის შემდეგ 100% იმუშავებს)
+        const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
         
         let currentLang = 'en';
         let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
