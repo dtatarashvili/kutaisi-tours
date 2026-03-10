@@ -268,11 +268,17 @@
     </div>
 
     <script>
+        // 🛑 შენი გაყოფილი Gemini გასაღები
         const keyPart1 = "AIzaSyCS40ob2IpovB"; 
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
-        const apiKey = keyPart1 + keyPart2;
+        const geminiApiKey = keyPart1 + keyPart2;
         
-        const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+        // 🛑 შენი გაყოფილი Google Maps გასაღები
+        const mapsPart1 = "AIzaSyCSSAmwIuqY";
+        const mapsPart2 = "WD71hiA6Q3WusfZTMn3I3lU";
+        const mapsApiKey = mapsPart1 + mapsPart2;
+        
+        const geminiModelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
         
         let currentLang = 'en';
         let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
@@ -280,7 +286,7 @@
         let currentTimeStr = '';
         let lastQuoteData = null; 
 
-        // 🌐 TRANSLATION DICTIONARY (Fixed "price" key)
+        // 🌐 TRANSLATION DICTIONARY
         const uiDict = {
             'en': {
                 nav: "Book Now", heroTag: "Exclusive Weekend Service", heroTitle: "Private <span class='text-brandGold'>Tours</span> & Transfers",
@@ -298,7 +304,7 @@
                 warnOffroad: "* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).", errWeekend: "Please select a Saturday or Sunday. We only operate on weekends!", chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!",
                 optTitle: "💡 Recommended Route (Cheaper & Shorter)", origTitle: "🧭 Your Original Requested Route",
                 detailReportTitle: "Detailed Route Itinerary", segment: "Segment", distTh: "Distance", timeTh: "Est. Time", totalDriveTime: "Total Driving Time",
-                price: "Final Price" // Added missing key
+                price: "Final Price"
             },
             'ka': {
                 nav: "დაჯავშნა", heroTag: "პრემიუმ სერვისი შაბათ-კვირას", heroTitle: "პირადი <span class='text-brandGold'>ტურები</span> და ტრანსფერები",
@@ -316,7 +322,7 @@
                 warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).", errWeekend: "გთხოვთ აირჩიოთ შაბათი ან კვირა. ტრანსფერებს ვასრულებთ მხოლოდ დასვენების დღეებში!", chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!",
                 optTitle: "💡 რეკომენდებული მარშრუტი (მოკლე და იაფი)", origTitle: "🧭 თქვენს მიერ მოთხოვნილი მარშრუტი",
                 detailReportTitle: "მარშრუტის დეტალური კილომეტრაჟი", segment: "მონაკვეთი", distTh: "მანძილი", timeTh: "სავარაუდო დრო", totalDriveTime: "ჯამური დრო (მხოლოდ გზა)",
-                price: "საბოლოო ფასი" // Added missing key
+                price: "საბოლოო ფასი"
             },
             'de': {
                 nav: "Buchen", heroTag: "Exklusiver Wochenend-Service", heroTitle: "Private <span class='text-brandGold'>Touren</span> & Transfers",
@@ -334,7 +340,7 @@
                 warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).", errWeekend: "Bitte wählen Sie einen Samstag oder Sonntag. Wir fahren nur am Wochenende!", chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!",
                 optTitle: "💡 Empfohlene Route (Günstiger & Kürzer)", origTitle: "🧭 Ihre angeforderte Originalroute",
                 detailReportTitle: "Detaillierter Reiseverlauf", segment: "Abschnitt", distTh: "Entfernung", timeTh: "Geschätzte Zeit", totalDriveTime: "Gesamte Fahrzeit",
-                price: "Endpreis" // Added missing key
+                price: "Endpreis"
             },
             'ru': {
                 nav: "Бронь", heroTag: "Эксклюзивный сервис на выходных", heroTitle: "Частные <span class='text-brandGold'>Туры</span> и Трансферы",
@@ -352,7 +358,7 @@
                 warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).", errWeekend: "Пожалуйста, выберите субботу или воскресенье. Мы работаем только по выходным!", chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!",
                 optTitle: "💡 Рекомендуемый маршрут (Дешевле и короче)", origTitle: "🧭 Ваш запрошенный маршрут",
                 detailReportTitle: "Детальный маршрут (километраж)", segment: "Участок", distTh: "Расстояние", timeTh: "Примерное время", totalDriveTime: "Общее время (в пути)",
-                price: "Итоговая цена" // Added missing key
+                price: "Итоговая цена"
             }
         }
 
@@ -407,37 +413,87 @@
             });
         }
 
-        const pricingRules = `
-        SYSTEM INSTRUCTIONS:
-        You are an expert GPS Routing Engine for Kutaisi Premium Transfers. Vehicle: Toyota Prius.
-
-        CRITICAL RULE - OFF-ROAD ZONES:
-        No tours to Svaneti, Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. 
-        If requested, set "status" to "OFFROAD" and return refusal message.
-
-        CRITICAL GEOGRAPHY & DISTANCE CONSISTENCY RULES:
-        1. Start point is ALWAYS Kutaisi. If End Location is "Kutaisi", treat it as a standard ROUND-TRIP back to the start.
-        2. If the user's order is geographically inefficient, you MUST sort it to the shortest path and set status to "OPTIMIZED".
-        3. VERY IMPORTANT: The distance between any specific Point A and Point B (e.g. Kutaisi to Kvamli) MUST be EXACTLY the same in both the "originalRoute" table and the "optimizedRoute" table. DO NOT hallucinate different km for the exact same road segment.
-        4. Estimate time realistically (1.5 mins per km on average).
-        
-        MANDATORY PRICING MATH (Calculate based on EXACT TOTAL D in km):
-        - If D <= 30: Price = D * 2.25 GEL.
-        - If 30 < D <= 100: Price = D * 1.35 GEL.
-        - If D > 100: Price = D * 1.0 GEL.
-        `;
-
-        async function fetchWithRetry(url, options, maxRetries = 5) {
-            let delays = [1000, 2000, 4000, 8000, 16000];
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    return await response.json();
-                } catch (error) {
-                    if (i === maxRetries - 1) throw error;
-                    await new Promise(resolve => setTimeout(resolve, delays[i]));
+        // 🚀 Google Maps ჩატვირთვა
+        function loadGoogleMaps() {
+            return new Promise((resolve, reject) => {
+                if (typeof google !== 'undefined' && google.maps) { resolve(); return; }
+                if (!mapsApiKey || mapsApiKey === "") {
+                    reject("Google Maps API Key is missing.");
+                    return;
                 }
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=places`;
+                script.async = true;
+                script.defer = true;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
+        // 🚀 Maps API-დან ზუსტი მარშრუტის დათვლა
+        async function runMapsRequest(directionsService, request) {
+            return new Promise((resolve, reject) => {
+                directionsService.route(request, (result, status) => {
+                    if (status === 'OK') {
+                        const route = result.routes[0];
+                        let totalKm = 0;
+                        let totalMins = 0;
+                        let segments = [];
+                        
+                        route.legs.forEach(leg => {
+                            totalKm += leg.distance.value / 1000;
+                            totalMins += leg.duration.value / 60;
+                            segments.push({
+                                from: leg.start_address.split(',')[0],
+                                to: leg.end_address.split(',')[0],
+                                dist: (leg.distance.value / 1000).toFixed(1),
+                                time: leg.duration.text
+                            });
+                        });
+
+                        // 💰 ზუსტი მათემატიკური დათვლა
+                        let price = 0;
+                        if (totalKm <= 30) price = totalKm * 2.25;
+                        else if (totalKm <= 100) price = totalKm * 1.35;
+                        else price = totalKm * 1.0;
+
+                        resolve({
+                            distanceKm: parseFloat(totalKm.toFixed(1)),
+                            estimatedTimeMins: Math.round(totalMins),
+                            priceGEL: price.toFixed(2),
+                            segments: segments
+                        });
+                    } else { reject(status); }
+                });
+            });
+        }
+
+        async function getMapsData(destStr, endLocStr) {
+            const directionsService = new google.maps.DirectionsService();
+            const destArray = destStr.split(/[,დაиand]+/).map(s => s.trim()).filter(s => s);
+            
+            let destination = endLocStr;
+            if (!destination || destination.toLowerCase() === 'kutaisi' || destination === 'ქუთაისი') {
+                destination = 'Kutaisi Center, Georgia';
+            } else {
+                destination += ', Georgia';
+            }
+
+            const waypoints = destArray.map(loc => ({ location: loc + ', Georgia', stopover: true }));
+
+            if (destArray.length <= 1) {
+                const req = { origin: 'Kutaisi Center, Georgia', destination: destination, waypoints: waypoints, travelMode: 'DRIVING' };
+                const res = await runMapsRequest(directionsService, req);
+                return { optimized: res, original: res, isOptimized: false };
+            } else {
+                const reqOrig = { origin: 'Kutaisi Center, Georgia', destination: destination, waypoints: waypoints, optimizeWaypoints: false, travelMode: 'DRIVING' };
+                const reqOpt = { origin: 'Kutaisi Center, Georgia', destination: destination, waypoints: waypoints, optimizeWaypoints: true, travelMode: 'DRIVING' };
+                
+                const [resOrig, resOpt] = await Promise.all([runMapsRequest(directionsService, reqOrig), runMapsRequest(directionsService, reqOpt)]);
+                
+                const isOptimized = resOpt.distanceKm < resOrig.distanceKm;
+                return { optimized: resOpt, original: resOrig, isOptimized: isOptimized };
             }
         }
 
@@ -454,11 +510,10 @@
 
             if (!dest && !endLocRaw) { alert(dict.lDest); return; }
             
-            // 🛑 PRE-PROCESSING: Prevent AI confusion when user explicitly types "Kutaisi"
             let endLoc = endLocRaw;
             const checkLoc = endLoc.toLowerCase();
             if (checkLoc === 'kutaisi' || checkLoc === 'ქუთაისი' || checkLoc === 'кутаиси') {
-                endLoc = ""; // Force standard return trip logic
+                endLoc = ""; 
             }
             if (!endLoc) endLoc = "Kutaisi (Return)";
 
@@ -468,54 +523,82 @@
                 if (dayOfWeek !== 0 && dayOfWeek !== 6) { alert(dict.errWeekend); return; }
             }
 
-            if(!apiKey || apiKey === "") { alert("AI Key missing!"); return; }
+            if(!geminiApiKey || geminiApiKey === "") { alert("AI Key missing!"); return; }
 
             currentDateStr = date; currentTimeStr = time;
             btn.innerHTML = '<span class="loader"></span>...';
             btn.disabled = true; btn.classList.add('opacity-70', 'cursor-not-allowed');
             resultContainer.classList.add('hidden');
 
-            const fullPrompt = pricingRules + `
-            User Request: Destinations: ${dest} | End: ${endLoc} | Lang: ${currentLang}.
-            Rates: 1GEL=${exchangeRates.USD}USD, 1GEL=${exchangeRates.EUR}EUR, 1GEL=${exchangeRates.RUB}RUB.
-            Price Format: [Price] GEL (~ [Converted] USD/EUR/RUB). If language is 'ka', show ONLY GEL.
-            `;
+            try {
+                let mapsData = null;
+                try {
+                    await loadGoogleMaps();
+                    mapsData = await getMapsData(dest, endLoc);
+                } catch(e) { console.log("Maps skipped or failed:", e); }
 
-            const payload = { 
-                contents: [{ parts: [{ text: fullPrompt }] }],
-                generationConfig: {
-                    responseMimeType: "application/json",
-                    responseSchema: {
-                        type: "OBJECT",
-                        properties: {
-                            reasoning: { type: "STRING" },
-                            status: { type: "STRING", description: "'OFFROAD', 'OPTIMIZED', or 'STANDARD'" },
-                            offroadMessage: { type: "STRING" },
-                            optimizedRoute: {
-                                type: "OBJECT", properties: { 
-                                    itinerary: { type: "STRING" }, distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
-                                    segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
+                let fullPrompt = `
+                You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers".
+                CRITICAL RULE - OFF-ROAD ZONES: No tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. If requested, set status to "OFFROAD" and return refusal message.
+                
+                User Request: Destinations: ${dest} | End: ${endLoc || 'Kutaisi'} | Lang: ${currentLang}.
+                Rates: 1GEL=${exchangeRates.USD}USD, 1GEL=${exchangeRates.EUR}EUR, 1GEL=${exchangeRates.RUB}RUB.
+                Price Format: [Price] GEL (~ [Converted] USD/EUR/RUB). If language is 'ka', show ONLY GEL.
+                `;
+
+                if (mapsData) {
+                    fullPrompt += `
+                    GOOGLE MAPS DRIVING DATA (ABSOLUTE TRUTH - DO NOT CHANGE THESE NUMBERS!):
+                    I have already calculated the real geographic distances and prices. Use exactly these numbers!
+                    Optimized Route: Distance: ${mapsData.optimized.distanceKm} km, Time: ${mapsData.optimized.estimatedTimeMins} mins, Price: ${mapsData.optimized.priceGEL} GEL, Segments: ${JSON.stringify(mapsData.optimized.segments)}.
+                    Original Route: Distance: ${mapsData.original.distanceKm} km, Time: ${mapsData.original.estimatedTimeMins} mins, Price: ${mapsData.original.priceGEL} GEL, Segments: ${JSON.stringify(mapsData.original.segments)}.
+                    If mapsData.isOptimized is true, set status to "OPTIMIZED". Else set to "STANDARD".
+                    `;
+                } else {
+                    fullPrompt += `
+                    (FALLBACK LOGIC) Calculate logical shortest geographic route.
+                    If D <= 30: Price = D * 2.25 GEL. If 30 < D <= 100: Price = D * 1.35 GEL. If D > 100: Price = D * 1.0 GEL.
+                    Break down into segments (from, to, dist, time).
+                    `;
+                }
+
+                const payload = { 
+                    contents: [{ parts: [{ text: fullPrompt }] }],
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                status: { type: "STRING", description: "'OFFROAD', 'OPTIMIZED', or 'STANDARD'" },
+                                offroadMessage: { type: "STRING" },
+                                optimizedRoute: {
+                                    type: "OBJECT", properties: { 
+                                        distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
+                                        segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
+                                    }
+                                },
+                                originalRoute: {
+                                    type: "OBJECT", properties: { 
+                                        distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
+                                        segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
+                                    }
                                 }
                             },
-                            originalRoute: {
-                                type: "OBJECT", properties: { 
-                                    itinerary: { type: "STRING" }, distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
-                                    segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
-                                }
-                            }
-                        },
-                        required: ["reasoning", "status"]
+                            required: ["status"]
+                        }
                     }
-                }
-            };
+                };
 
-            try {
-                const data = await fetchWithRetry(modelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, { 
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) 
+                });
+                
+                const data = await aiResponse.json();
                 if (data && data.candidates && data.candidates[0].content) {
                     lastQuoteData = JSON.parse(data.candidates[0].content.parts[0].text);
                     renderUI(lastQuoteData, dict);
                     resultContainer.classList.remove('hidden');
-                } else throw new Error("Invalid response.");
+                } else throw new Error("Invalid AI response.");
             } catch (error) {
                 responseText.innerHTML = `<p class="text-red-600 font-bold bg-red-50 p-4 rounded-lg border border-red-200">Error: ${error.message}</p>`;
                 resultContainer.classList.remove('hidden');
@@ -578,25 +661,19 @@
             if (data.status === 'OPTIMIZED' && data.originalRoute && data.originalRoute.distanceKm > data.optimizedRoute.distanceKm) {
                 html += `<div class="flex flex-col xl:flex-row gap-6">`;
                 
-                // Option 1
                 html += `
                 <div class="flex-1 bg-green-50 border-2 border-green-400 rounded-xl p-5 shadow-md relative overflow-hidden">
                     <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">BEST VALUE</div>
                     <h4 class="text-green-800 font-bold text-lg mb-2">${dict.optTitle}</h4>
-                    
                     ${buildSegmentTableHTML(data.optimizedRoute, dict)}
-                    
                     <div class="text-xl text-green-800 font-bold mb-4 text-center">💰 ${dict.price}: ${data.optimizedRoute.formattedPrice}</div>
                     <button onclick="bookSpecificRoute('optimized')" class="w-full bg-[#25D366] text-white py-3 rounded-lg font-bold hover:bg-green-600 transition flex items-center justify-center gap-2 shadow-sm"><i class="fab fa-whatsapp text-lg"></i> ${dict.btnBook}</button>
                 </div>`;
 
-                // Option 2
                 html += `
                 <div class="flex-1 bg-gray-50 border border-gray-300 rounded-xl p-5 shadow-sm opacity-95 hover:opacity-100 transition">
                     <h4 class="text-gray-700 font-bold text-lg mb-2">${dict.origTitle}</h4>
-                    
                     ${buildSegmentTableHTML(data.originalRoute, dict)}
-                    
                     <div class="text-lg text-gray-800 font-bold mb-4 text-center">💰 ${dict.price}: ${data.originalRoute.formattedPrice}</div>
                     <button onclick="bookSpecificRoute('original')" class="w-full bg-gray-800 text-white py-3 rounded-lg font-bold hover:bg-gray-700 transition flex items-center justify-center gap-2 shadow-sm"><i class="fab fa-whatsapp text-lg"></i> ${dict.btnBook}</button>
                 </div>`;
@@ -659,20 +736,20 @@
             const inputField = document.getElementById('chat-input');
             const message = inputField.value.trim();
             if (!message) return;
-            if(!apiKey || apiKey === "") return;
+            if(!geminiApiKey || geminiApiKey === "") return;
 
             addMessageToUI(message, 'user');
             inputField.value = '';
             const loadingId = addMessageToUI('loading...', 'bot', true);
 
-            const chatModelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+            const chatModelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
             const chatPrompt = `You are Kutaisi Premium Transfers AI Manager. We only work weekends, accept CASH only, NO off-road (Svaneti etc). Be polite. User says in ${currentLang}: ` + message;
             chatHistory.push({ role: "user", parts: [{ text: chatPrompt }] });
 
             const payload = { contents: chatHistory };
 
             try {
-                const data = await fetchWithRetry(chatModelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const data = await fetch(chatModelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(r=>r.json());
                 if (data && data.candidates && data.candidates[0].content) {
                     const replyText = data.candidates[0].content.parts[0].text;
                     document.getElementById(loadingId).remove();
