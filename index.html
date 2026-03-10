@@ -196,8 +196,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-xl border border-gray-100 ai-inputs relative z-10">
                 <div class="md:col-span-2">
                     <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-dest">Where do you want to go? (Intermediate Stops)</label>
-                    <input type="text" id="ai-destination" placeholder="e.g., Prometheus Cave, Motsameta, Gelati..." class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
-                    <!-- Off-road Warning -->
+                    <input type="text" id="ai-destination" placeholder="e.g., Prometheus Cave, Martvili Canyon..." class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
                     <p id="warn-offroad" class="text-xs text-red-500 font-bold mt-2">* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).</p>
                 </div>
                 <div class="md:col-span-2">
@@ -225,16 +224,8 @@
                 <div class="border-t border-gray-200 pt-8">
                     <h3 class="font-serif text-2xl font-bold text-brandBlue mb-4 flex items-center gap-2 no-print"><i class="fas fa-file-invoice-dollar text-brandGold"></i> <span id="res-title">Your Custom Quote</span></h3>
                     
-                    <div id="ai-response-text" class="prose max-w-none text-gray-800 bg-blue-50/50 p-6 rounded-xl border border-blue-100 shadow-inner">
-                    </div>
-                    
-                    <div class="mt-6 text-center bg-yellow-50 p-6 rounded-xl border border-yellow-200 no-print">
-                        <p class="text-gray-700 font-medium mb-4" id="res-action">Send this quote to our WhatsApp to confirm your booking and check driver availability.</p>
-                        <div class="flex justify-center">
-                            <button onclick="copyAndBook()" class="bg-[#25D366] text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-green-600 transition shadow-md flex items-center justify-center gap-3 w-full sm:w-auto">
-                                <i class="fab fa-whatsapp text-xl"></i> <span id="btn-book">Book on WhatsApp</span>
-                            </button>
-                        </div>
+                    <!-- Dynamic UI injected here -->
+                    <div id="ai-response-text" class="w-full">
                     </div>
                 </div>
             </div>
@@ -294,13 +285,14 @@
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
         const apiKey = keyPart1 + keyPart2;
         
-        // 🚀 ძრავა
+        // 🚀 ძრავა (JSON Response)
         const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         
         let currentLang = 'en';
         let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
+        let currentDateStr = '';
+        let currentTimeStr = '';
 
-        // 🌐 TRANSLATION DICTIONARY
         const uiDict = {
             'en': {
                 nav: "Book Now", heroTag: "Exclusive Weekend Service", heroTitle: "Private <span class='text-brandGold'>Tours</span> & Transfers",
@@ -312,20 +304,13 @@
                 f4: "<strong>Refreshments:</strong> Complimentary bottled water included.",
                 f5: "<strong>Languages:</strong> Driver speaks English, German, Russian, and Georgian.",
                 aiTitle: "AI Route & Price Calculator", aiDesc: "Enter a single destination OR list multiple places for a combined tour.",
-                lDest: "Where do you want to go? (Intermediate Stops)", 
-                lEnd: "End Location (Default: Kutaisi)", lDate: "Select Date (Weekends Only)", lTime: "Pickup Time",
-                btnCalc: "Calculate Route & Price", resTitle: "Your Custom Quote",
-                resAction: "Send this quote to our WhatsApp to confirm your booking and check driver availability.",
-                btnBook: "Book on WhatsApp", 
-                printTop: "Premium Weekend Service",
-                printTitle: "✨ Custom AI Tour Planner",
-                printDesc: "Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!",
-                printScan: "Scan to Plan!",
-                warnOffroad: "* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).",
-                aiRouteHeader: "### 📍 Route Details", aiItin: "Itinerary", aiDist: "Total Distance", aiDate: "Date/Time",
-                aiPriceHeader: "### 💰 Price Quote", aiFinal: "Final Price", errWeekend: "Please select a Saturday or Sunday. We only operate on weekends!",
-                chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!",
-                aiOptNote: "Route Optimization"
+                lDest: "Where do you want to go? (Intermediate Stops)", lEnd: "End Location (Default: Kutaisi)", lDate: "Select Date (Weekends Only)", lTime: "Pickup Time",
+                btnCalc: "Calculate Route & Price", resTitle: "Your Custom Quote", resAction: "Send this quote to our WhatsApp to confirm your booking and check driver availability.",
+                btnBook: "Book this Option", printTop: "Premium Weekend Service", printTitle: "✨ Custom AI Tour Planner", printDesc: "Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!", printScan: "Scan to Plan!",
+                warnOffroad: "* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).", errWeekend: "Please select a Saturday or Sunday. We only operate on weekends!", chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!",
+                // JSON UI
+                optTitle: "💡 Recommended Route (Cheaper & Shorter)", origTitle: "🧭 Your Original Requested Route",
+                itinerary: "Itinerary", distance: "Total Distance", price: "Final Price"
             },
             'ka': {
                 nav: "დაჯავშნა", heroTag: "პრემიუმ სერვისი შაბათ-კვირას", heroTitle: "პირადი <span class='text-brandGold'>ტურები</span> და ტრანსფერები",
@@ -337,20 +322,13 @@
                 f4: "<strong>გაგრილება:</strong> უფასო სასმელი წყალი მგზავრებისთვის.",
                 f5: "<strong>ენები:</strong> მძღოლი საუბრობს ინგლისურად, გერმანულად, რუსულად და ქართულად.",
                 aiTitle: "AI კალკულატორი / კომბინირებული ტურები", aiDesc: "შეიყვანეთ ერთი ან რამდენიმე დანიშნულების ადგილი.",
-                lDest: "სად გსურთ წასვლა? (შუალედური გაჩერებები)", 
-                lEnd: "ტურის დასრულების ადგილი (დეფოლტად: ქუთაისი)", lDate: "აირჩიეთ თარიღი (მხოლოდ შაბათ-კვირა)", lTime: "გასვლის დრო",
-                btnCalc: "ფასის და მარშრუტის დათვლა", resTitle: "თქვენი შეთავაზება",
-                resAction: "გამოგვიგზავნეთ ეს შეთავაზება WhatsApp-ში დასადასტურებლად.",
-                btnBook: "დაჯავშნა WhatsApp-ით", 
-                printTop: "პრემიუმ სერვისი შაბათ-კვირას",
-                printTitle: "✨ AI ტურის დამგეგმავი",
-                printDesc: "დაასკანერეთ QR კოდი და დაგეგმეთ ტური AI-ს დახმარებით. კალკულატორი წამებში დაგითვლით ზუსტ ფასს!",
-                printScan: "დაასკანერე!",
-                warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).",
-                aiRouteHeader: "### 📍 მარშრუტის დეტალები", aiItin: "მიმართულება", aiDist: "საერთო მანძილი", aiDate: "თარიღი/დრო",
-                aiPriceHeader: "### 💰 ფასი", aiFinal: "საბოლოო ფასი", errWeekend: "გთხოვთ აირჩიოთ შაბათი ან კვირა. ტრანსფერებს ვასრულებთ მხოლოდ დასვენების დღეებში!",
-                chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!",
-                aiOptNote: "მარშრუტის ოპტიმიზაცია"
+                lDest: "სად გსურთ წასვლა? (შუალედური გაჩერებები)", lEnd: "ტურის დასრულების ადგილი (დეფოლტად: ქუთაისი)", lDate: "აირჩიეთ თარიღი (მხოლოდ შაბათ-კვირა)", lTime: "გასვლის დრო",
+                btnCalc: "ფასის და მარშრუტის დათვლა", resTitle: "თქვენი შეთავაზება", resAction: "გამოგვიგზავნეთ ეს შეთავაზება WhatsApp-ში დასადასტურებლად.",
+                btnBook: "ამ ვარიანტის დაჯავშნა", printTop: "პრემიუმ სერვისი შაბათ-კვირას", printTitle: "✨ AI ტურის დამგეგმავი", printDesc: "დაასკანერეთ QR კოდი და დაგეგმეთ ტური AI-ს დახმარებით. კალკულატორი წამებში დაგითვლით ზუსტ ფასს!", printScan: "დაასკანერე!",
+                warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).", errWeekend: "გთხოვთ აირჩიოთ შაბათი ან კვირა. ტრანსფერებს ვასრულებთ მხოლოდ დასვენების დღეებში!", chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!",
+                // JSON UI
+                optTitle: "💡 რეკომენდებული მარშრუტი (მოკლე და იაფი)", origTitle: "🧭 თქვენს მიერ მოთხოვნილი მარშრუტი",
+                itinerary: "მიმართულება", distance: "საერთო მანძილი", price: "საბოლოო ფასი"
             },
             'de': {
                 nav: "Buchen", heroTag: "Exklusiver Wochenend-Service", heroTitle: "Private <span class='text-brandGold'>Touren</span> & Transfers",
@@ -362,20 +340,13 @@
                 f4: "<strong>Erfrischungen:</strong> Kostenloses Wasser inklusive.",
                 f5: "<strong>Sprachen:</strong> Fahrer spricht Englisch, Deutsch, Russisch und Georgisch.",
                 aiTitle: "AI Routen- & Preisrechner", aiDesc: "Geben Sie ein Ziel ein ODER listen Sie mehrere für eine kombinierte Tour auf.",
-                lDest: "Wohin möchten Sie fahren? (Zwischenstopps)", 
-                lEnd: "Endziel (Standard: Kutaisi)", lDate: "Datum auswählen (Nur Wochenende)", lTime: "Abholzeit",
-                btnCalc: "Route & Preis berechnen", resTitle: "Ihr Angebot",
-                resAction: "Senden Sie dieses Angebot an unser WhatsApp, um die Buchung zu bestätigen.",
-                btnBook: "Auf WhatsApp buchen", 
-                printTop: "Premium Wochenend-Service",
-                printTitle: "✨ KI-Tourenplaner",
-                printDesc: "Scannen Sie den QR-Code, um Ihre perfekte Tour mit unserer KI zu planen. Sie berechnet sofort die genauen Preise!",
-                printScan: "Zum Planen scannen!",
-                warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).",
-                aiRouteHeader: "### 📍 Routendetails", aiItin: "Reiseroute", aiDist: "Gesamtstrecke", aiDate: "Datum/Uhrzeit",
-                aiPriceHeader: "### 💰 Preisangebot", aiFinal: "Endpreis", errWeekend: "Bitte wählen Sie einen Samstag oder Sonntag. Wir fahren nur am Wochenende!",
-                chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!",
-                aiOptNote: "Routenoptimierung"
+                lDest: "Wohin möchten Sie fahren? (Zwischenstopps)", lEnd: "Endziel (Standard: Kutaisi)", lDate: "Datum auswählen (Nur Wochenende)", lTime: "Abholzeit",
+                btnCalc: "Route & Preis berechnen", resTitle: "Ihr Angebot", resAction: "Senden Sie dieses Angebot an unser WhatsApp, um die Buchung zu bestätigen.",
+                btnBook: "Diese Option buchen", printTop: "Premium Wochenend-Service", printTitle: "✨ KI-Tourenplaner", printDesc: "Scannen Sie den QR-Code, um Ihre perfekte Tour mit unserer KI zu planen. Sie berechnet sofort die genauen Preise!", printScan: "Zum Planen scannen!",
+                warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).", errWeekend: "Bitte wählen Sie einen Samstag oder Sonntag. Wir fahren nur am Wochenende!", chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!",
+                // JSON UI
+                optTitle: "💡 Empfohlene Route (Günstiger & Kürzer)", origTitle: "🧭 Ihre angeforderte Originalroute",
+                itinerary: "Reiseroute", distance: "Gesamtstrecke", price: "Endpreis"
             },
             'ru': {
                 nav: "Бронь", heroTag: "Эксклюзивный сервис на выходных", heroTitle: "Частные <span class='text-brandGold'>Туры</span> и Трансферы",
@@ -387,20 +358,13 @@
                 f4: "<strong>Напитки:</strong> Бесплатная вода включена.",
                 f5: "<strong>Языки:</strong> Водитель говорит на английском, немецком, русском и грузинском.",
                 aiTitle: "AI Калькулятор", aiDesc: "Введите одно или несколько мест для комбинированного тура.",
-                lDest: "Куда вы хотите поехать? (Промежуточные остановки)", 
-                lEnd: "Место завершения (По умолчанию: Кутаиси)", lDate: "Выберите дату (Только выходные)", lTime: "Время выезда",
-                btnCalc: "Рассчитать маршрут и цену", resTitle: "Ваше предложение",
-                resAction: "Отправьте это предложение на наш WhatsApp для подтверждения бронирования.",
-                btnBook: "Забронировать в WhatsApp", 
-                printTop: "Премиум сервис на выходных",
-                printTitle: "✨ ИИ-планировщик туров",
-                printDesc: "Отсканируйте QR-код, чтобы спланировать идеальный тур с помощью ИИ. Он мгновенно рассчитает точную цену!",
-                printScan: "Сканируй!",
-                warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).",
-                aiRouteHeader: "### 📍 Детали маршрута", aiItin: "Маршрут", aiDist: "Общее расстояние", aiDate: "Дата/Время",
-                aiPriceHeader: "### 💰 Цена", aiFinal: "Итоговая цена", errWeekend: "Пожалуйста, выберите субботу или воскресенье. Мы работаем только по выходным!",
-                chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!",
-                aiOptNote: "Оптимизация маршрута"
+                lDest: "Куда вы хотите поехать? (Промежуточные остановки)", lEnd: "Место завершения (По умолчанию: Кутаиси)", lDate: "Выберите дату (Только выходные)", lTime: "Время выезда",
+                btnCalc: "Рассчитать маршрут и цену", resTitle: "Ваше предложение", resAction: "Отправьте это предложение на наш WhatsApp для подтверждения бронирования.",
+                btnBook: "Забронировать этот вариант", printTop: "Премиум сервис на выходных", printTitle: "✨ ИИ-планировщик туров", printDesc: "Отсканируйте QR-код, чтобы спланировать идеальный тур с помощью ИИ. Он мгновенно рассчитает точную цену!", printScan: "Сканируй!",
+                warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).", errWeekend: "Пожалуйста, выберите субботу или воскресенье. Мы работаем только по выходным!", chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!",
+                // JSON UI
+                optTitle: "💡 Рекомендуемый маршрут (Дешевле и короче)", origTitle: "🧭 Ваш запрошенный маршрут",
+                itinerary: "Маршрут", distance: "Общее расстояние", price: "Итоговая цена"
             }
         }
 
@@ -433,12 +397,10 @@
             document.getElementById('feat-3').innerHTML = dict.f3;
             document.getElementById('feat-4').innerHTML = dict.f4;
             document.getElementById('feat-5').innerHTML = dict.f5;
-            
             document.getElementById('print-top-text').innerHTML = dict.printTop;
             document.getElementById('print-title').innerHTML = dict.printTitle;
             document.getElementById('print-desc').innerHTML = dict.printDesc;
             document.getElementById('print-scan').innerHTML = dict.printScan;
-            
             document.getElementById('ai-title').innerHTML = dict.aiTitle;
             document.getElementById('ai-desc').innerHTML = dict.aiDesc;
             document.getElementById('label-dest').innerHTML = dict.lDest;
@@ -448,8 +410,6 @@
             document.getElementById('label-time').innerHTML = dict.lTime;
             document.getElementById('btn-calc').innerHTML = dict.btnCalc;
             document.getElementById('res-title').innerHTML = dict.resTitle;
-            document.getElementById('res-action').innerHTML = dict.resAction;
-            document.getElementById('btn-book').innerHTML = dict.btnBook;
             document.getElementById('chat-greeting').innerHTML = dict.chatGreeting;
 
             ['en','de','ru','ka'].forEach(l => {
@@ -461,53 +421,24 @@
 
         const pricingRules = `
         SYSTEM INSTRUCTIONS (STRICT ALGORITHM):
-        You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers". 
-        Vehicle: Toyota Prius (Low clearance sedan).
+        You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers". Vehicle: Toyota Prius.
 
         CRITICAL RULE - RESTRICTED OFF-ROAD ZONES:
-        We DO NOT provide tours to the following extreme off-road or mountainous regions due to road conditions which are unsafe for a Toyota Prius:
-        1. Svaneti (Mestia, Ushguli, Lentekhi, Hatsvali, Tetnuldi)
-        2. Gomis Mta and Bakhmaro
-        3. Zekari Pass (Sairme to Abastumani)
-        4. Tusheti and Khevsureti (Shatili, Omalo, Abano Pass)
-        5. Tabatskuri Lake
-        If the user requests ANY of these locations, DO NOT calculate the price. Instead, politely reply (in the requested language) that these roads require 4x4/SUV vehicles which we do not operate, and suggest beautiful accessible alternatives like Martvili, Okatse, Racha, Kazbegi, or Kakheti. Stop processing further.
+        We DO NOT provide tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri.
+        If requested, set "status" to "OFFROAD" and write a polite refusal message in the requested language.
 
-        ROUTING LOGIC & OPTIMIZATION (If safe):
-        - Start point is ALWAYS Kutaisi. 
-        - IF MULTIPLE DESTINATIONS ARE PROVIDED: You MUST mathematically determine the OPTIMAL (shortest) geographical sequence. 
-        - Compare the Optimal Sequence with the User's Original Input Sequence.
-        - If the user's original order is inefficient (results in a longer distance), you MUST add an "Optimization Note" in the output, explaining the price difference.
+        ROUTING & PRICING MATH (If Safe):
+        - Start point is ALWAYS Kutaisi. If no end location, end is Kutaisi.
+        - Calculate the logical shortest geographic route.
+        - Exact Pricing Rule: Calculate TOTAL km. 
+          If D<=30: Price = D*2.25 GEL. If 30<D<=100: Price = D*1.35 GEL. If D>100: Price = D*1.0 GEL.
+        - Price Format: [Price] GEL (~ [Converted] USD/EUR/RUB). If language is 'ka', show ONLY GEL.
 
-        MANDATORY PRICING MATH (FLAT RATE based on TOTAL calculated distance):
-        1. Calculate the TOTAL distance (D) in km.
-        2. Apply ONLY ONE of these multipliers to the ENTIRE distance:
-           - If D <= 30: Final Price = D * 2.25 GEL.
-           - If D > 30 AND D <= 100: Final Price = D * 1.35 GEL.
-           - If D > 100: Final Price = D * 1.0 GEL.
-
-        RULES:
-        - NEVER mention driver costs.
-        - NEVER explain your math. Just show the final result.
-        - State: Payment is accepted in CASH only directly to the driver.
+        OPTIMIZATION LOGIC:
+        If the user provides multiple stops in an inefficient geographic order (e.g., Kvamli then Motsameta then Prometheus), you MUST sort them geographically.
+        If the sorted order is different from the user's order, set "status" to "OPTIMIZED". Provide both the 'optimizedRoute' and the 'originalRoute' with their respective distances and prices.
+        If the user's order is already optimal (or there is only 1 stop), set "status" to "STANDARD" and only provide 'optimizedRoute' (which is the same).
         `;
-
-        async function fetchWithRetry(url, options, maxRetries = 5) {
-            let delays = [1000, 2000, 4000, 8000, 16000];
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (!response.ok) {
-                        const errText = await response.text();
-                        throw new Error(`HTTP ${response.status}: ${errText}`);
-                    }
-                    return await response.json();
-                } catch (error) {
-                    if (i === maxRetries - 1) throw error;
-                    await new Promise(resolve => setTimeout(resolve, delays[i]));
-                }
-            }
-        }
 
         async function generateCustomTour() {
             const dest = document.getElementById('ai-destination').value.trim();
@@ -526,57 +457,51 @@
             if (date) {
                 const selectedDate = new Date(date);
                 const dayOfWeek = selectedDate.getDay(); 
-                if (dayOfWeek !== 0 && dayOfWeek !== 6) { 
-                    alert(dict.errWeekend);
-                    return; 
-                }
+                if (dayOfWeek !== 0 && dayOfWeek !== 6) { alert(dict.errWeekend); return; }
             }
 
             if(!apiKey || apiKey === "") { alert("AI Key missing!"); return; }
 
+            currentDateStr = date; currentTimeStr = time;
             btn.innerHTML = '<span class="loader"></span>...';
             btn.disabled = true; btn.classList.add('opacity-70', 'cursor-not-allowed');
             resultContainer.classList.add('hidden');
 
             const fullPrompt = pricingRules + `
-            \n\n--- USER REQUEST ---
-            Destinations: ${dest} 
-            End Location: ${endLoc}
-            Date: ${date || 'Not specified'} at Time: ${time || 'Not specified'}.
-            Language: ${currentLang}.
-            Exchange Rates: 1 GEL = ${exchangeRates.USD} USD, 1 GEL = ${exchangeRates.EUR} EUR, 1 GEL = ${exchangeRates.RUB} RUB.
-            
-            - If language is 'en', format price as: [Price] GEL (~ [Converted] USD).
-            - If language is 'de', format price as: [Price] GEL (~ [Converted] EUR).
-            - If language is 'ru', format price as: [Price] GEL (~ [Converted] RUB).
-            - If language is 'ka', show ONLY GEL. NO brackets.
-
-            IF OFF-ROAD ZONE IS REQUESTED: Output the refusal message.
-            IF OFF-ROAD ZONE IS NOT REQUESTED, FORMAT OUTPUT EXACTLY LIKE THIS (USE THESE EXACT HEADERS):
-            ${dict.aiRouteHeader}
-            * **${dict.aiItin}:** Kutaisi -> [OPTIMAL SORTED DESTINATIONS] -> ${endLoc}
-            * **${dict.aiDist}:** [X] km.
-            * **${dict.aiDate}:** ${date} ${time}
-            
-            ${dict.aiPriceHeader}
-            * **${dict.aiFinal}:** [Formatted Price for OPTIMAL route]
-            
-            [IF USER'S ORIGINAL ORDER WAS INEFFICIENT, ADD THIS NOTE EXACTLY:]
-            💡 **${dict.aiOptNote}:** [Explain in ${currentLang} that following their exact requested order would add X km and cost Y GEL extra. Ask them to confirm via WhatsApp if they strictly prefer their original, longer order.]
-            
-            *(Payment: Cash only directly to the driver)*
+            User Request: Destinations: ${dest} | End: ${endLoc} | Lang: ${currentLang}.
+            Rates: 1GEL=${exchangeRates.USD}USD, 1GEL=${exchangeRates.EUR}EUR, 1GEL=${exchangeRates.RUB}RUB.
             `;
 
-            const payload = { contents: [{ parts: [{ text: fullPrompt }] }] };
+            // 🚀 Force JSON Output
+            const payload = { 
+                contents: [{ parts: [{ text: fullPrompt }] }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            status: { type: "STRING", description: "'OFFROAD', 'OPTIMIZED', or 'STANDARD'" },
+                            offroadMessage: { type: "STRING" },
+                            optimizedRoute: {
+                                type: "OBJECT", properties: { itinerary: { type: "STRING" }, distanceKm: { type: "NUMBER" }, formattedPrice: { type: "STRING" } }
+                            },
+                            originalRoute: {
+                                type: "OBJECT", properties: { itinerary: { type: "STRING" }, distanceKm: { type: "NUMBER" }, formattedPrice: { type: "STRING" } }
+                            }
+                        }
+                    }
+                }
+            };
 
             try {
                 const data = await fetchWithRetry(modelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (data && data.candidates && data.candidates[0].content) {
-                    responseText.innerHTML = marked.parse(data.candidates[0].content.parts[0].text);
+                    const responseJson = JSON.parse(data.candidates[0].content.parts[0].text);
+                    renderUI(responseJson, dict);
                     resultContainer.classList.remove('hidden');
                 } else throw new Error("Invalid response.");
             } catch (error) {
-                responseText.innerHTML = `<p class="text-red-600 font-bold bg-red-50 p-4 rounded-lg border border-red-200">შეცდომა: ${error.message}</p>`;
+                responseText.innerHTML = `<p class="text-red-600 font-bold bg-red-50 p-4 rounded-lg border border-red-200">Error: ${error.message}</p>`;
                 resultContainer.classList.remove('hidden');
             } finally {
                 btn.innerHTML = `<i class="fas fa-magic"></i> ${dict.btnCalc}`;
@@ -584,6 +509,88 @@
             }
         }
 
+        // 🧠 UI Renderer for Smart Choice
+        function renderUI(data, dict) {
+            const container = document.getElementById('ai-response-text');
+            container.innerHTML = '';
+
+            if (data.status === 'OFFROAD') {
+                container.innerHTML = `<div class="bg-red-50 border-l-4 border-red-500 p-4"><p class="text-red-700 font-bold">${data.offroadMessage}</p></div>`;
+                return;
+            }
+
+            let html = '';
+            
+            if (data.status === 'OPTIMIZED' && data.originalRoute && data.originalRoute.distanceKm > data.optimizedRoute.distanceKm) {
+                // Render Two Options
+                html += `<div class="flex flex-col md:flex-row gap-6">`;
+                
+                // Option 1: Optimized (Highlighted)
+                html += `
+                <div class="flex-1 bg-green-50 border-2 border-green-400 rounded-xl p-5 shadow-md relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">BEST VALUE</div>
+                    <h4 class="text-green-800 font-bold text-lg mb-3">${dict.optTitle}</h4>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-4">
+                        <li><strong>📍 ${dict.itinerary}:</strong> ${data.optimizedRoute.itinerary}</li>
+                        <li><strong>🚗 ${dict.distance}:</strong> ${data.optimizedRoute.distanceKm} km</li>
+                        <li class="text-lg text-green-700"><strong>💰 ${dict.price}:</strong> ${data.optimizedRoute.formattedPrice}</li>
+                    </ul>
+                    <button onclick="bookSpecificRoute('${data.optimizedRoute.itinerary}', '${data.optimizedRoute.formattedPrice}')" class="w-full bg-[#25D366] text-white py-2 rounded-lg font-bold hover:bg-green-600 transition flex items-center justify-center gap-2"><i class="fab fa-whatsapp"></i> ${dict.btnBook}</button>
+                </div>`;
+
+                // Option 2: Original
+                html += `
+                <div class="flex-1 bg-gray-50 border border-gray-300 rounded-xl p-5 shadow-sm opacity-90 hover:opacity-100 transition">
+                    <h4 class="text-gray-700 font-bold text-lg mb-3">${dict.origTitle}</h4>
+                    <ul class="text-sm text-gray-600 space-y-2 mb-4">
+                        <li><strong>📍 ${dict.itinerary}:</strong> ${data.originalRoute.itinerary}</li>
+                        <li><strong>🚗 ${dict.distance}:</strong> ${data.originalRoute.distanceKm} km</li>
+                        <li class="text-lg"><strong>💰 ${dict.price}:</strong> ${data.originalRoute.formattedPrice}</li>
+                    </ul>
+                    <button onclick="bookSpecificRoute('${data.originalRoute.itinerary}', '${data.originalRoute.formattedPrice}')" class="w-full bg-gray-800 text-white py-2 rounded-lg font-bold hover:bg-gray-700 transition flex items-center justify-center gap-2"><i class="fab fa-whatsapp"></i> ${dict.btnBook}</button>
+                </div>`;
+                
+                html += `</div>`;
+            } else {
+                // Render Single Option
+                html += `
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 shadow-sm">
+                    <ul class="text-gray-800 space-y-3 mb-6 text-lg">
+                        <li><strong>📍 ${dict.itinerary}:</strong> ${data.optimizedRoute.itinerary}</li>
+                        <li><strong>🚗 ${dict.distance}:</strong> ${data.optimizedRoute.distanceKm} km</li>
+                        <li class="text-xl text-brandBlue"><strong>💰 ${dict.price}:</strong> ${data.optimizedRoute.formattedPrice}</li>
+                    </ul>
+                    <button onclick="bookSpecificRoute('${data.optimizedRoute.itinerary}', '${data.optimizedRoute.formattedPrice}')" class="w-full sm:w-auto px-8 bg-[#25D366] text-white py-3 rounded-full font-bold hover:bg-green-600 transition flex items-center justify-center gap-2 shadow-md mx-auto"><i class="fab fa-whatsapp text-xl"></i> ${dict.btnBook}</button>
+                </div>`;
+            }
+
+            container.innerHTML = html;
+            // Hide the old generic button section since buttons are now inside cards
+            document.querySelector('#ai-result-container .bg-yellow-50').style.display = 'none';
+        }
+
+        // WhatsApp Direct Link with specific choice
+        function bookSpecificRoute(itinerary, price) {
+            const dateInfo = currentDateStr ? ` Date: ${currentDateStr} at ${currentTimeStr}` : '';
+            const msg = `Hello! I would like to book this exact route:\n\n📍 ${itinerary}\n💰 Price: ${price}\n📅 ${dateInfo}\n\nIs the driver available?`;
+            window.open('https://wa.me/995568004140?text=' + encodeURIComponent(msg), '_blank');
+        }
+
+        async function fetchWithRetry(url, options, maxRetries = 5) {
+            let delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    if (i === maxRetries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delays[i]));
+                }
+            }
+        }
+
+        // CHATBOT Logic
         let chatHistory = [];
         function toggleChat() { document.getElementById('chatbot-panel').classList.toggle('hidden'); }
 
@@ -591,30 +598,31 @@
             const inputField = document.getElementById('chat-input');
             const message = inputField.value.trim();
             if (!message) return;
-
-            if(!apiKey || apiKey === "") { alert("AI Key missing!"); return; }
+            if(!apiKey || apiKey === "") return;
 
             addMessageToUI(message, 'user');
             inputField.value = '';
             const loadingId = addMessageToUI('loading...', 'bot', true);
 
-            const chatPrompt = pricingRules + `\n\nNote: Always mention we only work weekends, accept CASH only, and no off-road trips. User says in ${currentLang}: ` + message;
+            // Using pure text model URL for chat
+            const chatModelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+            const chatPrompt = `You are Kutaisi Premium Transfers AI Manager. We only work weekends, accept CASH only, NO off-road (Svaneti etc). Be polite. User says in ${currentLang}: ` + message;
             chatHistory.push({ role: "user", parts: [{ text: chatPrompt }] });
 
             const payload = { contents: chatHistory };
 
             try {
-                const data = await fetchWithRetry(modelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const data = await fetchWithRetry(chatModelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (data && data.candidates && data.candidates[0].content) {
                     const replyText = data.candidates[0].content.parts[0].text;
                     document.getElementById(loadingId).remove();
                     addMessageToUI(replyText, 'bot');
                     chatHistory[chatHistory.length - 1] = { role: "user", parts: [{ text: message }] }; 
                     chatHistory.push({ role: "model", parts: [{ text: replyText }] });
-                } else throw new Error("Invalid response");
+                }
             } catch (error) {
                 document.getElementById(loadingId).remove();
-                addMessageToUI(`**Error:** ${error.message}`, 'bot');
+                addMessageToUI(`Error`, 'bot');
                 chatHistory.pop();
             }
         }
@@ -639,12 +647,6 @@
         }
 
         function handleChatKeyPress(event) { if (event.key === 'Enter') sendChatMessage(); }
-
-        function copyAndBook() {
-            const textToCopy = document.getElementById('ai-response-text').innerText;
-            const waMessage = encodeURIComponent("Hello! I got this quote from your site. Is the driver available?\n\n" + textToCopy);
-            window.open('https://wa.me/995568004140?text=' + waMessage, '_blank');
-        }
 
         function printHotelBrochure() { 
             document.body.classList.add('print-mode-hotel'); 
