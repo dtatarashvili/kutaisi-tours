@@ -131,6 +131,7 @@
 
     <section class="vehicle-section py-12 max-w-6xl mx-auto px-4">
         <div class="glass-card p-8 flex flex-col md:flex-row items-center gap-10">
+            <!-- 📸 Place your image here -->
             <div class="vehicle-image-wrapper w-full md:w-1/2">
                 <img src="https://placehold.co/800x600/1E3A8A/FFFFFF?text=Photo:+You+%26+Your+Prius" alt="Your Premium Driver and Vehicle" class="rounded-xl w-full shadow-md border border-gray-200 object-cover" style="aspect-ratio: 4/3;">
             </div>
@@ -280,13 +281,13 @@
     </div>
 
     <script>
-        // 🛑 შენი ახალი გაყოფილი გასაღები (რობოტები ვეღარ იპოვიან!)
+        // 🛑 შენი ახალი გაყოფილი გასაღები
         const keyPart1 = "AIzaSyCS40ob2IpovB"; 
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
         const apiKey = keyPart1 + keyPart2;
         
-        // 🚀 ძრავა დაბრუნდა ყველაზე ჭკვიან და სწრაფ მოდელზე (gemini-2.0-flash)
-        const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+        // 🚀 ერთადერთი მოდელი, რომელიც 2026 წლის ამ Preview გარემოში მუშაობს:
+        const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
         
         let currentLang = 'en';
         let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
@@ -431,11 +432,10 @@
 
         MANDATORY PRICING MATH (FLAT RATE):
         1. Calculate the TOTAL distance (D) in km.
-        2. Apply ONLY ONE of these multipliers to the ENTIRE distance (DO NOT use progressive/tiered pricing):
+        2. Apply ONLY ONE of these multipliers to the ENTIRE distance:
            - If D <= 30: Final Price = D * 2.25 GEL.
            - If D > 30 AND D <= 100: Final Price = D * 1.35 GEL.
            - If D > 100: Final Price = D * 1.0 GEL.
-        (Example: If total distance is 460km, the price is exactly 460 * 1.0 = 460 GEL. Do NOT split the distance into tiers).
 
         RULES:
         - NEVER mention driver costs.
