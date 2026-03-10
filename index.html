@@ -43,7 +43,7 @@
         .loader { border: 3px solid rgba(245, 158, 11, 0.2); border-top: 3px solid #F59E0B; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- PRINT CSS (Overlapping Fixed) --- */
+        /* --- PRINT CSS --- */
         .tour-print-header, .hotel-print-section { display: none; }
 
         @media print {
@@ -62,7 +62,6 @@
             body.print-mode-hotel @page { size: A4 portrait; margin: 5mm; }
             body.print-mode-hotel { font-size: 10pt !important; line-height: 1.3 !important;}
             
-            /* Top Text Fix */
             body.print-mode-hotel #print-top-text-container { display: block !important; text-align: center; margin-bottom: 8px; }
             
             body.print-mode-hotel header { padding: 6px !important; background: #1E3A8A !important; color: white !important; border-radius: 8px; margin-bottom: 6px !important; }
@@ -91,7 +90,6 @@
             body.print-mode-hotel .route-card .text-3xl { font-size: 1.1rem !important; padding-top: 4px !important; margin-bottom: 0 !important;}
             body.print-mode-hotel .route-card .w-14 { width: 26px !important; height: 26px !important; font-size: 0.85rem !important; margin-bottom: 4px !important; }
             
-            /* HOTEL FOOTER - Layout Adjusted to prevent overlap */
             body.print-mode-hotel .hotel-print-section { display: flex !important; flex-direction: row !important; margin-top: 10px !important; border: 2px dashed #1E3A8A; border-radius: 8px; padding: 10px !important; background: #EFF6FF !important; align-items: center; justify-content: space-between; page-break-inside: avoid;}
             
             body.print-mode-hotel .hotel-print-section .left-col { width: 70% !important; padding-right: 15px !important; }
@@ -128,7 +126,6 @@
         </div>
     </nav>
 
-    <!-- Top Text for Print ONLY (Moved outside normal flow to fix absolute positioning overlap) -->
     <div id="print-top-text-container" class="hidden no-print print:block text-center mb-2 mt-4">
         <span id="print-top-text" class="text-brandBlue font-bold text-sm tracking-widest uppercase">Premium Weekend Service</span>
     </div>
@@ -200,8 +197,8 @@
                 <div class="md:col-span-2">
                     <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-dest">Where do you want to go? (Intermediate Stops)</label>
                     <input type="text" id="ai-destination" placeholder="e.g., Prometheus Cave, Martvili Canyon..." class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
-                    <!-- Svaneti Warning -->
-                    <p id="warn-svaneti" class="text-xs text-red-500 font-bold mt-2">* Note: We do not operate tours to Svaneti (Mestia, Ushguli).</p>
+                    <!-- Off-road Warning -->
+                    <p id="warn-offroad" class="text-xs text-red-500 font-bold mt-2">* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).</p>
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-end">End Location (Default: Kutaisi)</label>
@@ -293,12 +290,10 @@
     </div>
 
     <script>
-        // 🛑 შენი გაყოფილი გასაღები
         const keyPart1 = "AIzaSyCS40ob2IpovB"; 
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
         const apiKey = keyPart1 + keyPart2;
         
-        // 🚀 ძრავა
         const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         
         let currentLang = 'en';
@@ -325,7 +320,7 @@
                 printTitle: "✨ Custom AI Tour Planner",
                 printDesc: "Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!",
                 printScan: "Scan to Plan!",
-                warnSvaneti: "* Note: We do not operate tours to Svaneti (Mestia, Ushguli).",
+                warnOffroad: "* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).",
                 aiRouteHeader: "### 📍 Route Details", aiItin: "Itinerary", aiDist: "Total Distance", aiDate: "Date/Time",
                 aiPriceHeader: "### 💰 Price Quote", aiFinal: "Final Price", errWeekend: "Please select a Saturday or Sunday. We only operate on weekends!",
                 chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!"
@@ -349,7 +344,7 @@
                 printTitle: "✨ AI ტურის დამგეგმავი",
                 printDesc: "დაასკანერეთ QR კოდი და დაგეგმეთ ტური AI-ს დახმარებით. კალკულატორი წამებში დაგითვლით ზუსტ ფასს!",
                 printScan: "დაასკანერე!",
-                warnSvaneti: "* შენიშვნა: ჩვენ არ ვასრულებთ ტურებს სვანეთის (მესტია, უშგული) მიმართულებით.",
+                warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).",
                 aiRouteHeader: "### 📍 მარშრუტის დეტალები", aiItin: "მიმართულება", aiDist: "საერთო მანძილი", aiDate: "თარიღი/დრო",
                 aiPriceHeader: "### 💰 ფასი", aiFinal: "საბოლოო ფასი", errWeekend: "გთხოვთ აირჩიოთ შაბათი ან კვირა. ტრანსფერებს ვასრულებთ მხოლოდ დასვენების დღეებში!",
                 chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!"
@@ -373,7 +368,7 @@
                 printTitle: "✨ KI-Tourenplaner",
                 printDesc: "Scannen Sie den QR-Code, um Ihre perfekte Tour mit unserer KI zu planen. Sie berechnet sofort die genauen Preise!",
                 printScan: "Zum Planen scannen!",
-                warnSvaneti: "* Hinweis: Wir bieten keine Touren nach Swanetien (Mestia, Uschguli) an.",
+                warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).",
                 aiRouteHeader: "### 📍 Routendetails", aiItin: "Reiseroute", aiDist: "Gesamtstrecke", aiDate: "Datum/Uhrzeit",
                 aiPriceHeader: "### 💰 Preisangebot", aiFinal: "Endpreis", errWeekend: "Bitte wählen Sie einen Samstag oder Sonntag. Wir fahren nur am Wochenende!",
                 chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!"
@@ -397,7 +392,7 @@
                 printTitle: "✨ ИИ-планировщик туров",
                 printDesc: "Отсканируйте QR-код, чтобы спланировать идеальный тур с помощью ИИ. Он мгновенно рассчитает точную цену!",
                 printScan: "Сканируй!",
-                warnSvaneti: "* Примечание: Мы не проводим туры в Сванетию (Местия, Ушгули).",
+                warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).",
                 aiRouteHeader: "### 📍 Детали маршрута", aiItin: "Маршрут", aiDist: "Общее расстояние", aiDate: "Дата/Время",
                 aiPriceHeader: "### 💰 Цена", aiFinal: "Итоговая цена", errWeekend: "Пожалуйста, выберите субботу или воскресенье. Мы работаем только по выходным!",
                 chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!"
@@ -434,7 +429,6 @@
             document.getElementById('feat-4').innerHTML = dict.f4;
             document.getElementById('feat-5').innerHTML = dict.f5;
             
-            // Dynamic Print Translation Updates
             document.getElementById('print-top-text').innerHTML = dict.printTop;
             document.getElementById('print-title').innerHTML = dict.printTitle;
             document.getElementById('print-desc').innerHTML = dict.printDesc;
@@ -443,7 +437,7 @@
             document.getElementById('ai-title').innerHTML = dict.aiTitle;
             document.getElementById('ai-desc').innerHTML = dict.aiDesc;
             document.getElementById('label-dest').innerHTML = dict.lDest;
-            document.getElementById('warn-svaneti').innerHTML = dict.warnSvaneti;
+            document.getElementById('warn-offroad').innerHTML = dict.warnOffroad;
             document.getElementById('label-end').innerHTML = dict.lEnd;
             document.getElementById('label-date').innerHTML = dict.lDate;
             document.getElementById('label-time').innerHTML = dict.lTime;
@@ -463,13 +457,18 @@
         const pricingRules = `
         SYSTEM INSTRUCTIONS (STRICT ALGORITHM):
         You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers". 
-        Vehicle: Toyota Prius.
+        Vehicle: Toyota Prius (Low clearance sedan).
 
-        CRITICAL RULE - NO SVANETI:
-        We DO NOT provide tours to Svaneti region (Mestia, Ushguli, Lentekhi, Hatsvali, Tetnuldi, etc.).
-        If the user requests ANY location in Svaneti, DO NOT calculate the price. Instead, politely reply (in the requested language) that Svaneti tours require 4x4 vehicles which we do not operate, and suggest they visit other beautiful places like Martvili, Okatse, or Racha. Stop processing further.
+        CRITICAL RULE - RESTRICTED OFF-ROAD ZONES:
+        We DO NOT provide tours to the following extreme off-road or mountainous regions due to road conditions (dirt, rocks) which are unsafe for a Toyota Prius:
+        1. Svaneti (Mestia, Ushguli, Lentekhi, Hatsvali, Tetnuldi)
+        2. Gomis Mta and Bakhmaro
+        3. Zekari Pass (Sairme to Abastumani)
+        4. Tusheti and Khevsureti (Shatili, Omalo, Abano Pass)
+        5. Tabatskuri Lake
+        If the user requests ANY of these locations, DO NOT calculate the price. Instead, politely reply (in the requested language) that these roads require 4x4/SUV vehicles which we do not operate, and suggest beautiful accessible alternatives like Martvili, Okatse, Racha, Kazbegi, or Kakheti. Stop processing further.
 
-        ROUTING LOGIC (If Svaneti is NOT mentioned):
+        ROUTING LOGIC (If safe):
         - Start point is ALWAYS Kutaisi. 
         - If End Location is provided, route is: Kutaisi -> Destinations -> End Location.
         - If NO End Location is provided, route is round-trip: Kutaisi -> Destinations -> Kutaisi.
@@ -546,8 +545,8 @@
             - If language is 'ru', format price as: [Price] GEL (~ [Converted] RUB).
             - If language is 'ka', show ONLY GEL. NO brackets.
 
-            IF SVANETI IS REQUESTED: Output the refusal message.
-            IF SVANETI IS NOT REQUESTED, FORMAT OUTPUT EXACTLY LIKE THIS (USE THESE EXACT HEADERS):
+            IF OFF-ROAD ZONE IS REQUESTED: Output the refusal message.
+            IF OFF-ROAD ZONE IS NOT REQUESTED, FORMAT OUTPUT EXACTLY LIKE THIS (USE THESE EXACT HEADERS):
             ${dict.aiRouteHeader}
             * **${dict.aiItin}:** Kutaisi -> ${dest ? dest + ' -> ' : ''}${endLoc}
             * **${dict.aiDist}:** [X] km.
@@ -590,7 +589,7 @@
             inputField.value = '';
             const loadingId = addMessageToUI('loading...', 'bot', true);
 
-            const chatPrompt = pricingRules + `\n\nNote: Always mention we only work weekends and accept CASH only. User says in ${currentLang}: ` + message;
+            const chatPrompt = pricingRules + `\n\nNote: Always mention we only work weekends, accept CASH only, and no off-road trips. User says in ${currentLang}: ` + message;
             chatHistory.push({ role: "user", parts: [{ text: chatPrompt }] });
 
             const payload = { contents: chatHistory };
