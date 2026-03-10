@@ -149,6 +149,7 @@
         </div>
     </section>
 
+    <!-- HOTEL PRINT SECTION -->
     <div class="hotel-print-section max-w-6xl mx-auto px-4 relative">
         <div class="left-col">
             <h2 class="font-serif font-bold text-brandBlue" id="print-title">✨ Custom AI Tour Planner</h2>
@@ -171,6 +172,7 @@
         </div>
     </div>
 
+    <!-- AI Tour Planner UI -->
     <section id="ai-planner" class="py-12 max-w-4xl mx-auto px-4">
         <div class="glass-card p-8 md:p-10 border-t-8 border-t-brandGold shadow-xl relative overflow-hidden">
             <div class="absolute -right-10 -top-10 text-brandGold opacity-10 text-9xl"><i class="fas fa-route"></i></div>
@@ -276,8 +278,9 @@
         let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
         let currentDateStr = '';
         let currentTimeStr = '';
-        let lastQuoteData = null; // Global variable to hold generated JSON data
+        let lastQuoteData = null; 
 
+        // 🌐 TRANSLATION DICTIONARY (Fixed "price" key)
         const uiDict = {
             'en': {
                 nav: "Book Now", heroTag: "Exclusive Weekend Service", heroTitle: "Private <span class='text-brandGold'>Tours</span> & Transfers",
@@ -294,7 +297,8 @@
                 btnBook: "Book this Option", printTop: "Premium Weekend Service", printTitle: "✨ Custom AI Tour Planner", printDesc: "Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!", printScan: "Scan to Plan!",
                 warnOffroad: "* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).", errWeekend: "Please select a Saturday or Sunday. We only operate on weekends!", chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!",
                 optTitle: "💡 Recommended Route (Cheaper & Shorter)", origTitle: "🧭 Your Original Requested Route",
-                detailReportTitle: "Detailed Route Itinerary", segment: "Segment", distTh: "Distance", timeTh: "Est. Time", totalDriveTime: "Total Driving Time"
+                detailReportTitle: "Detailed Route Itinerary", segment: "Segment", distTh: "Distance", timeTh: "Est. Time", totalDriveTime: "Total Driving Time",
+                price: "Final Price" // Added missing key
             },
             'ka': {
                 nav: "დაჯავშნა", heroTag: "პრემიუმ სერვისი შაბათ-კვირას", heroTitle: "პირადი <span class='text-brandGold'>ტურები</span> და ტრანსფერები",
@@ -311,7 +315,8 @@
                 btnBook: "ამ ვარიანტის დაჯავშნა", printTop: "პრემიუმ სერვისი შაბათ-კვირას", printTitle: "✨ AI ტურის დამგეგმავი", printDesc: "დაასკანერეთ QR კოდი და დაგეგმეთ ტური AI-ს დახმარებით. კალკულატორი წამებში დაგითვლით ზუსტ ფასს!", printScan: "დაასკანერე!",
                 warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).", errWeekend: "გთხოვთ აირჩიოთ შაბათი ან კვირა. ტრანსფერებს ვასრულებთ მხოლოდ დასვენების დღეებში!", chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!",
                 optTitle: "💡 რეკომენდებული მარშრუტი (მოკლე და იაფი)", origTitle: "🧭 თქვენს მიერ მოთხოვნილი მარშრუტი",
-                detailReportTitle: "მარშრუტის დეტალური კილომეტრაჟი", segment: "მონაკვეთი", distTh: "მანძილი", timeTh: "სავარაუდო დრო", totalDriveTime: "ჯამური დრო (მხოლოდ გზა)"
+                detailReportTitle: "მარშრუტის დეტალური კილომეტრაჟი", segment: "მონაკვეთი", distTh: "მანძილი", timeTh: "სავარაუდო დრო", totalDriveTime: "ჯამური დრო (მხოლოდ გზა)",
+                price: "საბოლოო ფასი" // Added missing key
             },
             'de': {
                 nav: "Buchen", heroTag: "Exklusiver Wochenend-Service", heroTitle: "Private <span class='text-brandGold'>Touren</span> & Transfers",
@@ -328,7 +333,8 @@
                 btnBook: "Diese Option buchen", printTop: "Premium Wochenend-Service", printTitle: "✨ KI-Tourenplaner", printDesc: "Scannen Sie den QR-Code, um Ihre perfekte Tour mit unserer KI zu planen. Sie berechnet sofort die genauen Preise!", printScan: "Zum Planen scannen!",
                 warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).", errWeekend: "Bitte wählen Sie einen Samstag oder Sonntag. Wir fahren nur am Wochenende!", chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!",
                 optTitle: "💡 Empfohlene Route (Günstiger & Kürzer)", origTitle: "🧭 Ihre angeforderte Originalroute",
-                detailReportTitle: "Detaillierter Reiseverlauf", segment: "Abschnitt", distTh: "Entfernung", timeTh: "Geschätzte Zeit", totalDriveTime: "Gesamte Fahrzeit"
+                detailReportTitle: "Detaillierter Reiseverlauf", segment: "Abschnitt", distTh: "Entfernung", timeTh: "Geschätzte Zeit", totalDriveTime: "Gesamte Fahrzeit",
+                price: "Endpreis" // Added missing key
             },
             'ru': {
                 nav: "Бронь", heroTag: "Эксклюзивный сервис на выходных", heroTitle: "Частные <span class='text-brandGold'>Туры</span> и Трансферы",
@@ -345,7 +351,8 @@
                 btnBook: "Забронировать этот вариант", printTop: "Премиум сервис на выходных", printTitle: "✨ ИИ-планировщик туров", printDesc: "Отсканируйте QR-код, чтобы спланировать идеальный тур с помощью ИИ. Он мгновенно рассчитает точную цену!", printScan: "Сканируй!",
                 warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).", errWeekend: "Пожалуйста, выберите субботу или воскресенье. Мы работаем только по выходным!", chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!",
                 optTitle: "💡 Рекомендуемый маршрут (Дешевле и короче)", origTitle: "🧭 Ваш запрошенный маршрут",
-                detailReportTitle: "Детальный маршрут (километраж)", segment: "Участок", distTh: "Расстояние", timeTh: "Примерное время", totalDriveTime: "Общее время (в пути)"
+                detailReportTitle: "Детальный маршрут (километраж)", segment: "Участок", distTh: "Расстояние", timeTh: "Примерное время", totalDriveTime: "Общее время (в пути)",
+                price: "Итоговая цена" // Added missing key
             }
         }
 
@@ -401,24 +408,23 @@
         }
 
         const pricingRules = `
-        SYSTEM INSTRUCTIONS (STRICT ALGORITHM):
-        You are the AI Booking Manager and expert GPS Routing Engine for "Kutaisi Premium Weekend Transfers". Vehicle: Toyota Prius.
+        SYSTEM INSTRUCTIONS:
+        You are an expert GPS Routing Engine for Kutaisi Premium Transfers. Vehicle: Toyota Prius.
 
         CRITICAL RULE - OFF-ROAD ZONES:
-        No tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. If requested, set "status" to "OFFROAD" and return a refusal message.
+        No tours to Svaneti, Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. 
+        If requested, set "status" to "OFFROAD" and return refusal message.
 
-        ROUTING, SEGMENTS & OPTIMIZATION LOGIC:
-        - Start is ALWAYS Kutaisi. If no end location, end is Kutaisi.
-        - Analyze real-world geography to find the shortest TSP path without criss-crossing.
-        - For EVERY route (optimized and original), you MUST break it down into an array of 'segments'. 
-        - A segment represents one leg of the trip (e.g., from: "Kutaisi", to: "Prometheus Cave", dist: 21, time: "30-35 mins").
-        - Estimate time accurately: Highway is ~1 min per km. Rural/mountain roads are 1.5 - 2 mins per km.
-        - Calculate the total distanceKm and total estimatedTimeMins (driving time only).
+        CRITICAL GEOGRAPHY & DISTANCE CONSISTENCY RULES:
+        1. Start point is ALWAYS Kutaisi. If End Location is "Kutaisi", treat it as a standard ROUND-TRIP back to the start.
+        2. If the user's order is geographically inefficient, you MUST sort it to the shortest path and set status to "OPTIMIZED".
+        3. VERY IMPORTANT: The distance between any specific Point A and Point B (e.g. Kutaisi to Kvamli) MUST be EXACTLY the same in both the "originalRoute" table and the "optimizedRoute" table. DO NOT hallucinate different km for the exact same road segment.
+        4. Estimate time realistically (1.5 mins per km on average).
         
-        MANDATORY PRICING MATH (Calculate based on TOTAL distance D):
-        If D <= 30: Price = D * 2.25 GEL.
-        If 30 < D <= 100: Price = D * 1.35 GEL.
-        If D > 100: Price = D * 1.0 GEL.
+        MANDATORY PRICING MATH (Calculate based on EXACT TOTAL D in km):
+        - If D <= 30: Price = D * 2.25 GEL.
+        - If 30 < D <= 100: Price = D * 1.35 GEL.
+        - If D > 100: Price = D * 1.0 GEL.
         `;
 
         async function fetchWithRetry(url, options, maxRetries = 5) {
@@ -437,7 +443,7 @@
 
         async function generateCustomTour() {
             const dest = document.getElementById('ai-destination').value.trim();
-            let endLoc = document.getElementById('ai-end-location').value.trim();
+            let endLocRaw = document.getElementById('ai-end-location').value.trim();
             const date = document.getElementById('ai-date').value;
             const time = document.getElementById('ai-time').value;
             const dict = uiDict[currentLang];
@@ -446,7 +452,14 @@
             const resultContainer = document.getElementById('ai-result-container');
             const responseText = document.getElementById('ai-response-text');
 
-            if (!dest && !endLoc) { alert(dict.lDest); return; }
+            if (!dest && !endLocRaw) { alert(dict.lDest); return; }
+            
+            // 🛑 PRE-PROCESSING: Prevent AI confusion when user explicitly types "Kutaisi"
+            let endLoc = endLocRaw;
+            const checkLoc = endLoc.toLowerCase();
+            if (checkLoc === 'kutaisi' || checkLoc === 'ქუთაისი' || checkLoc === 'кутаиси') {
+                endLoc = ""; // Force standard return trip logic
+            }
             if (!endLoc) endLoc = "Kutaisi (Return)";
 
             if (date) {
@@ -468,7 +481,6 @@
             Price Format: [Price] GEL (~ [Converted] USD/EUR/RUB). If language is 'ka', show ONLY GEL.
             `;
 
-            // 🚀 Detailed JSON Schema including segments array
             const payload = { 
                 contents: [{ parts: [{ text: fullPrompt }] }],
                 generationConfig: {
@@ -513,7 +525,6 @@
             }
         }
 
-        // HTML builder for the segmented route table
         function buildSegmentTableHTML(route, dict) {
             let html = `
             <div class="mt-4 mb-4 bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
@@ -567,7 +578,7 @@
             if (data.status === 'OPTIMIZED' && data.originalRoute && data.originalRoute.distanceKm > data.optimizedRoute.distanceKm) {
                 html += `<div class="flex flex-col xl:flex-row gap-6">`;
                 
-                // Option 1: Optimized
+                // Option 1
                 html += `
                 <div class="flex-1 bg-green-50 border-2 border-green-400 rounded-xl p-5 shadow-md relative overflow-hidden">
                     <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">BEST VALUE</div>
@@ -579,7 +590,7 @@
                     <button onclick="bookSpecificRoute('optimized')" class="w-full bg-[#25D366] text-white py-3 rounded-lg font-bold hover:bg-green-600 transition flex items-center justify-center gap-2 shadow-sm"><i class="fab fa-whatsapp text-lg"></i> ${dict.btnBook}</button>
                 </div>`;
 
-                // Option 2: Original
+                // Option 2
                 html += `
                 <div class="flex-1 bg-gray-50 border border-gray-300 rounded-xl p-5 shadow-sm opacity-95 hover:opacity-100 transition">
                     <h4 class="text-gray-700 font-bold text-lg mb-2">${dict.origTitle}</h4>
@@ -592,11 +603,9 @@
                 
                 html += `</div>`;
             } else {
-                // Single Route Render
                 html += `
                 <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 shadow-sm">
                     ${buildSegmentTableHTML(data.optimizedRoute, dict)}
-                    
                     <div class="text-2xl text-brandBlue font-bold mb-6 text-center mt-4">💰 ${dict.price}: ${data.optimizedRoute.formattedPrice}</div>
                     <div class="flex justify-center">
                         <button onclick="bookSpecificRoute('optimized')" class="w-full sm:w-auto px-10 bg-[#25D366] text-white py-3 rounded-full font-bold hover:bg-green-600 transition flex items-center justify-center gap-3 shadow-md"><i class="fab fa-whatsapp text-xl"></i> ${dict.btnBook}</button>
@@ -607,7 +616,6 @@
             container.innerHTML = html;
         }
 
-        // Perfect WhatsApp Formatting
         function bookSpecificRoute(routeType) {
             const dict = uiDict[currentLang];
             const route = routeType === 'optimized' ? lastQuoteData.optimizedRoute : lastQuoteData.originalRoute;
