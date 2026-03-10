@@ -1,813 +1,810 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kutaisi Premium Weekend Transfers</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Noto+Sans+Georgian:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { 
-                        sans: ['Noto Sans Georgian', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif']
-                    },
-                    colors: { 
-                        brandBlue: '#1E3A8A', 
-                        brandGold: '#F59E0B', 
-                        brandLight: '#F9FAFB',
-                        waGreen: '#25D366'
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #F9FAFB; color: #1F2937; scroll-behavior: smooth; }
-        .glass-card { background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #E5E7EB; }
-        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(30, 58, 138, 0.1); transition: all 0.3s ease; }
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kutaisi Premium Weekend Transfers</title><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Noto+Sans+Georgian:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="[suspicious link removed]"><script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script><script>tailwind.config = {theme: {extend: {fontFamily: {sans: ['Noto Sans Georgian', 'sans-serif'],serif: ['Playfair Display', 'serif']},colors: {brandBlue: '#1E3A8A',brandGold: '#F59E0B',brandLight: '#F9FAFB',waGreen: '#25D366'}}}}</script><style>body { background-color: #F9FAFB; color: #1F2937; scroll-behavior: smooth; }.glass-card { background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #E5E7EB; }.hover-lift:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(30, 58, 138, 0.1); transition: all 0.3s ease; }    .prose h3 { color: #1E3A8A; font-size: 1.2rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
+    .prose p { margin-bottom: 0.75rem; color: #4B5563; }
+    .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4B5563; font-weight: 500;}
+    .prose strong { color: #111827; }
+    
+    .chat-prose p { margin-bottom: 0.5rem; }
+    .chat-prose ul { list-style-type: disc; padding-left: 1rem; margin-bottom: 0.5rem; }
+    .chat-prose strong { color: #1E3A8A; }
+
+    .loader { border: 3px solid rgba(245, 158, 11, 0.2); border-top: 3px solid #F59E0B; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* --- PRINT CSS --- */
+    .tour-print-header, .hotel-print-section { display: none; }
+
+    @media print {
+        body { background-color: white !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        button, .no-print, #lang-selector, #chatbot-panel, #chatbot-toggle { display: none !important; }
         
-        .prose h3 { color: #1E3A8A; font-size: 1.2rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
-        .prose p { margin-bottom: 0.75rem; color: #4B5563; }
-        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4B5563; font-weight: 500;}
-        .prose strong { color: #111827; }
+        section { padding-top: 4px !important; padding-bottom: 4px !important; }
+
+        body.print-mode-tour header, body.print-mode-tour nav, body.print-mode-tour .vehicle-section, body.print-mode-tour .routes-section, body.print-mode-tour .ai-inputs, body.print-mode-tour footer, body.print-mode-tour #contact { display: none !important; }
+        body.print-mode-tour .tour-print-header { display: block !important; text-align: center; margin-bottom: 20px; border-bottom: 2px solid #1E3A8A; padding-bottom: 10px; }
+        body.print-mode-tour #ai-result-container { box-shadow: none !important; border: none !important; padding: 0 !important; display: block !important; }
+
+        body.print-mode-hotel #ai-planner, body.print-mode-hotel footer, body.print-mode-hotel #contact { display: none !important; }
+        body.print-mode-hotel @page { size: A4 portrait; margin: 5mm; }
+        body.print-mode-hotel { font-size: 10pt !important; line-height: 1.3 !important;}
         
-        .chat-prose p { margin-bottom: 0.5rem; }
-        .chat-prose ul { list-style-type: disc; padding-left: 1rem; margin-bottom: 0.5rem; }
-        .chat-prose strong { color: #1E3A8A; }
+        body.print-mode-hotel #print-top-text-container { display: block !important; text-align: center; margin-bottom: 8px; }
+        body.print-mode-hotel header { padding: 6px !important; background: #1E3A8A !important; color: white !important; border-radius: 8px; margin-bottom: 6px !important; }
+        body.print-mode-hotel header h1 { color: white !important; font-size: 1.6rem !important; margin-bottom: 2px !important;}
+        body.print-mode-hotel header p { color: #E5E7EB !important; font-size: 0.85rem !important; margin-bottom: 0 !important;}
+        body.print-mode-hotel header .inline-block { display: none !important; } 
+        
+        body.print-mode-hotel .vehicle-section { padding: 4px 0 !important; }
+        body.print-mode-hotel .vehicle-section .glass-card { display: flex !important; flex-direction: row !important; align-items: center !important; border: 2px solid #E5E7EB !important; padding: 8px !important; box-shadow: none !important; }
+        body.print-mode-hotel .vehicle-image-wrapper { width: 38% !important; display: block !important; }
+        body.print-mode-hotel .vehicle-image-wrapper img { max-height: 110px !important; object-fit: cover; border-radius: 6px !important; } 
+        body.print-mode-hotel .vehicle-text-wrapper { width: 62% !important; padding-left: 15px !important; }
+        body.print-mode-hotel .vehicle-text-wrapper h2 { font-size: 1.1rem !important; margin-bottom: 4px !important; }
+        body.print-mode-hotel .vehicle-text-wrapper ul { margin-bottom: 0 !important; }
+        body.print-mode-hotel .vehicle-text-wrapper ul li { margin-bottom: 3px !important; font-size: 0.8rem !important; line-height: 1.2 !important;}
 
-        .loader { border: 3px solid rgba(245, 158, 11, 0.2); border-top: 3px solid #F59E0B; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* --- PRINT CSS --- */
-        .tour-print-header, .hotel-print-section { display: none; }
-
-        @media print {
-            body { background-color: white !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-            button, .no-print, #lang-selector, #chatbot-panel, #chatbot-toggle { display: none !important; }
-            
-            section { padding-top: 4px !important; padding-bottom: 4px !important; }
-
-            body.print-mode-tour header, body.print-mode-tour nav, body.print-mode-tour .vehicle-section, body.print-mode-tour .routes-section, body.print-mode-tour .ai-inputs, body.print-mode-tour footer, body.print-mode-tour #contact { display: none !important; }
-            body.print-mode-tour .tour-print-header { display: block !important; text-align: center; margin-bottom: 20px; border-bottom: 2px solid #1E3A8A; padding-bottom: 10px; }
-            body.print-mode-tour #ai-result-container { box-shadow: none !important; border: none !important; padding: 0 !important; display: block !important; }
-
-            body.print-mode-hotel #ai-planner, body.print-mode-hotel footer, body.print-mode-hotel #contact { display: none !important; }
-            body.print-mode-hotel @page { size: A4 portrait; margin: 5mm; }
-            body.print-mode-hotel { font-size: 10pt !important; line-height: 1.3 !important;}
-            
-            body.print-mode-hotel #print-top-text-container { display: block !important; text-align: center; margin-bottom: 8px; }
-            body.print-mode-hotel header { padding: 6px !important; background: #1E3A8A !important; color: white !important; border-radius: 8px; margin-bottom: 6px !important; }
-            body.print-mode-hotel header h1 { color: white !important; font-size: 1.6rem !important; margin-bottom: 2px !important;}
-            body.print-mode-hotel header p { color: #E5E7EB !important; font-size: 0.85rem !important; margin-bottom: 0 !important;}
-            body.print-mode-hotel header .inline-block { display: none !important; } 
-            
-            body.print-mode-hotel .vehicle-section { padding: 4px 0 !important; }
-            body.print-mode-hotel .vehicle-section .glass-card { display: flex !important; flex-direction: row !important; align-items: center !important; border: 2px solid #E5E7EB !important; padding: 8px !important; box-shadow: none !important; }
-            body.print-mode-hotel .vehicle-image-wrapper { width: 38% !important; display: block !important; }
-            body.print-mode-hotel .vehicle-image-wrapper img { max-height: 110px !important; object-fit: cover; border-radius: 6px !important; } 
-            body.print-mode-hotel .vehicle-text-wrapper { width: 62% !important; padding-left: 15px !important; }
-            body.print-mode-hotel .vehicle-text-wrapper h2 { font-size: 1.1rem !important; margin-bottom: 4px !important; }
-            body.print-mode-hotel .vehicle-text-wrapper ul { margin-bottom: 0 !important; }
-            body.print-mode-hotel .vehicle-text-wrapper ul li { margin-bottom: 3px !important; font-size: 0.8rem !important; line-height: 1.2 !important;}
-
-            body.print-mode-hotel .routes-section { padding: 4px 0 !important; }
-            body.print-mode-hotel .routes-section .text-center { margin-bottom: 6px !important; }
-            body.print-mode-hotel .routes-section .text-center h2 { font-size: 1.3rem !important; margin-bottom: 0 !important; }
-            body.print-mode-hotel .routes-section .text-center p { display: none !important; }
-            
-            body.print-mode-hotel .routes-section .grid { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; justify-content: space-between !important; }
-            body.print-mode-hotel .route-card { width: 32% !important; padding: 8px !important; border: 2px solid #E5E7EB !important; background: white !important; box-shadow: none !important; margin-top: 0 !important; }
-            body.print-mode-hotel .route-card h3 { font-size: 0.95rem !important; margin-bottom: 2px !important;}
-            body.print-mode-hotel .route-card p { font-size: 0.7rem !important; margin-bottom: 2px !important; line-height: 1.2 !important;}
-            body.print-mode-hotel .route-card .text-3xl { font-size: 1.1rem !important; padding-top: 4px !important; margin-bottom: 0 !important;}
-            body.print-mode-hotel .route-card .w-14 { width: 26px !important; height: 26px !important; font-size: 0.85rem !important; margin-bottom: 4px !important; }
-            
-            body.print-mode-hotel .hotel-print-section { display: flex !important; flex-direction: row !important; margin-top: 10px !important; border: 2px dashed #1E3A8A; border-radius: 8px; padding: 10px !important; background: #EFF6FF !important; align-items: center; justify-content: space-between; page-break-inside: avoid;}
-            body.print-mode-hotel .hotel-print-section .left-col { width: 70% !important; padding-right: 15px !important; }
-            body.print-mode-hotel .hotel-print-section .right-col { width: 30% !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;}
-            body.print-mode-hotel .hotel-print-section h2 { font-size: 1.1rem !important; margin-bottom: 4px !important; }
-            body.print-mode-hotel .hotel-print-section .desc-text { font-size: 0.75rem !important; margin-bottom: 6px !important; line-height: 1.2 !important; color: #4B5563 !important;}
-            body.print-mode-hotel .print-wa-text { color: #25D366 !important; font-size: 1rem !important; font-weight: bold !important; display: flex; align-items: center; gap: 5px; margin-bottom: 2px !important;}
-            body.print-mode-hotel .print-email-text { color: #1E3A8A !important; font-size: 0.9rem !important; font-weight: bold !important; display: flex; align-items: center; gap: 5px;}
-            body.print-mode-hotel .print-big-link { display: inline-block !important; background-color: #DBEAFE !important; border: 2px solid #1E3A8A !important; padding: 4px 10px !important; border-radius: 6px !important; margin-top: 6px !important; }
-            body.print-mode-hotel .print-big-link span { color: #1E3A8A !important; font-size: 0.9rem !important; font-weight: 800 !important; letter-spacing: 0.5px !important; }
-            body.print-mode-hotel .qr-placeholder { display: flex !important; align-items: center; justify-content: center; width: 100px !important; height: 100px !important; border: 2px solid #1E3A8A; background: white; border-radius: 6px; margin: 0 auto; overflow: hidden; }
-            body.print-mode-hotel .qr-placeholder img { width: 100%; height: 100%; object-fit: contain; }
-        }
-    </style>
-</head>
-<body class="antialiased selection:bg-brandGold selection:text-white relative">
-
-    <nav class="fixed top-0 w-full z-40 bg-white/90 backdrop-blur-md border-b border-gray-200 no-print shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="font-serif font-bold text-2xl text-brandBlue">Kutaisi<span class="text-brandGold">Premium</span></div>
-            <div class="flex items-center gap-4">
-                <div id="lang-selector" class="flex gap-2 text-xl cursor-pointer">
-                    <span onclick="setLang('en')" class="hover:scale-110 transition" title="English">🇬🇧</span>
-                    <span onclick="setLang('de')" class="hover:scale-110 transition opacity-50 hover:opacity-100" id="flag-de" title="Deutsch">🇩🇪</span>
-                    <span onclick="setLang('ru')" class="hover:scale-110 transition opacity-50 hover:opacity-100" id="flag-ru" title="Русский">🇷🇺</span>
-                    <span onclick="setLang('ka')" class="hover:scale-110 transition opacity-50 hover:opacity-100" id="flag-ka" title="ქართული">🇬🇪</span>
-                </div>
-                <a href="#contact" id="nav-btn" class="text-sm bg-brandBlue text-white px-5 py-2 rounded-lg hover:bg-blue-800 transition flex items-center gap-2 shadow-md">Book Now</a>
+        body.print-mode-hotel .routes-section { padding: 4px 0 !important; }
+        body.print-mode-hotel .routes-section .text-center { margin-bottom: 6px !important; }
+        body.print-mode-hotel .routes-section .text-center h2 { font-size: 1.3rem !important; margin-bottom: 0 !important; }
+        body.print-mode-hotel .routes-section .text-center p { display: none !important; }
+        
+        body.print-mode-hotel .routes-section .grid { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; justify-content: space-between !important; }
+        body.print-mode-hotel .route-card { width: 32% !important; padding: 8px !important; border: 2px solid #E5E7EB !important; background: white !important; box-shadow: none !important; margin-top: 0 !important; }
+        body.print-mode-hotel .route-card h3 { font-size: 0.95rem !important; margin-bottom: 2px !important;}
+        body.print-mode-hotel .route-card p { font-size: 0.7rem !important; margin-bottom: 2px !important; line-height: 1.2 !important;}
+        body.print-mode-hotel .route-card .text-3xl { font-size: 1.1rem !important; padding-top: 4px !important; margin-bottom: 0 !important;}
+        body.print-mode-hotel .route-card .w-14 { width: 26px !important; height: 26px !important; font-size: 0.85rem !important; margin-bottom: 4px !important; }
+        
+        body.print-mode-hotel .hotel-print-section { display: flex !important; flex-direction: row !important; margin-top: 10px !important; border: 2px dashed #1E3A8A; border-radius: 8px; padding: 10px !important; background: #EFF6FF !important; align-items: center; justify-content: space-between; page-break-inside: avoid;}
+        body.print-mode-hotel .hotel-print-section .left-col { width: 70% !important; padding-right: 15px !important; }
+        body.print-mode-hotel .hotel-print-section .right-col { width: 30% !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;}
+        body.print-mode-hotel .hotel-print-section h2 { font-size: 1.1rem !important; margin-bottom: 4px !important; }
+        body.print-mode-hotel .hotel-print-section .desc-text { font-size: 0.75rem !important; margin-bottom: 6px !important; line-height: 1.2 !important; color: #4B5563 !important;}
+        body.print-mode-hotel .print-wa-text { color: #25D366 !important; font-size: 1rem !important; font-weight: bold !important; display: flex; align-items: center; gap: 5px; margin-bottom: 2px !important;}
+        body.print-mode-hotel .print-email-text { color: #1E3A8A !important; font-size: 0.9rem !important; font-weight: bold !important; display: flex; align-items: center; gap: 5px;}
+        body.print-mode-hotel .print-big-link { display: inline-block !important; background-color: #DBEAFE !important; border: 2px solid #1E3A8A !important; padding: 4px 10px !important; border-radius: 6px !important; margin-top: 6px !important; }
+        body.print-mode-hotel .print-big-link span { color: #1E3A8A !important; font-size: 0.9rem !important; font-weight: 800 !important; letter-spacing: 0.5px !important; }
+        body.print-mode-hotel .qr-placeholder { display: flex !important; align-items: center; justify-content: center; width: 100px !important; height: 100px !important; border: 2px solid #1E3A8A; background: white; border-radius: 6px; margin: 0 auto; overflow: hidden; }
+        body.print-mode-hotel .qr-placeholder img { width: 100%; height: 100%; object-fit: contain; }
+    }
+</style>
+</head><body class="antialiased selection:bg-brandGold selection:text-white relative"><nav class="fixed top-0 w-full z-40 bg-white/90 backdrop-blur-md border-b border-gray-200 no-print shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="font-serif font-bold text-2xl text-brandBlue">Kutaisi<span class="text-brandGold">Premium</span></div>
+        <div class="flex items-center gap-4">
+            <div id="lang-selector" class="flex gap-2 text-xl cursor-pointer">
+                <span onclick="setLang('en')" class="hover:scale-110 transition" title="English">🇬🇧</span>
+                <span onclick="setLang('de')" class="hover:scale-110 transition opacity-50 hover:opacity-100" id="flag-de" title="Deutsch">🇩🇪</span>
+                <span onclick="setLang('ru')" class="hover:scale-110 transition opacity-50 hover:opacity-100" id="flag-ru" title="Русский">🇷🇺</span>
+                <span onclick="setLang('ka')" class="hover:scale-110 transition opacity-50 hover:opacity-100" id="flag-ka" title="ქართული">🇬🇪</span>
             </div>
+            <a href="#contact" id="nav-btn" class="text-sm bg-brandBlue text-white px-5 py-2 rounded-lg hover:bg-blue-800 transition flex items-center gap-2 shadow-md">Book Now</a>
         </div>
-    </nav>
-
-    <div id="print-top-text-container" class="hidden no-print print:block text-center mb-2 mt-4">
-        <span id="print-top-text" class="text-brandBlue font-bold text-sm tracking-widest uppercase">Premium Weekend Service</span>
     </div>
+</nav>
 
-    <header class="relative pt-32 pb-20 text-center bg-brandBlue text-white overflow-hidden mt-0 rounded-b-[40px] shadow-lg mx-2 md:mx-4">
-        <div class="absolute inset-0 z-0 opacity-10 bg-[url('https://placehold.co/100x100/ffffff/ffffff?text=+')] bg-repeat"></div>
-        <div class="relative z-10 max-w-4xl mx-auto px-4">
-            <div id="hero-tag" class="inline-block px-4 py-1 rounded-full border border-brandGold text-brandGold text-sm font-bold tracking-widest uppercase mb-6 bg-brandGold/10">Exclusive Weekend Service</div>
-            <h1 class="font-serif text-5xl md:text-7xl font-bold mb-4 leading-tight" id="hero-title">Private <span class="text-brandGold">Tours</span> & Transfers</h1>
-            <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto font-light" id="hero-desc">Discover Georgia with a punctual, safe, and premium local guide.</p>
+<div id="print-top-text-container" class="hidden no-print print:block text-center mb-2 mt-4">
+    <span id="print-top-text" class="text-brandBlue font-bold text-sm tracking-widest uppercase">Premium Weekend Service</span>
+</div>
+
+<header class="relative pt-32 pb-20 text-center bg-brandBlue text-white overflow-hidden mt-0 rounded-b-[40px] shadow-lg mx-2 md:mx-4">
+    <div class="absolute inset-0 z-0 opacity-10 bg-[url('https://placehold.co/100x100/ffffff/ffffff?text=+')] bg-repeat"></div>
+    <div class="relative z-10 max-w-4xl mx-auto px-4">
+        <div id="hero-tag" class="inline-block px-4 py-1 rounded-full border border-brandGold text-brandGold text-sm font-bold tracking-widest uppercase mb-6 bg-brandGold/10">Exclusive Weekend Service</div>
+        <h1 class="font-serif text-5xl md:text-7xl font-bold mb-4 leading-tight" id="hero-title">Private <span class="text-brandGold">Tours</span> & Transfers</h1>
+        <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto font-light" id="hero-desc">Discover Georgia with a punctual, safe, and premium local guide.</p>
+    </div>
+</header>
+
+<section class="vehicle-section py-12 max-w-6xl mx-auto px-4">
+    <div class="glass-card p-8 flex flex-col md:flex-row items-center gap-10">
+        <div class="vehicle-image-wrapper w-full md:w-1/2">
+            <img src="https://placehold.co/800x600/1E3A8A/FFFFFF?text=Photo:+You+%26+Your+Prius" alt="Your Premium Driver and Vehicle" class="rounded-xl w-full shadow-md border border-gray-200 object-cover" style="aspect-ratio: 4/3;">
         </div>
-    </header>
+        <div class="vehicle-text-wrapper w-full md:w-1/2">
+            <h2 class="font-serif text-3xl font-bold mb-4 text-brandBlue" id="feat-title">Your Local Expert & <span class="text-brandGold">Premium Ride</span></h2>
+            <ul class="space-y-4 text-gray-600 text-lg">
+                <li class="flex items-start gap-3"><i class="fas fa-user-tie text-brandBlue mt-1"></i> <div id="feat-1"><strong>Professional Driver:</strong> Fluent in local routes, focusing on safety and comfort.</div></li>
+                <li class="flex items-start gap-3"><i class="fas fa-leaf text-green-500 mt-1"></i> <div id="feat-2"><strong>Eco-Friendly Hybrid:</strong> Toyota Prius offering a smooth and quiet journey.</div></li>
+                <li class="flex items-start gap-3"><i class="fas fa-wifi text-blue-400 mt-1"></i> <div id="feat-3"><strong>Stay Connected:</strong> Free Wi-Fi hotspot available on board.</div></li>
+                <li class="flex items-start gap-3"><i class="fas fa-tint text-blue-300 mt-1"></i> <div id="feat-4"><strong>Refreshments:</strong> Complimentary bottled water included.</div></li>
+                <li class="flex items-start gap-3"><i class="fas fa-language text-brandGold mt-1"></i> <div id="feat-5"><strong>Languages:</strong> Driver speaks English, German, Russian, and Georgian.</div></li>
+            </ul>
+        </div>
+    </div>
+</section>
 
-    <section class="vehicle-section py-12 max-w-6xl mx-auto px-4">
-        <div class="glass-card p-8 flex flex-col md:flex-row items-center gap-10">
-            <div class="vehicle-image-wrapper w-full md:w-1/2">
-                <img src="https://placehold.co/800x600/1E3A8A/FFFFFF?text=Photo:+You+%26+Your+Prius" alt="Your Premium Driver and Vehicle" class="rounded-xl w-full shadow-md border border-gray-200 object-cover" style="aspect-ratio: 4/3;">
-            </div>
-            <div class="vehicle-text-wrapper w-full md:w-1/2">
-                <h2 class="font-serif text-3xl font-bold mb-4 text-brandBlue" id="feat-title">Your Local Expert & <span class="text-brandGold">Premium Ride</span></h2>
-                <ul class="space-y-4 text-gray-600 text-lg">
-                    <li class="flex items-start gap-3"><i class="fas fa-user-tie text-brandBlue mt-1"></i> <div id="feat-1"><strong>Professional Driver:</strong> Fluent in local routes, focusing on safety and comfort.</div></li>
-                    <li class="flex items-start gap-3"><i class="fas fa-leaf text-green-500 mt-1"></i> <div id="feat-2"><strong>Eco-Friendly Hybrid:</strong> Toyota Prius offering a smooth and quiet journey.</div></li>
-                    <li class="flex items-start gap-3"><i class="fas fa-wifi text-blue-400 mt-1"></i> <div id="feat-3"><strong>Stay Connected:</strong> Free Wi-Fi hotspot available on board.</div></li>
-                    <li class="flex items-start gap-3"><i class="fas fa-tint text-blue-300 mt-1"></i> <div id="feat-4"><strong>Refreshments:</strong> Complimentary bottled water included.</div></li>
-                    <li class="flex items-start gap-3"><i class="fas fa-language text-brandGold mt-1"></i> <div id="feat-5"><strong>Languages:</strong> Driver speaks English, German, Russian, and Georgian.</div></li>
-                </ul>
+<!-- HOTEL PRINT SECTION -->
+<div class="hotel-print-section max-w-6xl mx-auto px-4 relative">
+    <div class="left-col">
+        <h2 class="font-serif font-bold text-brandBlue" id="print-title">✨ Custom AI Tour Planner</h2>
+        <p class="desc-text text-gray-700" id="print-desc">Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!</p>
+        <div class="mt-2 mb-2">
+            <p class="print-wa-text"><i class="fab fa-whatsapp text-lg"></i> +995 568 004 140</p>
+            <p class="print-email-text"><i class="far fa-envelope text-lg"></i> dtatarashvili@gmail.com</p>
+        </div>
+        <div>
+            <div class="print-big-link shadow-sm">
+                <span><i class="fas fa-globe text-brandGold mr-2"></i>https://dtatarashvili.github.io/kutaisi-tours/</span>
             </div>
         </div>
-    </section>
+    </div>
+    <div class="right-col">
+        <div class="qr-placeholder">
+            <img src="qr-code.png" alt="Scan to Book" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-qrcode text-brandBlue text-4xl\'></i>';">
+        </div>
+        <p class="mt-1 font-bold text-[0.65rem] text-brandBlue uppercase tracking-wider" id="print-scan">Scan to Plan!</p>
+    </div>
+</div>
 
-    <!-- HOTEL PRINT SECTION -->
-    <div class="hotel-print-section max-w-6xl mx-auto px-4 relative">
-        <div class="left-col">
-            <h2 class="font-serif font-bold text-brandBlue" id="print-title">✨ Custom AI Tour Planner</h2>
-            <p class="desc-text text-gray-700" id="print-desc">Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!</p>
-            <div class="mt-2 mb-2">
-                <p class="print-wa-text"><i class="fab fa-whatsapp text-lg"></i> +995 568 004 140</p>
-                <p class="print-email-text"><i class="far fa-envelope text-lg"></i> dtatarashvili@gmail.com</p>
+<!-- AI Tour Planner UI -->
+<section id="ai-planner" class="py-12 max-w-4xl mx-auto px-4">
+    <div class="glass-card p-8 md:p-10 border-t-8 border-t-brandGold shadow-xl relative overflow-hidden">
+        <div class="absolute -right-10 -top-10 text-brandGold opacity-10 text-9xl"><i class="fas fa-route"></i></div>
+        
+        <div class="text-center mb-8 ai-inputs relative z-10">
+            <h2 class="font-serif text-3xl md:text-4xl font-bold mb-2 text-brandBlue" id="ai-title">AI Route & Price Calculator</h2>
+            <p class="text-gray-500 text-lg" id="ai-desc">Enter a single destination OR list multiple places for a combined tour. Our AI calculates your exact price.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-xl border border-gray-100 ai-inputs relative z-10">
+            <div class="md:col-span-2">
+                <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-dest">Where do you want to go? (Intermediate Stops)</label>
+                <input type="text" id="ai-destination" placeholder="e.g., Prometheus Cave, Martvili Canyon..." class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
+                <p id="warn-offroad" class="text-xs text-red-500 font-bold mt-2">* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).</p>
+            </div>
+            <div class="md:col-span-2">
+                <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-end">End Location (Default: Kutaisi)</label>
+                <input type="text" id="ai-end-location" placeholder="e.g., Tbilisi, Batumi, or leave empty to return to Kutaisi" class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
             </div>
             <div>
-                <div class="print-big-link shadow-sm">
-                    <span><i class="fas fa-globe text-brandGold mr-2"></i>https://dtatarashvili.github.io/kutaisi-tours/</span>
-                </div>
+                <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-date">Select Date (Weekends Only)</label>
+                <input type="date" id="ai-date" class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner text-gray-700">
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-time">Pickup Time</label>
+                <input type="time" id="ai-time" class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner text-gray-700">
+            </div>
+            
+            <div class="md:col-span-2 mt-2">
+                <button id="generate-btn" onclick="generateCustomTour()" class="w-full bg-brandBlue text-white font-bold text-lg py-4 rounded-lg hover:bg-blue-800 transition-colors shadow-lg flex justify-center items-center gap-2">
+                    <i class="fas fa-magic"></i> <span id="btn-calc">Calculate Route & Price</span>
+                </button>
             </div>
         </div>
-        <div class="right-col">
-            <div class="qr-placeholder">
-                <img src="qr-code.png" alt="Scan to Book" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-qrcode text-brandBlue text-4xl\'></i>';">
+
+        <!-- AI Result Container -->
+        <div id="ai-result-container" class="mt-8 hidden relative z-10">
+            <div class="border-t border-gray-200 pt-8">
+                <h3 class="font-serif text-2xl font-bold text-brandBlue mb-4 flex items-center gap-2 no-print"><i class="fas fa-file-invoice-dollar text-brandGold"></i> <span id="res-title">Your Custom Quote</span></h3>
+                <div id="ai-response-text" class="w-full">
+                </div>
             </div>
-            <p class="mt-1 font-bold text-[0.65rem] text-brandBlue uppercase tracking-wider" id="print-scan">Scan to Plan!</p>
         </div>
     </div>
+</section>
 
-    <!-- AI Tour Planner UI -->
-    <section id="ai-planner" class="py-12 max-w-4xl mx-auto px-4">
-        <div class="glass-card p-8 md:p-10 border-t-8 border-t-brandGold shadow-xl relative overflow-hidden">
-            <div class="absolute -right-10 -top-10 text-brandGold opacity-10 text-9xl"><i class="fas fa-route"></i></div>
-            
-            <div class="text-center mb-8 ai-inputs relative z-10">
-                <h2 class="font-serif text-3xl md:text-4xl font-bold mb-2 text-brandBlue" id="ai-title">AI Route & Price Calculator</h2>
-                <p class="text-gray-500 text-lg" id="ai-desc">Enter a single destination OR list multiple places for a combined tour. Our AI calculates your exact price.</p>
-            </div>
+<section id="contact" class="py-16 max-w-4xl mx-auto px-4 text-center border-t border-gray-200 mt-12 no-print">
+    <h2 class="font-serif text-4xl font-bold mb-4 text-brandBlue">Contact & <span class="text-brandGold">Booking</span></h2>
+    
+    <div class="flex flex-col sm:flex-row justify-center gap-6 mt-8">
+        <a href="https://wa.me/995568004140" target="_blank" class="bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold text-xl hover:bg-green-600 transition shadow-lg flex items-center justify-center gap-3">
+            <i class="fab fa-whatsapp text-2xl"></i> +995 568 004 140
+        </a>
+        <a href="mailto:dtatarashvili@gmail.com" class="bg-white border-2 border-brandBlue text-brandBlue px-8 py-4 rounded-xl font-bold text-xl hover:bg-blue-50 transition flex items-center justify-center gap-3 shadow-md">
+            <i class="far fa-envelope text-2xl"></i> dtatarashvili@gmail.com
+        </a>
+    </div>
+</section>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-xl border border-gray-100 ai-inputs relative z-10">
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-dest">Where do you want to go? (Intermediate Stops)</label>
-                    <input type="text" id="ai-destination" placeholder="e.g., Prometheus Cave, Martvili Canyon..." class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
-                    <p id="warn-offroad" class="text-xs text-red-500 font-bold mt-2">* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).</p>
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-end">End Location (Default: Kutaisi)</label>
-                    <input type="text" id="ai-end-location" placeholder="e.g., Tbilisi, Batumi, or leave empty to return to Kutaisi" class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-date">Select Date (Weekends Only)</label>
-                    <input type="date" id="ai-date" class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner text-gray-700">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-time">Pickup Time</label>
-                    <input type="time" id="ai-time" class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner text-gray-700">
-                </div>
-                
-                <div class="md:col-span-2 mt-2">
-                    <button id="generate-btn" onclick="generateCustomTour()" class="w-full bg-brandBlue text-white font-bold text-lg py-4 rounded-lg hover:bg-blue-800 transition-colors shadow-lg flex justify-center items-center gap-2">
-                        <i class="fas fa-magic"></i> <span id="btn-calc">Calculate Route & Price</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- AI Result Container -->
-            <div id="ai-result-container" class="mt-8 hidden relative z-10">
-                <div class="border-t border-gray-200 pt-8">
-                    <h3 class="font-serif text-2xl font-bold text-brandBlue mb-4 flex items-center gap-2 no-print"><i class="fas fa-file-invoice-dollar text-brandGold"></i> <span id="res-title">Your Custom Quote</span></h3>
-                    <div id="ai-response-text" class="w-full">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-16 max-w-4xl mx-auto px-4 text-center border-t border-gray-200 mt-12 no-print">
-        <h2 class="font-serif text-4xl font-bold mb-4 text-brandBlue">Contact & <span class="text-brandGold">Booking</span></h2>
-        
-        <div class="flex flex-col sm:flex-row justify-center gap-6 mt-8">
-            <a href="https://wa.me/995568004140" target="_blank" class="bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold text-xl hover:bg-green-600 transition shadow-lg flex items-center justify-center gap-3">
-                <i class="fab fa-whatsapp text-2xl"></i> +995 568 004 140
-            </a>
-            <a href="mailto:dtatarashvili@gmail.com" class="bg-white border-2 border-brandBlue text-brandBlue px-8 py-4 rounded-xl font-bold text-xl hover:bg-blue-50 transition flex items-center justify-center gap-3 shadow-md">
-                <i class="far fa-envelope text-2xl"></i> dtatarashvili@gmail.com
-            </a>
-        </div>
-    </section>
-
-    <footer class="text-center py-10 bg-gray-900 text-gray-400 border-t border-gray-800 no-print pb-32">
-        <div class="flex justify-center gap-6 mb-6">
-            <a href="https://wa.me/995568004140" target="_blank" class="text-white hover:text-waGreen transition text-2xl"><i class="fab fa-whatsapp"></i></a>
-            <a href="mailto:dtatarashvili@gmail.com" class="text-white hover:text-blue-400 transition text-2xl"><i class="far fa-envelope"></i></a>
-        </div>
-        <p class="mb-4">&copy; 2026 Premium Weekend Transfers Kutaisi. All rights reserved.</p>
-        <button onclick="printHotelBrochure()" class="text-xs bg-gray-800 text-gray-300 px-4 py-2 rounded hover:text-white border border-gray-700 transition flex items-center justify-center gap-2 mx-auto mt-4">
-            <i class="fas fa-print"></i> Admin: Print Hotel Brochures
-        </button>
-    </footer>
-
-    <!-- 🤖 CHATBOT WIDGET -->
-    <button id="chatbot-toggle" onclick="toggleChat()" class="fixed bottom-6 right-6 w-16 h-16 bg-brandGold text-white rounded-full shadow-2xl flex items-center justify-center text-3xl hover:bg-yellow-600 transition-transform hover:scale-110 z-50 no-print">
-        <i class="fas fa-robot"></i>
+<footer class="text-center py-10 bg-gray-900 text-gray-400 border-t border-gray-800 no-print pb-32">
+    <div class="flex justify-center gap-6 mb-6">
+        <a href="https://wa.me/995568004140" target="_blank" class="text-white hover:text-waGreen transition text-2xl"><i class="fab fa-whatsapp"></i></a>
+        <a href="mailto:dtatarashvili@gmail.com" class="text-white hover:text-blue-400 transition text-2xl"><i class="far fa-envelope"></i></a>
+    </div>
+    <p class="mb-4">&copy; 2026 Premium Weekend Transfers Kutaisi. All rights reserved.</p>
+    <button onclick="printHotelBrochure()" class="text-xs bg-gray-800 text-gray-300 px-4 py-2 rounded hover:text-white border border-gray-700 transition flex items-center justify-center gap-2 mx-auto mt-4">
+        <i class="fas fa-print"></i> Admin: Print Hotel Brochures
     </button>
+</footer>
 
-    <div id="chatbot-panel" class="hidden fixed bottom-24 right-6 w-[360px] max-w-[90vw] h-[550px] max-h-[75vh] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col z-50 overflow-hidden no-print">
-        <div class="bg-brandBlue p-4 text-white flex justify-between items-center shadow-md">
-            <div>
-                <h3 class="font-bold font-serif flex items-center gap-2"><i class="fas fa-robot text-brandGold"></i> AI Manager</h3>
-                <p class="text-xs text-blue-200">Online & ready to calculate prices</p>
-            </div>
-            <button onclick="toggleChat()" class="text-white hover:text-gray-300 text-2xl"><i class="fas fa-times"></i></button>
+<!-- 🤖 CHATBOT WIDGET -->
+<button id="chatbot-toggle" onclick="toggleChat()" class="fixed bottom-6 right-6 w-16 h-16 bg-brandGold text-white rounded-full shadow-2xl flex items-center justify-center text-3xl hover:bg-yellow-600 transition-transform hover:scale-110 z-50 no-print">
+    <i class="fas fa-robot"></i>
+</button>
+
+<div id="chatbot-panel" class="hidden fixed bottom-24 right-6 w-[360px] max-w-[90vw] h-[550px] max-h-[75vh] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col z-50 overflow-hidden no-print">
+    <div class="bg-brandBlue p-4 text-white flex justify-between items-center shadow-md">
+        <div>
+            <h3 class="font-bold font-serif flex items-center gap-2"><i class="fas fa-robot text-brandGold"></i> AI Manager</h3>
+            <p class="text-xs text-blue-200">Online & ready to calculate prices</p>
         </div>
-        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-3">
-            <div class="bg-blue-100 text-brandBlue p-3 rounded-xl rounded-tl-sm self-start max-w-[85%] text-sm shadow-sm" id="chat-greeting">
-                Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!
-            </div>
-        </div>
-        <div class="p-3 bg-white border-t border-gray-200 flex gap-2">
-            <input type="text" id="chat-input" placeholder="Ask for a route or price..." class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brandGold transition" onkeypress="handleChatKeyPress(event)">
-            <button onclick="sendChatMessage()" class="bg-brandGold text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition shadow-md"><i class="fas fa-paper-plane"></i></button>
+        <button onclick="toggleChat()" class="text-white hover:text-gray-300 text-2xl"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-3">
+        <div class="bg-blue-100 text-brandBlue p-3 rounded-xl rounded-tl-sm self-start max-w-[85%] text-sm shadow-sm" id="chat-greeting">
+            Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!
         </div>
     </div>
+    <div class="p-3 bg-white border-t border-gray-200 flex gap-2">
+        <input type="text" id="chat-input" placeholder="Ask for a route or price..." class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brandGold transition" onkeypress="handleChatKeyPress(event)">
+        <button onclick="sendChatMessage()" class="bg-brandGold text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition shadow-md"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
 
-    <script>
-        // 🛑 Google Maps-ის გასაღები
-        const mapsPart1 = "AIzaSyCSSAmwIuqY";
-        const mapsPart2 = "WD71hiA6Q3WusfZTMn3I3lU";
-        const mapsApiKey = mapsPart1 + mapsPart2;
+<script>
+    // 🛑 BACKEND TOGGLE 
+    // შეცვალე true-ზე, როდესაც Vercel Backend-ს ააწყობ. 
+    const USE_BACKEND = false; 
+    const BACKEND_URL = '/api/gemini'; 
 
-        // 🛑 Gemini-ს გასაღები
-        const keyPart1 = "AIzaSyCS40ob2IpovB"; 
-        const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
-        const geminiApiKey = keyPart1 + keyPart2;
-        
-        const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
-        
-        let currentLang = 'en';
-        let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
-        let currentDateStr = '';
-        let currentTimeStr = '';
-        let lastQuoteData = null; 
+    // 🛑 Google Maps-ის გასაღები (დაიცავი HTTP Referrer-ით Google Cloud-ში!)
+    const mapsPart1 = "AIzaSyCSSAmwIuqY";
+    const mapsPart2 = "WD71hiA6Q3WusfZTMn3I3lU";
+    const mapsApiKey = mapsPart1 + mapsPart2;
 
-        // 🌐 TRANSLATION DICTIONARY
-        const uiDict = {
-            'en': {
-                nav: "Book Now", heroTag: "Exclusive Weekend Service", heroTitle: "Private <span class='text-brandGold'>Tours</span> & Transfers",
-                heroDesc: "Discover Georgia with a punctual, safe, and premium local guide.",
-                fTitle: "Your Local Expert & <span class='text-brandGold'>Premium Ride</span>",
-                f1: "<strong>Professional Driver:</strong> Fluent in local routes, safe and comfortable.",
-                f2: "<strong>Eco-Friendly Hybrid:</strong> Toyota Prius offering a smooth journey.",
-                f3: "<strong>Stay Connected:</strong> Free Wi-Fi hotspot on board.",
-                f4: "<strong>Refreshments:</strong> Complimentary bottled water included.",
-                f5: "<strong>Languages:</strong> Driver speaks English, German, Russian, and Georgian.",
-                aiTitle: "AI Route & Price Calculator", aiDesc: "Enter a single destination OR list multiple places for a combined tour.",
-                lDest: "Where do you want to go? (Intermediate Stops)", lEnd: "End Location (Default: Kutaisi)", lDate: "Select Date (Weekends Only)", lTime: "Pickup Time",
-                btnCalc: "Calculate Route & Price", resTitle: "Your Custom Quote", 
-                btnBook: "Book this Option", printTop: "Premium Weekend Service", printTitle: "✨ Custom AI Tour Planner", printDesc: "Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!", printScan: "Scan to Plan!",
-                warnOffroad: "* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).", errWeekend: "Please select a Saturday or Sunday. We only operate on weekends!", chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!",
-                optTitle: "💡 Recommended Route (Cheaper & Shorter)", origTitle: "🧭 Your Original Requested Route",
-                detailReportTitle: "Detailed Route Itinerary", segment: "Segment", distTh: "Distance", timeTh: "Est. Time", totalDriveTime: "Total Driving Time",
-                price: "Final Price" 
-            },
-            'ka': {
-                nav: "დაჯავშნა", heroTag: "პრემიუმ სერვისი შაბათ-კვირას", heroTitle: "პირადი <span class='text-brandGold'>ტურები</span> და ტრანსფერები",
-                heroDesc: "იმოგზაურეთ საქართველოში უსაფრთხოდ, პუნქტუალურ ადგილობრივ მძღოლთან ერთად.",
-                fTitle: "თქვენი მეგზური და <span class='text-brandGold'>პრემიუმ ავტო</span>",
-                f1: "<strong>პროფესიონალი მძღოლი:</strong> უსაფრთხო და კომფორტული მგზავრობა.",
-                f2: "<strong>ეკო-ჰიბრიდი:</strong> Toyota Prius უზრუნველყოფს მშვიდ მგზავრობას.",
-                f3: "<strong>ინტერნეტი:</strong> უფასო Wi-Fi ავტომობილში.",
-                f4: "<strong>გაგრილება:</strong> უფასო სასმელი წყალი მგზავრებისთვის.",
-                f5: "<strong>ენები:</strong> მძღოლი საუბრობს ინგლისურად, გერმანულად, რუსულად და ქართულად.",
-                aiTitle: "AI კალკულატორი / კომბინირებული ტურები", aiDesc: "შეიყვანეთ ერთი ან რამდენიმე დანიშნულების ადგილი.",
-                lDest: "სად გსურთ წასვლა? (შუალედური გაჩერებები)", lEnd: "ტურის დასრულების ადგილი (დეფოლტად: ქუთაისი)", lDate: "აირჩიეთ თარიღი (მხოლოდ შაბათ-კვირა)", lTime: "გასვლის დრო",
-                btnCalc: "ფასის და მარშრუტის დათვლა", resTitle: "თქვენი შეთავაზება",
-                btnBook: "ამ ვარიანტის დაჯავშნა", printTop: "პრემიუმ სერვისი შაბათ-კვირას", printTitle: "✨ AI ტურის დამგეგმავი", printDesc: "დაასკანერეთ QR კოდი და დაგეგმეთ ტური AI-ს დახმარებით. კალკულატორი წამებში დაგითვლით ზუსტ ფასს!", printScan: "დაასკანერე!",
-                warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).", errWeekend: "გთხოვთ აირჩიოთ შაბათი ან კვირა. ტრანსფერებს ვასრულებთ მხოლოდ დასვენების დღეებში!", chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!",
-                optTitle: "💡 რეკომენდებული მარშრუტი (მოკლე და იაფი)", origTitle: "🧭 თქვენს მიერ მოთხოვნილი მარშრუტი",
-                detailReportTitle: "მარშრუტის დეტალური კილომეტრაჟი", segment: "მონაკვეთი", distTh: "მანძილი", timeTh: "სავარაუდო დრო", totalDriveTime: "ჯამური დრო (მხოლოდ გზა)",
-                price: "საბოლოო ფასი"
-            },
-            'de': {
-                nav: "Buchen", heroTag: "Exklusiver Wochenend-Service", heroTitle: "Private <span class='text-brandGold'>Touren</span> & Transfers",
-                heroDesc: "Entdecken Sie Georgien mit einem pünktlichen und sicheren lokalen Guide.",
-                fTitle: "Ihr lokaler Experte & <span class='text-brandGold'>Premium Fahrt</span>",
-                f1: "<strong>Professioneller Fahrer:</strong> Sicher und komfortabel.",
-                f2: "<strong>Eco-Hybrid:</strong> Toyota Prius für eine ruhige Fahrt.",
-                f3: "<strong>Verbunden bleiben:</strong> Kostenloses WLAN an Bord.",
-                f4: "<strong>Erfrischungen:</strong> Kostenloses Wasser inklusive.",
-                f5: "<strong>Sprachen:</strong> Fahrer spricht Englisch, Deutsch, Russisch und Georgisch.",
-                aiTitle: "AI Routen- & Preisrechner", aiDesc: "Geben Sie ein Ziel ein ODER listen Sie mehrere für eine kombinierte Tour auf.",
-                lDest: "Wohin möchten Sie fahren? (Zwischenstopps)", lEnd: "Endziel (Standard: Kutaisi)", lDate: "Datum auswählen (Nur Wochenende)", lTime: "Abholzeit",
-                btnCalc: "Route & Preis berechnen", resTitle: "Ihr Angebot", 
-                btnBook: "Diese Option buchen", printTop: "Premium Wochenend-Service", printTitle: "✨ KI-Tourenplaner", printDesc: "Scannen Sie den QR-Code, um Ihre perfekte Tour mit unserer KI zu planen. Sie berechnet sofort die genauen Preise!", printScan: "Zum Planen scannen!",
-                warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).", errWeekend: "Bitte wählen Sie einen Samstag oder Sonntag. Wir fahren nur am Wochenende!", chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!",
-                optTitle: "💡 Empfohlene Route (Günstiger & Kürzer)", origTitle: "🧭 Ihre angeforderte Originalroute",
-                detailReportTitle: "Detaillierter Reiseverlauf", segment: "Abschnitt", distTh: "Entfernung", timeTh: "Geschätzte Zeit", totalDriveTime: "Gesamte Fahrzeit",
-                price: "Endpreis"
-            },
-            'ru': {
-                nav: "Бронь", heroTag: "Эксклюзивный сервис на выходных", heroTitle: "Частные <span class='text-brandGold'>Туры</span> и Трансферы",
-                heroDesc: "Откройте для себя Грузию с пунктуальным и безопасным местным гидом.",
-                fTitle: "Ваш местный эксперт и <span class='text-brandGold'>Премиум авто</span>",
-                f1: "<strong>Профессиональный водитель:</strong> Безопасно и комфортно.",
-                f2: "<strong>Эко-Гибрид:</strong> Toyota Prius для плавной поездки.",
-                f3: "<strong>Интернет:</strong> Бесплатный Wi-Fi в салоне.",
-                f4: "<strong>Напитки:</strong> Бесплатная вода включена.",
-                f5: "<strong>Языки:</strong> Водитель говорит на английском, немецком, русском и грузинском.",
-                aiTitle: "AI Калькулятор", aiDesc: "Введите одно или несколько мест для комбинированного тура.",
-                lDest: "Куда вы хотите поехать? (Промежуточные остановки)", lEnd: "Место завершения (По умолчанию: Кутаиси)", lDate: "Выберите дату (Только выходные)", lTime: "Время выезда",
-                btnCalc: "Рассчитать маршрут и цену", resTitle: "Ваше предложение", 
-                btnBook: "Забронировать этот вариант", printTop: "Премиум сервис на выходных", printTitle: "✨ ИИ-планировщик туров", printDesc: "Отсканируйте QR-код, чтобы спланировать идеальный тур с помощью ИИ. Он мгновенно рассчитает точную цену!", printScan: "Сканируй!",
-                warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).", errWeekend: "Пожалуйста, выберите субботу или воскресенье. Мы работаем только по выходным!", chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!",
-                optTitle: "💡 Рекомендуемый маршрут (Дешевле и короче)", origTitle: "🧭 Ваш запрошенный маршрут",
-                detailReportTitle: "Детальный маршрут (километраж)", segment: "Участок", distTh: "Расстояние", timeTh: "Примерное время", totalDriveTime: "Общее время (в пути)",
-                price: "Итоговая цена"
+    // 🛑 Gemini-ს დროებითი გასაღები (თუ USE_BACKEND = false)
+    const keyPart1 = "AIzaSyCS40ob2IpovB"; 
+    const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
+    const geminiApiKey = keyPart1 + keyPart2;
+    
+    let currentLang = 'en';
+    let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
+    let currentDateStr = '';
+    let currentTimeStr = '';
+    let lastQuoteData = null; 
+
+    // 🌐 TRANSLATION DICTIONARY
+    const uiDict = {
+        'en': {
+            nav: "Book Now", heroTag: "Exclusive Weekend Service", heroTitle: "Private <span class='text-brandGold'>Tours</span> & Transfers",
+            heroDesc: "Discover Georgia with a punctual, safe, and premium local guide.",
+            fTitle: "Your Local Expert & <span class='text-brandGold'>Premium Ride</span>",
+            f1: "<strong>Professional Driver:</strong> Fluent in local routes, safe and comfortable.",
+            f2: "<strong>Eco-Friendly Hybrid:</strong> Toyota Prius offering a smooth journey.",
+            f3: "<strong>Stay Connected:</strong> Free Wi-Fi hotspot on board.",
+            f4: "<strong>Refreshments:</strong> Complimentary bottled water included.",
+            f5: "<strong>Languages:</strong> Driver speaks English, German, Russian, and Georgian.",
+            aiTitle: "AI Route & Price Calculator", aiDesc: "Enter a single destination OR list multiple places for a combined tour.",
+            lDest: "Where do you want to go? (Intermediate Stops)", lEnd: "End Location (Default: Kutaisi)", lDate: "Select Date (Weekends Only)", lTime: "Pickup Time",
+            btnCalc: "Calculate Route & Price", resTitle: "Your Custom Quote", 
+            btnBook: "Book this Option", printTop: "Premium Weekend Service", printTitle: "✨ Custom AI Tour Planner", printDesc: "Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!", printScan: "Scan to Plan!",
+            warnOffroad: "* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).", errWeekend: "Please select a Saturday or Sunday. We only operate on weekends!", chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!",
+            optTitle: "💡 Recommended Route (Cheaper & Shorter)", origTitle: "🧭 Your Original Requested Route",
+            detailReportTitle: "Detailed Route Itinerary", segment: "Segment", distTh: "Distance", timeTh: "Est. Time", totalDriveTime: "Total Driving Time", price: "Final Price",
+            sysOverload: "System overloaded, please write to us on WhatsApp for exact pricing."
+        },
+        'ka': {
+            nav: "დაჯავშნა", heroTag: "პრემიუმ სერვისი შაბათ-კვირას", heroTitle: "პირადი <span class='text-brandGold'>ტურები</span> და ტრანსფერები",
+            heroDesc: "იმოგზაურეთ საქართველოში უსაფრთხოდ, პუნქტუალურ ადგილობრივ მძღოლთან ერთად.",
+            fTitle: "თქვენი მეგზური და <span class='text-brandGold'>პრემიუმ ავტო</span>",
+            f1: "<strong>პროფესიონალი მძღოლი:</strong> უსაფრთხო და კომფორტული მგზავრობა.",
+            f2: "<strong>ეკო-ჰიბრიდი:</strong> Toyota Prius უზრუნველყოფს მშვიდ მგზავრობას.",
+            f3: "<strong>ინტერნეტი:</strong> უფასო Wi-Fi ავტომობილში.",
+            f4: "<strong>გაგრილება:</strong> უფასო სასმელი წყალი მგზავრებისთვის.",
+            f5: "<strong>ენები:</strong> მძღოლი საუბრობს ინგლისურად, გერმანულად, რუსულად და ქართულად.",
+            aiTitle: "AI კალკულატორი / კომბინირებული ტურები", aiDesc: "შეიყვანეთ ერთი ან რამდენიმე დანიშნულების ადგილი.",
+            lDest: "სად გსურთ წასვლა? (შუალედური გაჩერებები)", lEnd: "ტურის დასრულების ადგილი (დეფოლტად: ქუთაისი)", lDate: "აირჩიეთ თარიღი (მხოლოდ შაბათ-კვირა)", lTime: "გასვლის დრო",
+            btnCalc: "ფასის და მარშრუტის დათვლა", resTitle: "თქვენი შეთავაზება",
+            btnBook: "ამ ვარიანტის დაჯავშნა", printTop: "პრემიუმ სერვისი შაბათ-კვირას", printTitle: "✨ AI ტურის დამგეგმავი", printDesc: "დაასკანერეთ QR კოდი და დაგეგმეთ ტური AI-ს დახმარებით. კალკულატორი წამებში დაგითვლით ზუსტ ფასს!", printScan: "დაასკანერე!",
+            warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).", errWeekend: "გთხოვთ აირჩიოთ შაბათი ან კვირა. ტრანსფერებს ვასრულებთ მხოლოდ დასვენების დღეებში!", chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!",
+            optTitle: "💡 რეკომენდებული მარშრუტი (მოკლე და იაფი)", origTitle: "🧭 თქვენს მიერ მოთხოვნილი მარშრუტი",
+            detailReportTitle: "მარშრუტის დეტალური კილომეტრაჟი", segment: "მონაკვეთი", distTh: "მანძილი", timeTh: "სავარაუდო დრო", totalDriveTime: "ჯამური დრო (მხოლოდ გზა)", price: "საბოლოო ფასი",
+            sysOverload: "სისტემა გადატვირთულია, გთხოვთ მოგვწეროთ WhatsApp-ში ზუსტი ფასისთვის."
+        },
+        'de': {
+            nav: "Buchen", heroTag: "Exklusiver Wochenend-Service", heroTitle: "Private <span class='text-brandGold'>Touren</span> & Transfers",
+            heroDesc: "Entdecken Sie Georgien mit einem pünktlichen und sicheren lokalen Guide.",
+            fTitle: "Ihr lokaler Experte & <span class='text-brandGold'>Premium Fahrt</span>",
+            f1: "<strong>Professioneller Fahrer:</strong> Sicher und komfortabel.",
+            f2: "<strong>Eco-Hybrid:</strong> Toyota Prius für eine ruhige Fahrt.",
+            f3: "<strong>Verbunden bleiben:</strong> Kostenloses WLAN an Bord.",
+            f4: "<strong>Erfrischungen:</strong> Kostenloses Wasser inklusive.",
+            f5: "<strong>Sprachen:</strong> Fahrer spricht Englisch, Deutsch, Russisch und Georgisch.",
+            aiTitle: "AI Routen- & Preisrechner", aiDesc: "Geben Sie ein Ziel ein ODER listen Sie mehrere für eine kombinierte Tour auf.",
+            lDest: "Wohin möchten Sie fahren? (Zwischenstopps)", lEnd: "Endziel (Standard: Kutaisi)", lDate: "Datum auswählen (Nur Wochenende)", lTime: "Abholzeit",
+            btnCalc: "Route & Preis berechnen", resTitle: "Ihr Angebot", 
+            btnBook: "Diese Option buchen", printTop: "Premium Wochenend-Service", printTitle: "✨ KI-Tourenplaner", printDesc: "Scannen Sie den QR-Code, um Ihre perfekte Tour mit unserer KI zu planen. Sie berechnet sofort die genauen Preise!", printScan: "Zum Planen scannen!",
+            warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).", errWeekend: "Bitte wählen Sie einen Samstag oder Sonntag. Wir fahren nur am Wochenende!", chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!",
+            optTitle: "💡 Empfohlene Route (Günstiger & Kürzer)", origTitle: "🧭 Ihre angeforderte Originalroute",
+            detailReportTitle: "Detaillierter Reiseverlauf", segment: "Abschnitt", distTh: "Entfernung", timeTh: "Geschätzte Zeit", totalDriveTime: "Gesamte Fahrzeit", price: "Endpreis",
+            sysOverload: "System überlastet, bitte kontaktieren Sie uns auf WhatsApp für genaue Preise."
+        },
+        'ru': {
+            nav: "Бронь", heroTag: "Эксклюзивный сервис на выходных", heroTitle: "Частные <span class='text-brandGold'>Туры</span> и Трансферы",
+            heroDesc: "Откройте для себя Грузию с пунктуальным и безопасным местным гидом.",
+            fTitle: "Ваш местный эксперт и <span class='text-brandGold'>Премиум авто</span>",
+            f1: "<strong>Профессиональный водитель:</strong> Безопасно и комфортно.",
+            f2: "<strong>Эко-Гибрид:</strong> Toyota Prius для плавной поездки.",
+            f3: "<strong>Интернет:</strong> Бесплатный Wi-Fi в салоне.",
+            f4: "<strong>Напитки:</strong> Бесплатная вода включена.",
+            f5: "<strong>Языки:</strong> Водитель говорит на английском, немецком, русском и грузинском.",
+            aiTitle: "AI Калькулятор", aiDesc: "Введите одно или несколько мест для комбинированного тура.",
+            lDest: "Куда вы хотите поехать? (Промежуточные остановки)", lEnd: "Место завершения (По умолчанию: Кутаиси)", lDate: "Выберите дату (Только выходные)", lTime: "Время выезда",
+            btnCalc: "Рассчитать маршрут и цену", resTitle: "Ваше предложение", 
+            btnBook: "Забронировать этот вариант", printTop: "Премиум сервис на выходных", printTitle: "✨ ИИ-планировщик туров", printDesc: "Отсканируйте QR-код, чтобы спланировать идеальный тур с помощью ИИ. Он мгновенно рассчитает точную цену!", printScan: "Сканируй!",
+            warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).", errWeekend: "Пожалуйста, выберите субботу или воскресенье. Мы работаем только по выходным!", chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!",
+            optTitle: "💡 Рекомендуемый маршрут (Дешевле и короче)", origTitle: "🧭 Ваш запрошенный маршрут",
+            detailReportTitle: "Детальный маршрут (километраж)", segment: "Участок", distTh: "Расстояние", timeTh: "Примерное время", totalDriveTime: "Общее время (в пути)", price: "Итоговая цена",
+            sysOverload: "Система перегружена, пожалуйста, напишите нам в WhatsApp для получения точной цены."
+        }
+    }
+
+    window.onload = async () => {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('ai-date').setAttribute('min', today);
+        setLang('en'); 
+        try {
+            const res = await fetch('https://open.er-api.com/v6/latest/GEL');
+            const data = await res.json();
+            if(data && data.rates) {
+                exchangeRates.USD = data.rates.USD;
+                exchangeRates.EUR = data.rates.EUR;
+                exchangeRates.RUB = data.rates.RUB;
             }
+        } catch(e) { console.log("Using fallback rates."); }
+    };
+
+    function setLang(lang) {
+        currentLang = lang;
+        const dict = uiDict[lang];
+        
+        document.getElementById('nav-btn').innerHTML = dict.nav;
+        document.getElementById('hero-tag').innerHTML = dict.heroTag;
+        document.getElementById('hero-title').innerHTML = dict.heroTitle;
+        document.getElementById('hero-desc').innerHTML = dict.heroDesc;
+        document.getElementById('feat-title').innerHTML = dict.fTitle;
+        document.getElementById('feat-1').innerHTML = dict.f1;
+        document.getElementById('feat-2').innerHTML = dict.f2;
+        document.getElementById('feat-3').innerHTML = dict.f3;
+        document.getElementById('feat-4').innerHTML = dict.f4;
+        document.getElementById('feat-5').innerHTML = dict.f5;
+        document.getElementById('print-top-text').innerHTML = dict.printTop;
+        document.getElementById('print-title').innerHTML = dict.printTitle;
+        document.getElementById('print-desc').innerHTML = dict.printDesc;
+        document.getElementById('print-scan').innerHTML = dict.printScan;
+        document.getElementById('ai-title').innerHTML = dict.aiTitle;
+        document.getElementById('ai-desc').innerHTML = dict.aiDesc;
+        document.getElementById('label-dest').innerHTML = dict.lDest;
+        document.getElementById('warn-offroad').innerHTML = dict.warnOffroad;
+        document.getElementById('label-end').innerHTML = dict.lEnd;
+        document.getElementById('label-date').innerHTML = dict.lDate;
+        document.getElementById('label-time').innerHTML = dict.lTime;
+        document.getElementById('btn-calc').innerHTML = dict.btnCalc;
+        document.getElementById('res-title').innerHTML = dict.resTitle;
+        document.getElementById('chat-greeting').innerHTML = dict.chatGreeting;
+
+        ['en','de','ru','ka'].forEach(l => {
+            const el = document.querySelector(`span[onclick="setLang('${l}')"]`);
+            if(l === lang) { el.classList.remove('opacity-50'); el.classList.add('opacity-100', 'scale-110'); }
+            else { el.classList.add('opacity-50'); el.classList.remove('opacity-100', 'scale-110'); }
+        });
+    }
+
+    // 💰 JavaScript Helper - სუფთა მათემატიკა ვალუტებისთვის
+    function formatPriceStr(price, lang) {
+        let p = parseFloat(price);
+        if (lang === 'ka') return `${p.toFixed(2)} GEL`;
+        if (lang === 'en') return `${p.toFixed(2)} GEL (~ ${(p * exchangeRates.USD).toFixed(2)} USD)`;
+        if (lang === 'de') return `${p.toFixed(2)} GEL (~ ${(p * exchangeRates.EUR).toFixed(2)} EUR)`;
+        if (lang === 'ru') return `${p.toFixed(2)} GEL (~ ${(p * exchangeRates.RUB).toFixed(2)} RUB)`;
+        return `${p.toFixed(2)} GEL`;
+    }
+
+    // 🚀 Google Maps ჩატვირთვა
+    function loadGoogleMaps() {
+        return new Promise((resolve, reject) => {
+            if (typeof google !== 'undefined' && google.maps) { resolve(); return; }
+            if (!mapsApiKey || mapsApiKey === "") { reject("Map Key Missing"); return; }
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=places`;
+            script.async = true;
+            script.defer = true;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+
+    // მარშრუტის კილომეტრაჟის დათვლა
+    async function runMapsRequest(directionsService, request, lang) {
+        return new Promise((resolve, reject) => {
+            directionsService.route(request, (result, status) => {
+                if (status === 'OK') {
+                    const route = result.routes[0];
+                    let totalKm = 0;
+                    let totalMins = 0;
+                    let segments = [];
+                    
+                    route.legs.forEach(leg => {
+                        totalKm += leg.distance.value / 1000;
+                        totalMins += leg.duration.value / 60;
+                        segments.push({
+                            from: leg.start_address.split(',')[0],
+                            to: leg.end_address.split(',')[0],
+                            dist: parseFloat((leg.distance.value / 1000).toFixed(1)),
+                            time: leg.duration.text
+                        });
+                    });
+
+                    // 💰 ტარიფის დათვლა ზუსტი JavaScript ლოგიკით
+                    let price = 0;
+                    if (totalKm <= 30) price = totalKm * 2.25;
+                    else if (totalKm <= 100) price = totalKm * 1.35;
+                    else price = totalKm * 1.0;
+
+                    let formattedPriceStr = formatPriceStr(price, lang);
+
+                    resolve({
+                        distanceKm: parseFloat(totalKm.toFixed(1)),
+                        estimatedTimeMins: Math.round(totalMins),
+                        formattedPrice: formattedPriceStr,
+                        segments: segments
+                    });
+                } else { reject(status); }
+            });
+        });
+    }
+
+    async function getMapsData(destStr, endLocStr, lang) {
+        const directionsService = new google.maps.DirectionsService();
+        const rawDestArray = destStr.split(/[,დაиand]+/).map(s => s.trim()).filter(s => s);
+        
+        // ვაკონტროლებთ თუ ტურისტმა ხელით ჩაწერა ქუთაისი დასრულებაში
+        let destination = endLocStr;
+        const checkLoc = destination ? destination.toLowerCase() : '';
+        if (!destination || checkLoc === 'kutaisi' || checkLoc === 'ქუთაისი' || checkLoc === 'кутаиси') {
+            destination = 'Kutaisi Center, Georgia';
+        } else {
+            destination += ', Georgia';
         }
 
-        window.onload = async () => {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('ai-date').setAttribute('min', today);
-            setLang('en'); 
-            try {
-                const res = await fetch('https://open.er-api.com/v6/latest/GEL');
-                const data = await res.json();
-                if(data && data.rates) {
-                    exchangeRates.USD = data.rates.USD;
-                    exchangeRates.EUR = data.rates.EUR;
-                    exchangeRates.RUB = data.rates.RUB;
+        const createReq = (optimize) => ({
+            origin: 'Kutaisi Center, Georgia',
+            destination: destination,
+            waypoints: rawDestArray.map(loc => ({ location: loc + ', Georgia', stopover: true })),
+            optimizeWaypoints: optimize,
+            travelMode: 'DRIVING'
+        });
+
+        if (rawDestArray.length <= 1) {
+            const res = await runMapsRequest(directionsService, createReq(false), lang);
+            return { optimized: res, original: res, isOptimized: false };
+        } else {
+            // ვაგზავნით 2 დამოუკიდებელ მოთხოვნას
+            const [resOrig, resOpt] = await Promise.all([
+                runMapsRequest(directionsService, createReq(false), lang), 
+                runMapsRequest(directionsService, createReq(true), lang)
+            ]);
+            
+            // ვამოწმებთ თუ ოპტიმიზებული ვარიანტი რეალურად უფრო მოკლეა
+            let isOptimized = resOpt.distanceKm < (resOrig.distanceKm - 0.5);
+            return { optimized: resOpt, original: resOrig, isOptimized: isOptimized };
+        }
+    }
+
+    function showFallbackUI(dict, dest) {
+        const container = document.getElementById('ai-response-text');
+        const resultContainer = document.getElementById('ai-result-container');
+        const btn = document.getElementById('generate-btn');
+        
+        const encodedDest = encodeURIComponent(dest);
+        container.innerHTML = `
+            <div class="bg-red-50 border border-red-200 p-8 rounded-xl shadow-sm flex flex-col items-center text-center mt-4">
+                <i class="fas fa-exclamation-circle text-red-500 text-4xl mb-4"></i>
+                <p class="text-red-800 font-medium text-lg mb-6">${dict.sysOverload}</p>
+                <a href="https://wa.me/995568004140?text=Hello, the website system is overloaded. Can you tell me the exact price for a tour to: ${encodedDest}" target="_blank" class="bg-[#25D366] text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition flex items-center justify-center gap-3 shadow-md w-full sm:w-auto">
+                    <i class="fab fa-whatsapp text-xl"></i> WhatsApp
+                </a>
+            </div>
+        `;
+        resultContainer.classList.remove('hidden');
+        btn.innerHTML = `<i class="fas fa-magic"></i> ${dict.btnCalc}`;
+        btn.disabled = false; btn.classList.remove('opacity-70', 'cursor-not-allowed');
+    }
+
+    async function generateCustomTour() {
+        const dest = document.getElementById('ai-destination').value.trim();
+        let endLocRaw = document.getElementById('ai-end-location').value.trim();
+        const date = document.getElementById('ai-date').value;
+        const time = document.getElementById('ai-time').value;
+        const dict = uiDict[currentLang];
+        
+        const btn = document.getElementById('generate-btn');
+        const resultContainer = document.getElementById('ai-result-container');
+        const responseText = document.getElementById('ai-response-text');
+
+        if (!dest && !endLocRaw) { alert(dict.lDest); return; }
+        
+        let endLoc = endLocRaw;
+        const checkLoc = endLoc.toLowerCase();
+        if (checkLoc === 'kutaisi' || checkLoc === 'ქუთაისი' || checkLoc === 'кутаиси') {
+            endLoc = ""; 
+        }
+        if (!endLoc) endLoc = "Kutaisi (Return)";
+
+        if (date) {
+            const selectedDate = new Date(date);
+            const dayOfWeek = selectedDate.getDay(); 
+            if (dayOfWeek !== 0 && dayOfWeek !== 6) { alert(dict.errWeekend); return; }
+        }
+
+        currentDateStr = date; currentTimeStr = time;
+        btn.innerHTML = '<span class="loader"></span>...';
+        btn.disabled = true; btn.classList.add('opacity-70', 'cursor-not-allowed');
+        resultContainer.classList.add('hidden');
+
+        // 🛑 FALLBACK LOGIC: If Maps fails, stop and show error immediately. No AI guessing allowed!
+        let mapsData = null;
+        try {
+            await loadGoogleMaps();
+            mapsData = await getMapsData(dest, endLocRaw, currentLang);
+        } catch(e) { 
+            console.error("Maps Data Failed (Triggering Fallback):", e);
+            showFallbackUI(dict, dest);
+            return; // Stop execution!
+        }
+
+        let fullPrompt = `
+        You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers".
+        CRITICAL RULE - OFF-ROAD ZONES: No tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. If requested, set status to "OFFROAD" and return refusal message in the requested language.
+        
+        User Request: Destinations: ${dest} | End: ${endLoc || 'Kutaisi'} | Lang: ${currentLang}.
+        
+        GOOGLE MAPS DATA (ABSOLUTE TRUTH - I HAVE ALREADY CALCULATED EVERYTHING IN JAVASCRIPT):
+        You MUST return exactly this data back to me in JSON format. Do not change distances or prices!
+        Optimized Route: Distance: ${mapsData.optimized.distanceKm} km, Time: ${mapsData.optimized.estimatedTimeMins} mins, Price: "${mapsData.optimized.formattedPrice}", Segments: ${JSON.stringify(mapsData.optimized.segments)}.
+        Original Route: Distance: ${mapsData.original.distanceKm} km, Time: ${mapsData.original.estimatedTimeMins} mins, Price: "${mapsData.original.formattedPrice}", Segments: ${JSON.stringify(mapsData.original.segments)}.
+        `;
+
+        if (mapsData.isOptimized) {
+            fullPrompt += `Set status to "OPTIMIZED". YOU MUST POPULATE BOTH 'optimizedRoute' AND 'originalRoute'.`;
+        } else {
+            fullPrompt += `Set status to "STANDARD".`;
+        }
+
+        const payload = { 
+            contents: [{ parts: [{ text: fullPrompt }] }],
+            generationConfig: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: "OBJECT",
+                    properties: {
+                        status: { type: "STRING", description: "'OFFROAD', 'OPTIMIZED', or 'STANDARD'" },
+                        offroadMessage: { type: "STRING" },
+                        optimizedRoute: {
+                            type: "OBJECT", properties: { 
+                                distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
+                                segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
+                            }
+                        },
+                        originalRoute: {
+                            type: "OBJECT", properties: { 
+                                distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
+                                segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
+                            }
+                        }
+                    },
+                    required: ["status", "optimizedRoute", "originalRoute"] 
                 }
-            } catch(e) { console.log("Using fallback rates."); }
+            }
         };
 
-        function setLang(lang) {
-            currentLang = lang;
-            const dict = uiDict[lang];
+        try {
+            let aiResponse;
             
-            document.getElementById('nav-btn').innerHTML = dict.nav;
-            document.getElementById('hero-tag').innerHTML = dict.heroTag;
-            document.getElementById('hero-title').innerHTML = dict.heroTitle;
-            document.getElementById('hero-desc').innerHTML = dict.heroDesc;
-            document.getElementById('feat-title').innerHTML = dict.fTitle;
-            document.getElementById('feat-1').innerHTML = dict.f1;
-            document.getElementById('feat-2').innerHTML = dict.f2;
-            document.getElementById('feat-3').innerHTML = dict.f3;
-            document.getElementById('feat-4').innerHTML = dict.f4;
-            document.getElementById('feat-5').innerHTML = dict.f5;
-            document.getElementById('print-top-text').innerHTML = dict.printTop;
-            document.getElementById('print-title').innerHTML = dict.printTitle;
-            document.getElementById('print-desc').innerHTML = dict.printDesc;
-            document.getElementById('print-scan').innerHTML = dict.printScan;
-            document.getElementById('ai-title').innerHTML = dict.aiTitle;
-            document.getElementById('ai-desc').innerHTML = dict.aiDesc;
-            document.getElementById('label-dest').innerHTML = dict.lDest;
-            document.getElementById('warn-offroad').innerHTML = dict.warnOffroad;
-            document.getElementById('label-end').innerHTML = dict.lEnd;
-            document.getElementById('label-date').innerHTML = dict.lDate;
-            document.getElementById('label-time').innerHTML = dict.lTime;
-            document.getElementById('btn-calc').innerHTML = dict.btnCalc;
-            document.getElementById('res-title').innerHTML = dict.resTitle;
-            document.getElementById('chat-greeting').innerHTML = dict.chatGreeting;
-
-            ['en','de','ru','ka'].forEach(l => {
-                const el = document.querySelector(`span[onclick="setLang('${l}')"]`);
-                if(l === lang) { el.classList.remove('opacity-50'); el.classList.add('opacity-100', 'scale-110'); }
-                else { el.classList.add('opacity-50'); el.classList.remove('opacity-100', 'scale-110'); }
-            });
-        }
-
-        // 💰 JavaScript Helper - სუფთა მათემატიკა ვალუტებისთვის
-        function formatPriceStr(price, lang) {
-            let p = parseFloat(price);
-            if (lang === 'ka') return `${p.toFixed(2)} GEL`;
-            if (lang === 'en') return `${p.toFixed(2)} GEL (~ ${(p * exchangeRates.USD).toFixed(2)} USD)`;
-            if (lang === 'de') return `${p.toFixed(2)} GEL (~ ${(p * exchangeRates.EUR).toFixed(2)} EUR)`;
-            if (lang === 'ru') return `${p.toFixed(2)} GEL (~ ${(p * exchangeRates.RUB).toFixed(2)} RUB)`;
-            return `${p.toFixed(2)} GEL`;
-        }
-
-        // 🚀 Google Maps ჩატვირთვა
-        function loadGoogleMaps() {
-            return new Promise((resolve, reject) => {
-                if (typeof google !== 'undefined' && google.maps) { resolve(); return; }
-                if (!mapsApiKey || mapsApiKey === "") { reject("Map Key Missing"); return; }
-                const script = document.createElement('script');
-                script.src = `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=places`;
-                script.async = true;
-                script.defer = true;
-                script.onload = resolve;
-                script.onerror = reject;
-                document.head.appendChild(script);
-            });
-        }
-
-        // მარშრუტის კილომეტრაჟის დათვლა
-        async function runMapsRequest(directionsService, request, lang) {
-            return new Promise((resolve, reject) => {
-                directionsService.route(request, (result, status) => {
-                    if (status === 'OK') {
-                        const route = result.routes[0];
-                        let totalKm = 0;
-                        let totalMins = 0;
-                        let segments = [];
-                        
-                        route.legs.forEach(leg => {
-                            totalKm += leg.distance.value / 1000;
-                            totalMins += leg.duration.value / 60;
-                            segments.push({
-                                from: leg.start_address.split(',')[0],
-                                to: leg.end_address.split(',')[0],
-                                dist: parseFloat((leg.distance.value / 1000).toFixed(1)),
-                                time: leg.duration.text
-                            });
-                        });
-
-                        // 💰 ტარიფის დათვლა ზუსტი JavaScript ლოგიკით
-                        let price = 0;
-                        if (totalKm <= 30) price = totalKm * 2.25;
-                        else if (totalKm <= 100) price = totalKm * 1.35;
-                        else price = totalKm * 1.0;
-
-                        let formattedPriceStr = formatPriceStr(price, lang);
-
-                        resolve({
-                            distanceKm: parseFloat(totalKm.toFixed(1)),
-                            estimatedTimeMins: Math.round(totalMins),
-                            formattedPrice: formattedPriceStr,
-                            segments: segments
-                        });
-                    } else { reject(status); }
-                });
-            });
-        }
-
-        async function getMapsData(destStr, endLocStr, lang) {
-            const directionsService = new google.maps.DirectionsService();
-            const rawDestArray = destStr.split(/[,დაиand]+/).map(s => s.trim()).filter(s => s);
-            
-            // ვაკონტროლებთ თუ ტურისტმა ხელით ჩაწერა ქუთაისი დასრულებაში
-            let destination = endLocStr;
-            const checkLoc = destination ? destination.toLowerCase() : '';
-            if (!destination || checkLoc === 'kutaisi' || checkLoc === 'ქუთაისი' || checkLoc === 'кутаиси') {
-                destination = 'Kutaisi Center, Georgia';
+            if (USE_BACKEND) {
+                aiResponse = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             } else {
-                destination += ', Georgia';
-            }
-
-            const createReq = (optimize) => ({
-                origin: 'Kutaisi Center, Georgia',
-                destination: destination,
-                waypoints: rawDestArray.map(loc => ({ location: loc + ', Georgia', stopover: true })),
-                optimizeWaypoints: optimize,
-                travelMode: 'DRIVING'
-            });
-
-            if (rawDestArray.length <= 1) {
-                const res = await runMapsRequest(directionsService, createReq(false), lang);
-                return { optimized: res, original: res, isOptimized: false };
-            } else {
-                // ვაგზავნით 2 დამოუკიდებელ მოთხოვნას
-                const [resOrig, resOpt] = await Promise.all([
-                    runMapsRequest(directionsService, createReq(false), lang), 
-                    runMapsRequest(directionsService, createReq(true), lang)
-                ]);
-                
-                // ვამოწმებთ თუ ოპტიმიზებული ვარიანტი რეალურად უფრო მოკლეა
-                let isOptimized = resOpt.distanceKm < (resOrig.distanceKm - 0.5);
-                return { optimized: resOpt, original: resOrig, isOptimized: isOptimized };
-            }
-        }
-
-        async function generateCustomTour() {
-            const dest = document.getElementById('ai-destination').value.trim();
-            let endLocRaw = document.getElementById('ai-end-location').value.trim();
-            const date = document.getElementById('ai-date').value;
-            const time = document.getElementById('ai-time').value;
-            const dict = uiDict[currentLang];
-            
-            const btn = document.getElementById('generate-btn');
-            const resultContainer = document.getElementById('ai-result-container');
-            const responseText = document.getElementById('ai-response-text');
-
-            if (!dest && !endLocRaw) { alert(dict.lDest); return; }
-            
-            let endLoc = endLocRaw;
-            const checkLoc = endLoc.toLowerCase();
-            if (checkLoc === 'kutaisi' || checkLoc === 'ქუთაისი' || checkLoc === 'кутаиси') {
-                endLoc = ""; 
-            }
-            if (!endLoc) endLoc = "Kutaisi (Return)";
-
-            if (date) {
-                const selectedDate = new Date(date);
-                const dayOfWeek = selectedDate.getDay(); 
-                if (dayOfWeek !== 0 && dayOfWeek !== 6) { alert(dict.errWeekend); return; }
-            }
-
-            if(!geminiApiKey || geminiApiKey === "") { alert("AI Key missing!"); return; }
-
-            currentDateStr = date; currentTimeStr = time;
-            btn.innerHTML = '<span class="loader"></span>...';
-            btn.disabled = true; btn.classList.add('opacity-70', 'cursor-not-allowed');
-            resultContainer.classList.add('hidden');
-
-            try {
-                let mapsData = null;
-                try {
-                    await loadGoogleMaps();
-                    mapsData = await getMapsData(dest, endLocRaw, currentLang);
-                } catch(e) { console.log("Maps Data Failed:", e); }
-
-                let fullPrompt = `
-                You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers".
-                CRITICAL RULE - OFF-ROAD ZONES: No tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. If requested, set status to "OFFROAD" and return refusal message in the requested language.
-                
-                User Request: Destinations: ${dest} | End: ${endLoc || 'Kutaisi'} | Lang: ${currentLang}.
-                `;
-
-                if (mapsData) {
-                    fullPrompt += `
-                    GOOGLE MAPS DATA (ABSOLUTE TRUTH - I HAVE ALREADY CALCULATED EVERYTHING IN JAVASCRIPT):
-                    You MUST return exactly this data back to me in JSON format. Do not change distances or prices!
-                    Optimized Route: Distance: ${mapsData.optimized.distanceKm} km, Time: ${mapsData.optimized.estimatedTimeMins} mins, Price: "${mapsData.optimized.formattedPrice}", Segments: ${JSON.stringify(mapsData.optimized.segments)}.
-                    Original Route: Distance: ${mapsData.original.distanceKm} km, Time: ${mapsData.original.estimatedTimeMins} mins, Price: "${mapsData.original.formattedPrice}", Segments: ${JSON.stringify(mapsData.original.segments)}.
-                    `;
-                    if (mapsData.isOptimized) {
-                        fullPrompt += `Set status to "OPTIMIZED". YOU MUST POPULATE BOTH 'optimizedRoute' AND 'originalRoute'.`;
-                    } else {
-                        fullPrompt += `Set status to "STANDARD".`;
-                    }
-                } else {
-                    fullPrompt += `Calculate logical route. Set status to STANDARD.`;
-                }
-
-                // 🛑 რკინისებრი Schema
-                const payload = { 
-                    contents: [{ parts: [{ text: fullPrompt }] }],
-                    generationConfig: {
-                        responseMimeType: "application/json",
-                        responseSchema: {
-                            type: "OBJECT",
-                            properties: {
-                                status: { type: "STRING", description: "'OFFROAD', 'OPTIMIZED', or 'STANDARD'" },
-                                offroadMessage: { type: "STRING" },
-                                optimizedRoute: {
-                                    type: "OBJECT", properties: { 
-                                        distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
-                                        segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
-                                    }
-                                },
-                                originalRoute: {
-                                    type: "OBJECT", properties: { 
-                                        distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
-                                        segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
-                                    }
-                                }
-                            },
-                            required: ["status", "optimizedRoute", "originalRoute"] 
-                        }
-                    }
-                };
-
-                const aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, { 
+                if(!geminiApiKey || geminiApiKey === "") throw new Error("Gemini Key Missing");
+                aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, { 
                     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) 
                 });
-                
-                const data = await aiResponse.json();
-                if (data && data.candidates && data.candidates[0].content) {
-                    lastQuoteData = JSON.parse(data.candidates[0].content.parts[0].text);
-                    renderUI(lastQuoteData, dict);
-                    resultContainer.classList.remove('hidden');
-                } else throw new Error("Invalid AI response.");
-            } catch (error) {
-                responseText.innerHTML = `<p class="text-red-600 font-bold bg-red-50 p-4 rounded-lg border border-red-200">Error: ${error.message}</p>`;
-                resultContainer.classList.remove('hidden');
-            } finally {
-                btn.innerHTML = `<i class="fas fa-magic"></i> ${dict.btnCalc}`;
-                btn.disabled = false; btn.classList.remove('opacity-70', 'cursor-not-allowed');
             }
+            
+            const data = await aiResponse.json();
+            if (data && data.candidates && data.candidates[0].content) {
+                lastQuoteData = JSON.parse(data.candidates[0].content.parts[0].text);
+                renderUI(lastQuoteData, dict);
+                resultContainer.classList.remove('hidden');
+            } else throw new Error("Invalid AI response.");
+        } catch (error) {
+            console.error("AI Fetch Error:", error);
+            showFallbackUI(dict, dest); // Fallback-ს ვრთავთ AI-ის გათიშვის შემთხვევაშიც!
+        } finally {
+            btn.innerHTML = `<i class="fas fa-magic"></i> ${dict.btnCalc}`;
+            btn.disabled = false; btn.classList.remove('opacity-70', 'cursor-not-allowed');
+        }
+    }
+
+    function buildSegmentTableHTML(route, dict) {
+        let html = `
+        <div class="mt-4 mb-4 bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
+           <table class="w-full text-left text-sm">
+               <thead class="bg-gray-100 text-gray-700">
+                   <tr>
+                       <th class="p-2 border-b border-gray-200">${dict.segment}</th>
+                       <th class="p-2 border-b border-gray-200">${dict.distTh}</th>
+                       <th class="p-2 border-b border-gray-200">${dict.timeTh}</th>
+                   </tr>
+               </thead>
+               <tbody>`;
+        
+        if (route && route.segments) {
+            route.segments.forEach(seg => {
+                html += `
+                    <tr class="border-b border-gray-50 hover:bg-gray-50">
+                        <td class="p-2">${seg.from} <i class="fas fa-long-arrow-alt-right mx-1 text-gray-400"></i> ${seg.to}</td>
+                        <td class="p-2 font-medium">${seg.dist} ${currentLang === 'ka' ? 'კმ' : 'km'}</td>
+                        <td class="p-2 text-gray-600">${seg.time}</td>
+                    </tr>`;
+            });
         }
 
-        function buildSegmentTableHTML(route, dict) {
-            let html = `
-            <div class="mt-4 mb-4 bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
-               <table class="w-full text-left text-sm">
-                   <thead class="bg-gray-100 text-gray-700">
-                       <tr>
-                           <th class="p-2 border-b border-gray-200">${dict.segment}</th>
-                           <th class="p-2 border-b border-gray-200">${dict.distTh}</th>
-                           <th class="p-2 border-b border-gray-200">${dict.timeTh}</th>
-                       </tr>
-                   </thead>
-                   <tbody>`;
-            
-            if (route && route.segments) {
-                route.segments.forEach(seg => {
-                    html += `
-                        <tr class="border-b border-gray-50 hover:bg-gray-50">
-                            <td class="p-2">${seg.from} <i class="fas fa-long-arrow-alt-right mx-1 text-gray-400"></i> ${seg.to}</td>
-                            <td class="p-2 font-medium">${seg.dist} ${currentLang === 'ka' ? 'კმ' : 'km'}</td>
-                            <td class="p-2 text-gray-600">${seg.time}</td>
-                        </tr>`;
-                });
-            }
+        let hrs = Math.floor((route.estimatedTimeMins || 0) / 60);
+        let mins = (route.estimatedTimeMins || 0) % 60;
+        let timeStr = hrs > 0 ? `${hrs} ${currentLang === 'ka' ? 'სთ' : 'hr'} ${mins} ${currentLang === 'ka' ? 'წთ' : 'min'}` : `${mins} ${currentLang === 'ka' ? 'წთ' : 'min'}`;
 
-            let hrs = Math.floor((route.estimatedTimeMins || 0) / 60);
-            let mins = (route.estimatedTimeMins || 0) % 60;
-            let timeStr = hrs > 0 ? `${hrs} ${currentLang === 'ka' ? 'სთ' : 'hr'} ${mins} ${currentLang === 'ka' ? 'წთ' : 'min'}` : `${mins} ${currentLang === 'ka' ? 'წთ' : 'min'}`;
+        html += `
+               </tbody>
+           </table>
+           <div class="bg-gray-50 p-3 text-sm flex justify-between items-center border-t border-gray-200">
+                <span class="font-bold text-gray-700">Σ ${dict.distTh}: ~${route.distanceKm} ${currentLang === 'ka' ? 'კმ' : 'km'}</span>
+                <span class="font-bold text-gray-700"><i class="far fa-clock"></i> ~${timeStr}</span>
+           </div>
+        </div>`;
+        return html;
+    }
+
+    function renderUI(data, dict) {
+        const container = document.getElementById('ai-response-text');
+        container.innerHTML = '';
+
+        if (data.status === 'OFFROAD') {
+            container.innerHTML = `<div class="bg-red-50 border-l-4 border-red-500 p-4"><p class="text-red-700 font-bold">${data.offroadMessage}</p></div>`;
+            return;
+        }
+
+        let html = '';
+        
+        if (data.status === 'OPTIMIZED' && data.originalRoute && data.originalRoute.distanceKm > data.optimizedRoute.distanceKm) {
+            html += `<div class="flex flex-col xl:flex-row gap-6">`;
+            
+            html += `
+            <div class="flex-1 bg-green-50 border-2 border-green-400 rounded-xl p-5 shadow-md relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">BEST VALUE</div>
+                <h4 class="text-green-800 font-bold text-lg mb-2">${dict.optTitle}</h4>
+                ${buildSegmentTableHTML(data.optimizedRoute, dict)}
+                <div class="text-xl text-green-800 font-bold mb-4 text-center">💰 ${dict.price}: ${data.optimizedRoute.formattedPrice}</div>
+                <button onclick="bookSpecificRoute('optimized')" class="w-full bg-[#25D366] text-white py-3 rounded-lg font-bold hover:bg-green-600 transition flex items-center justify-center gap-2 shadow-sm"><i class="fab fa-whatsapp text-lg"></i> ${dict.btnBook}</button>
+            </div>`;
 
             html += `
-                   </tbody>
-               </table>
-               <div class="bg-gray-50 p-3 text-sm flex justify-between items-center border-t border-gray-200">
-                    <span class="font-bold text-gray-700">Σ ${dict.distTh}: ~${route.distanceKm} ${currentLang === 'ka' ? 'კმ' : 'km'}</span>
-                    <span class="font-bold text-gray-700"><i class="far fa-clock"></i> ~${timeStr}</span>
-               </div>
+            <div class="flex-1 bg-gray-50 border border-gray-300 rounded-xl p-5 shadow-sm opacity-95 hover:opacity-100 transition">
+                <h4 class="text-gray-700 font-bold text-lg mb-2">${dict.origTitle}</h4>
+                ${buildSegmentTableHTML(data.originalRoute, dict)}
+                <div class="text-lg text-gray-800 font-bold mb-4 text-center">💰 ${dict.price}: ${data.originalRoute.formattedPrice}</div>
+                <button onclick="bookSpecificRoute('original')" class="w-full bg-gray-800 text-white py-3 rounded-lg font-bold hover:bg-gray-700 transition flex items-center justify-center gap-2 shadow-sm"><i class="fab fa-whatsapp text-lg"></i> ${dict.btnBook}</button>
             </div>`;
-            return html;
+            
+            html += `</div>`;
+        } else {
+            html += `
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 shadow-sm">
+                <h4 class="text-brandBlue font-bold text-lg mb-2">${dict.detailReportTitle}</h4>
+                ${buildSegmentTableHTML(data.optimizedRoute, dict)}
+                <div class="text-2xl text-brandBlue font-bold mb-6 text-center mt-4">💰 ${dict.price}: ${data.optimizedRoute.formattedPrice}</div>
+                <div class="flex justify-center">
+                    <button onclick="bookSpecificRoute('optimized')" class="w-full sm:w-auto px-10 bg-[#25D366] text-white py-3 rounded-full font-bold hover:bg-green-600 transition flex items-center justify-center gap-3 shadow-md"><i class="fab fa-whatsapp text-xl"></i> ${dict.btnBook}</button>
+                </div>
+            </div>`;
         }
 
-        function renderUI(data, dict) {
-            const container = document.getElementById('ai-response-text');
-            container.innerHTML = '';
+        container.innerHTML = html;
+    }
 
-            if (data.status === 'OFFROAD') {
-                container.innerHTML = `<div class="bg-red-50 border-l-4 border-red-500 p-4"><p class="text-red-700 font-bold">${data.offroadMessage}</p></div>`;
-                return;
-            }
+    function bookSpecificRoute(routeType) {
+        const dict = uiDict[currentLang];
+        const route = routeType === 'optimized' ? lastQuoteData.optimizedRoute : lastQuoteData.originalRoute;
+        
+        let msg = `Hello! I would like to book this route:\n\n`;
+        msg += `📍 *${dict.detailReportTitle}*\n`;
+        msg += `-----------------------------------\n`;
+        msg += `${dict.segment} | ${dict.distTh} | ${dict.timeTh}\n`;
+        msg += `-----------------------------------\n`;
+        
+        if (route && route.segments) {
+            route.segments.forEach(seg => {
+                msg += `${seg.from} -> ${seg.to} : ${seg.dist} ${currentLang === 'ka' ? 'კმ' : 'km'} | ${seg.time}\n`;
+            });
+        }
+        
+        let hrs = Math.floor((route.estimatedTimeMins || 0) / 60);
+        let mins = (route.estimatedTimeMins || 0) % 60;
+        let timeStr = hrs > 0 ? `${hrs} ${currentLang === 'ka' ? 'სთ' : 'hr'} ${mins} ${currentLang === 'ka' ? 'წთ' : 'min'}` : `${mins} ${currentLang === 'ka' ? 'წთ' : 'min'}`;
 
-            let html = '';
-            
-            if (data.status === 'OPTIMIZED' && data.originalRoute && data.originalRoute.distanceKm > data.optimizedRoute.distanceKm) {
-                html += `<div class="flex flex-col xl:flex-row gap-6">`;
-                
-                html += `
-                <div class="flex-1 bg-green-50 border-2 border-green-400 rounded-xl p-5 shadow-md relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">BEST VALUE</div>
-                    <h4 class="text-green-800 font-bold text-lg mb-2">${dict.optTitle}</h4>
-                    ${buildSegmentTableHTML(data.optimizedRoute, dict)}
-                    <div class="text-xl text-green-800 font-bold mb-4 text-center">💰 ${dict.price}: ${data.optimizedRoute.formattedPrice}</div>
-                    <button onclick="bookSpecificRoute('optimized')" class="w-full bg-[#25D366] text-white py-3 rounded-lg font-bold hover:bg-green-600 transition flex items-center justify-center gap-2 shadow-sm"><i class="fab fa-whatsapp text-lg"></i> ${dict.btnBook}</button>
-                </div>`;
+        msg += `-----------------------------------\n`;
+        msg += `*${dict.distTh}:* ~${route.distanceKm} ${currentLang === 'ka' ? 'კმ' : 'km'}\n`;
+        msg += `*${dict.totalDriveTime}:* ~${timeStr}\n\n`;
+        msg += `💰 *${dict.price}:* ${route.formattedPrice}\n`;
+        
+        if (currentDateStr) {
+            msg += `📅 Date: ${currentDateStr}`;
+            if (currentTimeStr) msg += ` at ${currentTimeStr}`;
+            msg += `\n`;
+        }
+        
+        msg += `\nIs the driver available?`;
+        
+        window.open('https://wa.me/995568004140?text=' + encodeURIComponent(msg), '_blank');
+    }
 
-                html += `
-                <div class="flex-1 bg-gray-50 border border-gray-300 rounded-xl p-5 shadow-sm opacity-95 hover:opacity-100 transition">
-                    <h4 class="text-gray-700 font-bold text-lg mb-2">${dict.origTitle}</h4>
-                    ${buildSegmentTableHTML(data.originalRoute, dict)}
-                    <div class="text-lg text-gray-800 font-bold mb-4 text-center">💰 ${dict.price}: ${data.originalRoute.formattedPrice}</div>
-                    <button onclick="bookSpecificRoute('original')" class="w-full bg-gray-800 text-white py-3 rounded-lg font-bold hover:bg-gray-700 transition flex items-center justify-center gap-2 shadow-sm"><i class="fab fa-whatsapp text-lg"></i> ${dict.btnBook}</button>
-                </div>`;
-                
-                html += `</div>`;
+    let chatHistory = [];
+    function toggleChat() { document.getElementById('chatbot-panel').classList.toggle('hidden'); }
+
+    async function sendChatMessage() {
+        const inputField = document.getElementById('chat-input');
+        const message = inputField.value.trim();
+        if (!message) return;
+
+        addMessageToUI(message, 'user');
+        inputField.value = '';
+        const loadingId = addMessageToUI('loading...', 'bot', true);
+
+        const chatPrompt = `You are Kutaisi Premium Transfers AI Manager. We only work weekends, accept CASH only, NO off-road (Svaneti etc). Be polite. User says in ${currentLang}: ` + message;
+        chatHistory.push({ role: "user", parts: [{ text: chatPrompt }] });
+        const payload = { contents: chatHistory };
+
+        try {
+            let aiResponse;
+            if (USE_BACKEND) {
+                aiResponse = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             } else {
-                html += `
-                <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 shadow-sm">
-                    <h4 class="text-brandBlue font-bold text-lg mb-2">${dict.detailReportTitle}</h4>
-                    ${buildSegmentTableHTML(data.optimizedRoute, dict)}
-                    <div class="text-2xl text-brandBlue font-bold mb-6 text-center mt-4">💰 ${dict.price}: ${data.optimizedRoute.formattedPrice}</div>
-                    <div class="flex justify-center">
-                        <button onclick="bookSpecificRoute('optimized')" class="w-full sm:w-auto px-10 bg-[#25D366] text-white py-3 rounded-full font-bold hover:bg-green-600 transition flex items-center justify-center gap-3 shadow-md"><i class="fab fa-whatsapp text-xl"></i> ${dict.btnBook}</button>
-                    </div>
-                </div>`;
-            }
-
-            container.innerHTML = html;
-        }
-
-        function bookSpecificRoute(routeType) {
-            const dict = uiDict[currentLang];
-            const route = routeType === 'optimized' ? lastQuoteData.optimizedRoute : lastQuoteData.originalRoute;
-            
-            let msg = `Hello! I would like to book this route:\n\n`;
-            msg += `📍 *${dict.detailReportTitle}*\n`;
-            msg += `-----------------------------------\n`;
-            msg += `${dict.segment} | ${dict.distTh} | ${dict.timeTh}\n`;
-            msg += `-----------------------------------\n`;
-            
-            if (route && route.segments) {
-                route.segments.forEach(seg => {
-                    msg += `${seg.from} -> ${seg.to} : ${seg.dist} ${currentLang === 'ka' ? 'კმ' : 'km'} | ${seg.time}\n`;
+                if(!geminiApiKey || geminiApiKey === "") throw new Error("Gemini Key Missing");
+                aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, { 
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) 
                 });
             }
             
-            let hrs = Math.floor((route.estimatedTimeMins || 0) / 60);
-            let mins = (route.estimatedTimeMins || 0) % 60;
-            let timeStr = hrs > 0 ? `${hrs} ${currentLang === 'ka' ? 'სთ' : 'hr'} ${mins} ${currentLang === 'ka' ? 'წთ' : 'min'}` : `${mins} ${currentLang === 'ka' ? 'წთ' : 'min'}`;
-
-            msg += `-----------------------------------\n`;
-            msg += `*${dict.distTh}:* ~${route.distanceKm} ${currentLang === 'ka' ? 'კმ' : 'km'}\n`;
-            msg += `*${dict.totalDriveTime}:* ~${timeStr}\n\n`;
-            msg += `💰 *${dict.price}:* ${route.formattedPrice}\n`;
-            
-            if (currentDateStr) {
-                msg += `📅 Date: ${currentDateStr}`;
-                if (currentTimeStr) msg += ` at ${currentTimeStr}`;
-                msg += `\n`;
-            }
-            
-            msg += `\nIs the driver available?`;
-            
-            window.open('https://wa.me/995568004140?text=' + encodeURIComponent(msg), '_blank');
-        }
-
-        let chatHistory = [];
-        function toggleChat() { document.getElementById('chatbot-panel').classList.toggle('hidden'); }
-
-        async function sendChatMessage() {
-            const inputField = document.getElementById('chat-input');
-            const message = inputField.value.trim();
-            if (!message) return;
-            if(!geminiApiKey || geminiApiKey === "") return;
-
-            addMessageToUI(message, 'user');
-            inputField.value = '';
-            const loadingId = addMessageToUI('loading...', 'bot', true);
-
-            const chatModelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
-            const chatPrompt = `You are Kutaisi Premium Transfers AI Manager. We only work weekends, accept CASH only, NO off-road (Svaneti etc). Be polite. User says in ${currentLang}: ` + message;
-            chatHistory.push({ role: "user", parts: [{ text: chatPrompt }] });
-
-            const payload = { contents: chatHistory };
-
-            try {
-                const data = await fetch(chatModelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(r=>r.json());
-                if (data && data.candidates && data.candidates[0].content) {
-                    const replyText = data.candidates[0].content.parts[0].text;
-                    document.getElementById(loadingId).remove();
-                    addMessageToUI(replyText, 'bot');
-                    chatHistory[chatHistory.length - 1] = { role: "user", parts: [{ text: message }] }; 
-                    chatHistory.push({ role: "model", parts: [{ text: replyText }] });
-                }
-            } catch (error) {
+            const data = await aiResponse.json();
+            if (data && data.candidates && data.candidates[0].content) {
+                const replyText = data.candidates[0].content.parts[0].text;
                 document.getElementById(loadingId).remove();
-                addMessageToUI(`Error`, 'bot');
-                chatHistory.pop();
-            }
+                addMessageToUI(replyText, 'bot');
+                chatHistory[chatHistory.length - 1] = { role: "user", parts: [{ text: message }] }; 
+                chatHistory.push({ role: "model", parts: [{ text: replyText }] });
+            } else throw new Error("Invalid AI response.");
+        } catch (error) {
+            document.getElementById(loadingId).remove();
+            addMessageToUI(`Error connecting to AI. Please message us on WhatsApp.`, 'bot');
+            chatHistory.pop();
         }
+    }
 
-        function addMessageToUI(text, sender, isLoading = false) {
-            const container = document.getElementById('chat-messages');
-            const msgDiv = document.createElement('div');
-            const id = 'msg-' + Date.now();
-            msgDiv.id = id;
+    function addMessageToUI(text, sender, isLoading = false) {
+        const container = document.getElementById('chat-messages');
+        const msgDiv = document.createElement('div');
+        const id = 'msg-' + Date.now();
+        msgDiv.id = id;
 
-            if (sender === 'user') {
-                msgDiv.className = 'bg-brandBlue text-white p-3 rounded-xl rounded-tr-sm self-end max-w-[85%] text-sm shadow-sm';
-                msgDiv.textContent = text;
-            } else {
-                msgDiv.className = 'bg-blue-100 text-brandBlue p-3 rounded-xl rounded-tl-sm self-start max-w-[85%] text-sm shadow-sm chat-prose';
-                if (isLoading) msgDiv.innerHTML = '<span class="loader" style="width:16px; height:16px; border-width: 2px;"></span>';
-                else msgDiv.innerHTML = marked.parse(text);
-            }
-            container.appendChild(msgDiv);
-            container.scrollTop = container.scrollHeight;
-            return id;
+        if (sender === 'user') {
+            msgDiv.className = 'bg-brandBlue text-white p-3 rounded-xl rounded-tr-sm self-end max-w-[85%] text-sm shadow-sm';
+            msgDiv.textContent = text;
+        } else {
+            msgDiv.className = 'bg-blue-100 text-brandBlue p-3 rounded-xl rounded-tl-sm self-start max-w-[85%] text-sm shadow-sm chat-prose';
+            if (isLoading) msgDiv.innerHTML = '<span class="loader" style="width:16px; height:16px; border-width: 2px;"></span>';
+            else msgDiv.innerHTML = marked.parse(text);
         }
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
+        return id;
+    }
 
-        function handleChatKeyPress(event) { if (event.key === 'Enter') sendChatMessage(); }
+    function handleChatKeyPress(event) { if (event.key === 'Enter') sendChatMessage(); }
 
-        function printHotelBrochure() { 
-            document.body.classList.add('print-mode-hotel'); 
-            window.print(); 
-            setTimeout(() => { document.body.classList.remove('print-mode-hotel'); }, 500); 
-        }
-    </script>
-</body>
-</html>
+    function printHotelBrochure() { 
+        document.body.classList.add('print-mode-hotel'); 
+        window.print(); 
+        setTimeout(() => { document.body.classList.remove('print-mode-hotel'); }, 500); 
+    }
+</script>
+</body></html>
