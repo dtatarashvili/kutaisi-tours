@@ -268,12 +268,12 @@
     </div>
 
     <script>
-        // 🛑 შენი Google Maps გასაღები
+        // 🛑 Google Maps-ის გასაღები
         const mapsPart1 = "AIzaSyCSSAmwIuqY";
         const mapsPart2 = "WD71hiA6Q3WusfZTMn3I3lU";
         const mapsApiKey = mapsPart1 + mapsPart2;
 
-        // 🛑 შენი Gemini გასაღები
+        // 🛑 Gemini-ს გასაღები
         const keyPart1 = "AIzaSyCS40ob2IpovB"; 
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
         const geminiApiKey = keyPart1 + keyPart2;
@@ -322,7 +322,7 @@
                 warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).", errWeekend: "გთხოვთ აირჩიოთ შაბათი ან კვირა. ტრანსფერებს ვასრულებთ მხოლოდ დასვენების დღეებში!", chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!",
                 optTitle: "💡 რეკომენდებული მარშრუტი (მოკლე და იაფი)", origTitle: "🧭 თქვენს მიერ მოთხოვნილი მარშრუტი",
                 detailReportTitle: "მარშრუტის დეტალური კილომეტრაჟი", segment: "მონაკვეთი", distTh: "მანძილი", timeTh: "სავარაუდო დრო", totalDriveTime: "ჯამური დრო (მხოლოდ გზა)",
-                price: "საბოლოო ფასი" 
+                price: "საბოლოო ფასი"
             },
             'de': {
                 nav: "Buchen", heroTag: "Exklusiver Wochenend-Service", heroTitle: "Private <span class='text-brandGold'>Touren</span> & Transfers",
@@ -340,7 +340,7 @@
                 warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).", errWeekend: "Bitte wählen Sie einen Samstag oder Sonntag. Wir fahren nur am Wochenende!", chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!",
                 optTitle: "💡 Empfohlene Route (Günstiger & Kürzer)", origTitle: "🧭 Ihre angeforderte Originalroute",
                 detailReportTitle: "Detaillierter Reiseverlauf", segment: "Abschnitt", distTh: "Entfernung", timeTh: "Geschätzte Zeit", totalDriveTime: "Gesamte Fahrzeit",
-                price: "Endpreis" 
+                price: "Endpreis"
             },
             'ru': {
                 nav: "Бронь", heroTag: "Эксклюзивный сервис на выходных", heroTitle: "Частные <span class='text-brandGold'>Туры</span> и Трансферы",
@@ -358,7 +358,7 @@
                 warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).", errWeekend: "Пожалуйста, выберите субботу или воскресенье. Мы работаем только по выходным!", chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!",
                 optTitle: "💡 Рекомендуемый маршрут (Дешевле и короче)", origTitle: "🧭 Ваш запрошенный маршрут",
                 detailReportTitle: "Детальный маршрут (километраж)", segment: "Участок", distTh: "Расстояние", timeTh: "Примерное время", totalDriveTime: "Общее время (в пути)",
-                price: "Итоговая цена" 
+                price: "Итоговая цена"
             }
         }
 
@@ -413,7 +413,7 @@
             });
         }
 
-        // 🚀 Google Maps-ის გამოძახება
+        // 🚀 Google Maps ჩატვირთვა
         function loadGoogleMaps() {
             return new Promise((resolve, reject) => {
                 if (typeof google !== 'undefined' && google.maps) { resolve(); return; }
@@ -465,30 +465,20 @@
             });
         }
 
-        function buildItineraryString(destArray, isReturn, endLocStr) {
-            let str = "Kutaisi";
-            destArray.forEach(dest => str += ` -> ${dest}`);
-            if (isReturn) str += ` -> Kutaisi`;
-            else str += ` -> ${endLocStr}`;
-            return str;
-        }
-
         async function getMapsData(destStr, endLocStr) {
             const directionsService = new google.maps.DirectionsService();
             const rawDestArray = destStr.split(/[,დაиand]+/).map(s => s.trim()).filter(s => s);
             
             // ვაკონტროლებთ თუ ტურისტმა ხელით ჩაწერა ქუთაისი დასრულებაში
             let destination = endLocStr;
-            let isReturn = false;
             const checkLoc = destination ? destination.toLowerCase() : '';
             if (!destination || checkLoc === 'kutaisi' || checkLoc === 'ქუთაისი' || checkLoc === 'кутаиси') {
                 destination = 'Kutaisi Center, Georgia';
-                isReturn = true;
             } else {
                 destination += ', Georgia';
             }
 
-            // ვქმნით მოთხოვნას (ცალ-ცალკე მასივებით, რომ ერთმანეთი არ გადაფარონ)
+            // ვქმნით მოთხოვნას 
             const createReq = (optimize) => ({
                 origin: 'Kutaisi Center, Georgia',
                 destination: destination,
@@ -499,7 +489,6 @@
 
             if (rawDestArray.length <= 1) {
                 const res = await runMapsRequest(directionsService, createReq(false));
-                res.itinerary = buildItineraryString(rawDestArray, isReturn, endLocStr);
                 return { optimized: res, original: res, isOptimized: false };
             } else {
                 // ვაგზავნით 2 დამოუკიდებელ მოთხოვნას
@@ -510,10 +499,6 @@
                 
                 // ვამოწმებთ თუ ოპტიმიზებული ვარიანტი რეალურად უფრო მოკლეა
                 let isOptimized = resOpt.distanceKm < (resOrig.distanceKm - 0.5); // 0.5კმ ცდომილების დაშვება
-
-                resOrig.itinerary = buildItineraryString(rawDestArray, isReturn, endLocStr);
-                resOpt.itinerary = "Optimized Geographic Route"; 
-
                 return { optimized: resOpt, original: resOrig, isOptimized: isOptimized };
             }
         }
@@ -531,6 +516,13 @@
 
             if (!dest && !endLocRaw) { alert(dict.lDest); return; }
             
+            let endLoc = endLocRaw;
+            const checkLoc = endLoc.toLowerCase();
+            if (checkLoc === 'kutaisi' || checkLoc === 'ქუთაისი' || checkLoc === 'кутаиси') {
+                endLoc = ""; 
+            }
+            if (!endLoc) endLoc = "Kutaisi (Return)";
+
             if (date) {
                 const selectedDate = new Date(date);
                 const dayOfWeek = selectedDate.getDay(); 
@@ -552,22 +544,22 @@
                 } catch(e) { console.log("Maps Data Failed:", e); }
 
                 let fullPrompt = `
-                You are Kutaisi Premium Transfers AI.
-                CRITICAL RULE: No tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. If requested, set status to "OFFROAD" and return refusal message.
+                You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers".
+                CRITICAL RULE - OFF-ROAD ZONES: No tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. If requested, set status to "OFFROAD" and return refusal message.
                 
-                User Request: Destinations: ${dest} | End: ${endLocRaw || 'Kutaisi'} | Lang: ${currentLang}.
+                User Request: Destinations: ${dest} | End: ${endLoc || 'Kutaisi'} | Lang: ${currentLang}.
                 Rates: 1GEL=${exchangeRates.USD}USD, 1GEL=${exchangeRates.EUR}EUR, 1GEL=${exchangeRates.RUB}RUB.
                 Price Format: [Price] GEL (~ [Converted] USD/EUR/RUB). If language is 'ka', show ONLY GEL.
                 `;
 
                 if (mapsData) {
                     fullPrompt += `
-                    GOOGLE MAPS DATA (DO NOT CHANGE THESE NUMBERS):
+                    GOOGLE MAPS DATA (ABSOLUTE TRUTH):
                     Optimized Route: Distance: ${mapsData.optimized.distanceKm} km, Time: ${mapsData.optimized.estimatedTimeMins} mins, Price: ${mapsData.optimized.priceGEL} GEL, Segments: ${JSON.stringify(mapsData.optimized.segments)}.
                     Original Route: Distance: ${mapsData.original.distanceKm} km, Time: ${mapsData.original.estimatedTimeMins} mins, Price: ${mapsData.original.priceGEL} GEL, Segments: ${JSON.stringify(mapsData.original.segments)}.
                     `;
                     if (mapsData.isOptimized) {
-                        fullPrompt += `Set status to "OPTIMIZED".`;
+                        fullPrompt += `Set status to "OPTIMIZED". YOU MUST POPULATE BOTH 'optimizedRoute' AND 'originalRoute'.`;
                     } else {
                         fullPrompt += `Set status to "STANDARD".`;
                     }
@@ -575,6 +567,7 @@
                     fullPrompt += `Calculate logical route. Set status to STANDARD.`;
                 }
 
+                // 🛑 რკინისებრი Schema - ორიგინალი ვარიანტის დამალვა აკრძალულია!
                 const payload = { 
                     contents: [{ parts: [{ text: fullPrompt }] }],
                     generationConfig: {
@@ -597,7 +590,7 @@
                                     }
                                 }
                             },
-                            required: ["status"]
+                            required: ["status", "optimizedRoute", "originalRoute"] // ეს აიძულებს AI-ს ორივე ვარიანტი დაწეროს!
                         }
                     }
                 };
