@@ -224,7 +224,6 @@
                 <div class="border-t border-gray-200 pt-8">
                     <h3 class="font-serif text-2xl font-bold text-brandBlue mb-4 flex items-center gap-2 no-print"><i class="fas fa-file-invoice-dollar text-brandGold"></i> <span id="res-title">Your Custom Quote</span></h3>
                     
-                    <!-- Dynamic UI injected here -->
                     <div id="ai-response-text" class="w-full">
                     </div>
                 </div>
@@ -285,7 +284,6 @@
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
         const apiKey = keyPart1 + keyPart2;
         
-        // 🚀 ძრავა (JSON Response)
         const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         
         let currentLang = 'en';
@@ -308,7 +306,6 @@
                 btnCalc: "Calculate Route & Price", resTitle: "Your Custom Quote", resAction: "Send this quote to our WhatsApp to confirm your booking and check driver availability.",
                 btnBook: "Book this Option", printTop: "Premium Weekend Service", printTitle: "✨ Custom AI Tour Planner", printDesc: "Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!", printScan: "Scan to Plan!",
                 warnOffroad: "* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).", errWeekend: "Please select a Saturday or Sunday. We only operate on weekends!", chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!",
-                // JSON UI
                 optTitle: "💡 Recommended Route (Cheaper & Shorter)", origTitle: "🧭 Your Original Requested Route",
                 itinerary: "Itinerary", distance: "Total Distance", price: "Final Price"
             },
@@ -326,7 +323,6 @@
                 btnCalc: "ფასის და მარშრუტის დათვლა", resTitle: "თქვენი შეთავაზება", resAction: "გამოგვიგზავნეთ ეს შეთავაზება WhatsApp-ში დასადასტურებლად.",
                 btnBook: "ამ ვარიანტის დაჯავშნა", printTop: "პრემიუმ სერვისი შაბათ-კვირას", printTitle: "✨ AI ტურის დამგეგმავი", printDesc: "დაასკანერეთ QR კოდი და დაგეგმეთ ტური AI-ს დახმარებით. კალკულატორი წამებში დაგითვლით ზუსტ ფასს!", printScan: "დაასკანერე!",
                 warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).", errWeekend: "გთხოვთ აირჩიოთ შაბათი ან კვირა. ტრანსფერებს ვასრულებთ მხოლოდ დასვენების დღეებში!", chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!",
-                // JSON UI
                 optTitle: "💡 რეკომენდებული მარშრუტი (მოკლე და იაფი)", origTitle: "🧭 თქვენს მიერ მოთხოვნილი მარშრუტი",
                 itinerary: "მიმართულება", distance: "საერთო მანძილი", price: "საბოლოო ფასი"
             },
@@ -344,7 +340,6 @@
                 btnCalc: "Route & Preis berechnen", resTitle: "Ihr Angebot", resAction: "Senden Sie dieses Angebot an unser WhatsApp, um die Buchung zu bestätigen.",
                 btnBook: "Diese Option buchen", printTop: "Premium Wochenend-Service", printTitle: "✨ KI-Tourenplaner", printDesc: "Scannen Sie den QR-Code, um Ihre perfekte Tour mit unserer KI zu planen. Sie berechnet sofort die genauen Preise!", printScan: "Zum Planen scannen!",
                 warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).", errWeekend: "Bitte wählen Sie einen Samstag oder Sonntag. Wir fahren nur am Wochenende!", chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!",
-                // JSON UI
                 optTitle: "💡 Empfohlene Route (Günstiger & Kürzer)", origTitle: "🧭 Ihre angeforderte Originalroute",
                 itinerary: "Reiseroute", distance: "Gesamtstrecke", price: "Endpreis"
             },
@@ -362,7 +357,6 @@
                 btnCalc: "Рассчитать маршрут и цену", resTitle: "Ваше предложение", resAction: "Отправьте это предложение на наш WhatsApp для подтверждения бронирования.",
                 btnBook: "Забронировать этот вариант", printTop: "Премиум сервис на выходных", printTitle: "✨ ИИ-планировщик туров", printDesc: "Отсканируйте QR-код, чтобы спланировать идеальный тур с помощью ИИ. Он мгновенно рассчитает точную цену!", printScan: "Сканируй!",
                 warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).", errWeekend: "Пожалуйста, выберите субботу или воскресенье. Мы работаем только по выходным!", chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!",
-                // JSON UI
                 optTitle: "💡 Рекомендуемый маршрут (Дешевле и короче)", origTitle: "🧭 Ваш запрошенный маршрут",
                 itinerary: "Маршрут", distance: "Общее расстояние", price: "Итоговая цена"
             }
@@ -472,7 +466,6 @@
             Rates: 1GEL=${exchangeRates.USD}USD, 1GEL=${exchangeRates.EUR}EUR, 1GEL=${exchangeRates.RUB}RUB.
             `;
 
-            // 🚀 Force JSON Output
             const payload = { 
                 contents: [{ parts: [{ text: fullPrompt }] }],
                 generationConfig: {
@@ -509,7 +502,6 @@
             }
         }
 
-        // 🧠 UI Renderer for Smart Choice
         function renderUI(data, dict) {
             const container = document.getElementById('ai-response-text');
             container.innerHTML = '';
@@ -522,10 +514,8 @@
             let html = '';
             
             if (data.status === 'OPTIMIZED' && data.originalRoute && data.originalRoute.distanceKm > data.optimizedRoute.distanceKm) {
-                // Render Two Options
                 html += `<div class="flex flex-col md:flex-row gap-6">`;
                 
-                // Option 1: Optimized (Highlighted)
                 html += `
                 <div class="flex-1 bg-green-50 border-2 border-green-400 rounded-xl p-5 shadow-md relative overflow-hidden">
                     <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">BEST VALUE</div>
@@ -538,7 +528,6 @@
                     <button onclick="bookSpecificRoute('${data.optimizedRoute.itinerary}', '${data.optimizedRoute.formattedPrice}')" class="w-full bg-[#25D366] text-white py-2 rounded-lg font-bold hover:bg-green-600 transition flex items-center justify-center gap-2"><i class="fab fa-whatsapp"></i> ${dict.btnBook}</button>
                 </div>`;
 
-                // Option 2: Original
                 html += `
                 <div class="flex-1 bg-gray-50 border border-gray-300 rounded-xl p-5 shadow-sm opacity-90 hover:opacity-100 transition">
                     <h4 class="text-gray-700 font-bold text-lg mb-3">${dict.origTitle}</h4>
@@ -552,7 +541,6 @@
                 
                 html += `</div>`;
             } else {
-                // Render Single Option
                 html += `
                 <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 shadow-sm">
                     <ul class="text-gray-800 space-y-3 mb-6 text-lg">
@@ -565,11 +553,8 @@
             }
 
             container.innerHTML = html;
-            // Hide the old generic button section since buttons are now inside cards
-            document.querySelector('#ai-result-container .bg-yellow-50').style.display = 'none';
         }
 
-        // WhatsApp Direct Link with specific choice
         function bookSpecificRoute(itinerary, price) {
             const dateInfo = currentDateStr ? ` Date: ${currentDateStr} at ${currentTimeStr}` : '';
             const msg = `Hello! I would like to book this exact route:\n\n📍 ${itinerary}\n💰 Price: ${price}\n📅 ${dateInfo}\n\nIs the driver available?`;
@@ -590,7 +575,6 @@
             }
         }
 
-        // CHATBOT Logic
         let chatHistory = [];
         function toggleChat() { document.getElementById('chatbot-panel').classList.toggle('hidden'); }
 
@@ -604,7 +588,6 @@
             inputField.value = '';
             const loadingId = addMessageToUI('loading...', 'bot', true);
 
-            // Using pure text model URL for chat
             const chatModelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
             const chatPrompt = `You are Kutaisi Premium Transfers AI Manager. We only work weekends, accept CASH only, NO off-road (Svaneti etc). Be polite. User says in ${currentLang}: ` + message;
             chatHistory.push({ role: "user", parts: [{ text: chatPrompt }] });
