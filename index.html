@@ -196,7 +196,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-xl border border-gray-100 ai-inputs relative z-10">
                 <div class="md:col-span-2">
                     <label class="block text-sm font-bold text-brandBlue mb-2 uppercase" id="label-dest">Where do you want to go? (Intermediate Stops)</label>
-                    <input type="text" id="ai-destination" placeholder="e.g., Prometheus Cave, Martvili Canyon..." class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
+                    <input type="text" id="ai-destination" placeholder="e.g., Prometheus Cave, Motsameta, Gelati..." class="w-full bg-white border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-brandGold transition shadow-inner">
                     <!-- Off-road Warning -->
                     <p id="warn-offroad" class="text-xs text-red-500 font-bold mt-2">* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).</p>
                 </div>
@@ -294,6 +294,7 @@
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
         const apiKey = keyPart1 + keyPart2;
         
+        // 🚀 ძრავა
         const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         
         let currentLang = 'en';
@@ -323,7 +324,8 @@
                 warnOffroad: "* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).",
                 aiRouteHeader: "### 📍 Route Details", aiItin: "Itinerary", aiDist: "Total Distance", aiDate: "Date/Time",
                 aiPriceHeader: "### 💰 Price Quote", aiFinal: "Final Price", errWeekend: "Please select a Saturday or Sunday. We only operate on weekends!",
-                chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!"
+                chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!",
+                aiOptNote: "Route Optimization"
             },
             'ka': {
                 nav: "დაჯავშნა", heroTag: "პრემიუმ სერვისი შაბათ-კვირას", heroTitle: "პირადი <span class='text-brandGold'>ტურები</span> და ტრანსფერები",
@@ -347,7 +349,8 @@
                 warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).",
                 aiRouteHeader: "### 📍 მარშრუტის დეტალები", aiItin: "მიმართულება", aiDist: "საერთო მანძილი", aiDate: "თარიღი/დრო",
                 aiPriceHeader: "### 💰 ფასი", aiFinal: "საბოლოო ფასი", errWeekend: "გთხოვთ აირჩიოთ შაბათი ან კვირა. ტრანსფერებს ვასრულებთ მხოლოდ დასვენების დღეებში!",
-                chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!"
+                chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!",
+                aiOptNote: "მარშრუტის ოპტიმიზაცია"
             },
             'de': {
                 nav: "Buchen", heroTag: "Exklusiver Wochenend-Service", heroTitle: "Private <span class='text-brandGold'>Touren</span> & Transfers",
@@ -371,7 +374,8 @@
                 warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).",
                 aiRouteHeader: "### 📍 Routendetails", aiItin: "Reiseroute", aiDist: "Gesamtstrecke", aiDate: "Datum/Uhrzeit",
                 aiPriceHeader: "### 💰 Preisangebot", aiFinal: "Endpreis", errWeekend: "Bitte wählen Sie einen Samstag oder Sonntag. Wir fahren nur am Wochenende!",
-                chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!"
+                chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!",
+                aiOptNote: "Routenoptimierung"
             },
             'ru': {
                 nav: "Бронь", heroTag: "Эксклюзивный сервис на выходных", heroTitle: "Частные <span class='text-brandGold'>Туры</span> и Трансферы",
@@ -395,7 +399,8 @@
                 warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).",
                 aiRouteHeader: "### 📍 Детали маршрута", aiItin: "Маршрут", aiDist: "Общее расстояние", aiDate: "Дата/Время",
                 aiPriceHeader: "### 💰 Цена", aiFinal: "Итоговая цена", errWeekend: "Пожалуйста, выберите субботу или воскресенье. Мы работаем только по выходным!",
-                chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!"
+                chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!",
+                aiOptNote: "Оптимизация маршрута"
             }
         }
 
@@ -460,7 +465,7 @@
         Vehicle: Toyota Prius (Low clearance sedan).
 
         CRITICAL RULE - RESTRICTED OFF-ROAD ZONES:
-        We DO NOT provide tours to the following extreme off-road or mountainous regions due to road conditions (dirt, rocks) which are unsafe for a Toyota Prius:
+        We DO NOT provide tours to the following extreme off-road or mountainous regions due to road conditions which are unsafe for a Toyota Prius:
         1. Svaneti (Mestia, Ushguli, Lentekhi, Hatsvali, Tetnuldi)
         2. Gomis Mta and Bakhmaro
         3. Zekari Pass (Sairme to Abastumani)
@@ -468,12 +473,13 @@
         5. Tabatskuri Lake
         If the user requests ANY of these locations, DO NOT calculate the price. Instead, politely reply (in the requested language) that these roads require 4x4/SUV vehicles which we do not operate, and suggest beautiful accessible alternatives like Martvili, Okatse, Racha, Kazbegi, or Kakheti. Stop processing further.
 
-        ROUTING LOGIC (If safe):
+        ROUTING LOGIC & OPTIMIZATION (If safe):
         - Start point is ALWAYS Kutaisi. 
-        - If End Location is provided, route is: Kutaisi -> Destinations -> End Location.
-        - If NO End Location is provided, route is round-trip: Kutaisi -> Destinations -> Kutaisi.
+        - IF MULTIPLE DESTINATIONS ARE PROVIDED: You MUST mathematically determine the OPTIMAL (shortest) geographical sequence. 
+        - Compare the Optimal Sequence with the User's Original Input Sequence.
+        - If the user's original order is inefficient (results in a longer distance), you MUST add an "Optimization Note" in the output, explaining the price difference.
 
-        MANDATORY PRICING MATH (FLAT RATE):
+        MANDATORY PRICING MATH (FLAT RATE based on TOTAL calculated distance):
         1. Calculate the TOTAL distance (D) in km.
         2. Apply ONLY ONE of these multipliers to the ENTIRE distance:
            - If D <= 30: Final Price = D * 2.25 GEL.
@@ -548,12 +554,15 @@
             IF OFF-ROAD ZONE IS REQUESTED: Output the refusal message.
             IF OFF-ROAD ZONE IS NOT REQUESTED, FORMAT OUTPUT EXACTLY LIKE THIS (USE THESE EXACT HEADERS):
             ${dict.aiRouteHeader}
-            * **${dict.aiItin}:** Kutaisi -> ${dest ? dest + ' -> ' : ''}${endLoc}
+            * **${dict.aiItin}:** Kutaisi -> [OPTIMAL SORTED DESTINATIONS] -> ${endLoc}
             * **${dict.aiDist}:** [X] km.
             * **${dict.aiDate}:** ${date} ${time}
             
             ${dict.aiPriceHeader}
-            * **${dict.aiFinal}:** [Formatted Price]
+            * **${dict.aiFinal}:** [Formatted Price for OPTIMAL route]
+            
+            [IF USER'S ORIGINAL ORDER WAS INEFFICIENT, ADD THIS NOTE EXACTLY:]
+            💡 **${dict.aiOptNote}:** [Explain in ${currentLang} that following their exact requested order would add X km and cost Y GEL extra. Ask them to confirm via WhatsApp if they strictly prefer their original, longer order.]
             
             *(Payment: Cash only directly to the driver)*
             `;
