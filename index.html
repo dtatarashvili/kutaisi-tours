@@ -268,17 +268,20 @@
     </div>
 
     <script>
-        // 🛑 Google Maps-ის გასაღები
+        // 🛑 BACKEND TOGGLE 
+        // შეცვალე true-ზე, როდესაც Vercel Backend-ს ააწყობ. 
+        const USE_BACKEND = false; 
+        const BACKEND_URL = '/api/gemini'; 
+
+        // 🛑 Google Maps-ის გასაღები (დაიცავი HTTP Referrer-ით Google Cloud-ში!)
         const mapsPart1 = "AIzaSyCSSAmwIuqY";
         const mapsPart2 = "WD71hiA6Q3WusfZTMn3I3lU";
         const mapsApiKey = mapsPart1 + mapsPart2;
 
-        // 🛑 Gemini-ს გასაღები
+        // 🛑 Gemini-ს დროებითი გასაღები (თუ USE_BACKEND = false)
         const keyPart1 = "AIzaSyCS40ob2IpovB"; 
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
         const geminiApiKey = keyPart1 + keyPart2;
-        
-        const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
         
         let currentLang = 'en';
         let exchangeRates = { USD: 0.37, EUR: 0.34, RUB: 34.0 };
@@ -303,8 +306,8 @@
                 btnBook: "Book this Option", printTop: "Premium Weekend Service", printTitle: "✨ Custom AI Tour Planner", printDesc: "Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!", printScan: "Scan to Plan!",
                 warnOffroad: "* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).", errWeekend: "Please select a Saturday or Sunday. We only operate on weekends!", chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!",
                 optTitle: "💡 Recommended Route (Cheaper & Shorter)", origTitle: "🧭 Your Original Requested Route",
-                detailReportTitle: "Detailed Route Itinerary", segment: "Segment", distTh: "Distance", timeTh: "Est. Time", totalDriveTime: "Total Driving Time",
-                price: "Final Price" 
+                detailReportTitle: "Detailed Route Itinerary", segment: "Segment", distTh: "Distance", timeTh: "Est. Time", totalDriveTime: "Total Driving Time", price: "Final Price",
+                sysOverload: "System overloaded, please write to us on WhatsApp for exact pricing."
             },
             'ka': {
                 nav: "დაჯავშნა", heroTag: "პრემიუმ სერვისი შაბათ-კვირას", heroTitle: "პირადი <span class='text-brandGold'>ტურები</span> და ტრანსფერები",
@@ -321,8 +324,8 @@
                 btnBook: "ამ ვარიანტის დაჯავშნა", printTop: "პრემიუმ სერვისი შაბათ-კვირას", printTitle: "✨ AI ტურის დამგეგმავი", printDesc: "დაასკანერეთ QR კოდი და დაგეგმეთ ტური AI-ს დახმარებით. კალკულატორი წამებში დაგითვლით ზუსტ ფასს!", printScan: "დაასკანერე!",
                 warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).", errWeekend: "გთხოვთ აირჩიოთ შაბათი ან კვირა. ტრანსფერებს ვასრულებთ მხოლოდ დასვენების დღეებში!", chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!",
                 optTitle: "💡 რეკომენდებული მარშრუტი (მოკლე და იაფი)", origTitle: "🧭 თქვენს მიერ მოთხოვნილი მარშრუტი",
-                detailReportTitle: "მარშრუტის დეტალური კილომეტრაჟი", segment: "მონაკვეთი", distTh: "მანძილი", timeTh: "სავარაუდო დრო", totalDriveTime: "ჯამური დრო (მხოლოდ გზა)",
-                price: "საბოლოო ფასი"
+                detailReportTitle: "მარშრუტის დეტალური კილომეტრაჟი", segment: "მონაკვეთი", distTh: "მანძილი", timeTh: "სავარაუდო დრო", totalDriveTime: "ჯამური დრო (მხოლოდ გზა)", price: "საბოლოო ფასი",
+                sysOverload: "სისტემა გადატვირთულია, გთხოვთ მოგვწეროთ WhatsApp-ში ზუსტი ფასისთვის."
             },
             'de': {
                 nav: "Buchen", heroTag: "Exklusiver Wochenend-Service", heroTitle: "Private <span class='text-brandGold'>Touren</span> & Transfers",
@@ -339,8 +342,8 @@
                 btnBook: "Diese Option buchen", printTop: "Premium Wochenend-Service", printTitle: "✨ KI-Tourenplaner", printDesc: "Scannen Sie den QR-Code, um Ihre perfekte Tour mit unserer KI zu planen. Sie berechnet sofort die genauen Preise!", printScan: "Zum Planen scannen!",
                 warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).", errWeekend: "Bitte wählen Sie einen Samstag oder Sonntag. Wir fahren nur am Wochenende!", chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!",
                 optTitle: "💡 Empfohlene Route (Günstiger & Kürzer)", origTitle: "🧭 Ihre angeforderte Originalroute",
-                detailReportTitle: "Detaillierter Reiseverlauf", segment: "Abschnitt", distTh: "Entfernung", timeTh: "Geschätzte Zeit", totalDriveTime: "Gesamte Fahrzeit",
-                price: "Endpreis"
+                detailReportTitle: "Detaillierter Reiseverlauf", segment: "Abschnitt", distTh: "Entfernung", timeTh: "Geschätzte Zeit", totalDriveTime: "Gesamte Fahrzeit", price: "Endpreis",
+                sysOverload: "System überlastet, bitte kontaktieren Sie uns auf WhatsApp für genaue Preise."
             },
             'ru': {
                 nav: "Бронь", heroTag: "Эксклюзивный сервис на выходных", heroTitle: "Частные <span class='text-brandGold'>Туры</span> и Трансферы",
@@ -357,8 +360,8 @@
                 btnBook: "Забронировать этот вариант", printTop: "Премиум сервис на выходных", printTitle: "✨ ИИ-планировщик туров", printDesc: "Отсканируйте QR-код, чтобы спланировать идеальный тур с помощью ИИ. Он мгновенно рассчитает точную цену!", printScan: "Сканируй!",
                 warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).", errWeekend: "Пожалуйста, выберите субботу или воскресенье. Мы работаем только по выходным!", chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!",
                 optTitle: "💡 Рекомендуемый маршрут (Дешевле и короче)", origTitle: "🧭 Ваш запрошенный маршрут",
-                detailReportTitle: "Детальный маршрут (километраж)", segment: "Участок", distTh: "Расстояние", timeTh: "Примерное время", totalDriveTime: "Общее время (в пути)",
-                price: "Итоговая цена"
+                detailReportTitle: "Детальный маршрут (километраж)", segment: "Участок", distTh: "Расстояние", timeTh: "Примерное время", totalDriveTime: "Общее время (в пути)", price: "Итоговая цена",
+                sysOverload: "Система перегружена, пожалуйста, напишите нам в WhatsApp для получения точной цены."
             }
         }
 
@@ -515,6 +518,26 @@
             }
         }
 
+        function showFallbackUI(dict, dest) {
+            const container = document.getElementById('ai-response-text');
+            const resultContainer = document.getElementById('ai-result-container');
+            const btn = document.getElementById('generate-btn');
+            
+            const encodedDest = encodeURIComponent(dest);
+            container.innerHTML = `
+                <div class="bg-red-50 border border-red-200 p-8 rounded-xl shadow-sm flex flex-col items-center text-center mt-4">
+                    <i class="fas fa-exclamation-circle text-red-500 text-4xl mb-4"></i>
+                    <p class="text-red-800 font-medium text-lg mb-6">${dict.sysOverload}</p>
+                    <a href="https://wa.me/995568004140?text=Hello, the website system is overloaded. Can you tell me the exact price for a tour to: ${encodedDest}" target="_blank" class="bg-[#25D366] text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition flex items-center justify-center gap-3 shadow-md w-full sm:w-auto">
+                        <i class="fab fa-whatsapp text-xl"></i> WhatsApp
+                    </a>
+                </div>
+            `;
+            resultContainer.classList.remove('hidden');
+            btn.innerHTML = `<i class="fas fa-magic"></i> ${dict.btnCalc}`;
+            btn.disabled = false; btn.classList.remove('opacity-70', 'cursor-not-allowed');
+        }
+
         async function generateCustomTour() {
             const dest = document.getElementById('ai-destination').value.trim();
             let endLocRaw = document.getElementById('ai-end-location').value.trim();
@@ -541,74 +564,78 @@
                 if (dayOfWeek !== 0 && dayOfWeek !== 6) { alert(dict.errWeekend); return; }
             }
 
-            if(!geminiApiKey || geminiApiKey === "") { alert("AI Key missing!"); return; }
-
             currentDateStr = date; currentTimeStr = time;
             btn.innerHTML = '<span class="loader"></span>...';
             btn.disabled = true; btn.classList.add('opacity-70', 'cursor-not-allowed');
             resultContainer.classList.add('hidden');
 
+            // 🛑 FALLBACK LOGIC: If Maps fails, stop and show error immediately. No AI guessing allowed!
+            let mapsData = null;
             try {
-                let mapsData = null;
-                try {
-                    await loadGoogleMaps();
-                    mapsData = await getMapsData(dest, endLocRaw, currentLang);
-                } catch(e) { console.log("Maps Data Failed:", e); }
+                await loadGoogleMaps();
+                mapsData = await getMapsData(dest, endLocRaw, currentLang);
+            } catch(e) { 
+                console.error("Maps Data Failed (Triggering Fallback):", e);
+                showFallbackUI(dict, dest);
+                return; // Stop execution!
+            }
 
-                let fullPrompt = `
-                You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers".
-                CRITICAL RULE - OFF-ROAD ZONES: No tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. If requested, set status to "OFFROAD" and return refusal message in the requested language.
-                
-                User Request: Destinations: ${dest} | End: ${endLoc || 'Kutaisi'} | Lang: ${currentLang}.
-                `;
+            let fullPrompt = `
+            You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers".
+            CRITICAL RULE - OFF-ROAD ZONES: No tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. If requested, set status to "OFFROAD" and return refusal message in the requested language.
+            
+            User Request: Destinations: ${dest} | End: ${endLoc || 'Kutaisi'} | Lang: ${currentLang}.
+            
+            GOOGLE MAPS DATA (ABSOLUTE TRUTH - I HAVE ALREADY CALCULATED EVERYTHING IN JAVASCRIPT):
+            You MUST return exactly this data back to me in JSON format. Do not change distances or prices!
+            Optimized Route: Distance: ${mapsData.optimized.distanceKm} km, Time: ${mapsData.optimized.estimatedTimeMins} mins, Price: "${mapsData.optimized.formattedPrice}", Segments: ${JSON.stringify(mapsData.optimized.segments)}.
+            Original Route: Distance: ${mapsData.original.distanceKm} km, Time: ${mapsData.original.estimatedTimeMins} mins, Price: "${mapsData.original.formattedPrice}", Segments: ${JSON.stringify(mapsData.original.segments)}.
+            `;
 
-                if (mapsData) {
-                    fullPrompt += `
-                    GOOGLE MAPS DATA (ABSOLUTE TRUTH - I HAVE ALREADY CALCULATED EVERYTHING IN JAVASCRIPT):
-                    You MUST return exactly this data back to me in JSON format. Do not change distances or prices!
-                    Optimized Route: Distance: ${mapsData.optimized.distanceKm} km, Time: ${mapsData.optimized.estimatedTimeMins} mins, Price: "${mapsData.optimized.formattedPrice}", Segments: ${JSON.stringify(mapsData.optimized.segments)}.
-                    Original Route: Distance: ${mapsData.original.distanceKm} km, Time: ${mapsData.original.estimatedTimeMins} mins, Price: "${mapsData.original.formattedPrice}", Segments: ${JSON.stringify(mapsData.original.segments)}.
-                    `;
-                    if (mapsData.isOptimized) {
-                        fullPrompt += `Set status to "OPTIMIZED". YOU MUST POPULATE BOTH 'optimizedRoute' AND 'originalRoute'.`;
-                    } else {
-                        fullPrompt += `Set status to "STANDARD".`;
-                    }
-                } else {
-                    fullPrompt += `Calculate logical route. Set status to STANDARD.`;
-                }
+            if (mapsData.isOptimized) {
+                fullPrompt += `Set status to "OPTIMIZED". YOU MUST POPULATE BOTH 'optimizedRoute' AND 'originalRoute'.`;
+            } else {
+                fullPrompt += `Set status to "STANDARD".`;
+            }
 
-                // 🛑 რკინისებრი Schema
-                const payload = { 
-                    contents: [{ parts: [{ text: fullPrompt }] }],
-                    generationConfig: {
-                        responseMimeType: "application/json",
-                        responseSchema: {
-                            type: "OBJECT",
-                            properties: {
-                                status: { type: "STRING", description: "'OFFROAD', 'OPTIMIZED', or 'STANDARD'" },
-                                offroadMessage: { type: "STRING" },
-                                optimizedRoute: {
-                                    type: "OBJECT", properties: { 
-                                        distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
-                                        segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
-                                    }
-                                },
-                                originalRoute: {
-                                    type: "OBJECT", properties: { 
-                                        distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
-                                        segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
-                                    }
+            const payload = { 
+                contents: [{ parts: [{ text: fullPrompt }] }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            status: { type: "STRING", description: "'OFFROAD', 'OPTIMIZED', or 'STANDARD'" },
+                            offroadMessage: { type: "STRING" },
+                            optimizedRoute: {
+                                type: "OBJECT", properties: { 
+                                    distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
+                                    segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
                                 }
                             },
-                            required: ["status", "optimizedRoute", "originalRoute"] 
-                        }
+                            originalRoute: {
+                                type: "OBJECT", properties: { 
+                                    distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
+                                    segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
+                                }
+                            }
+                        },
+                        required: ["status", "optimizedRoute", "originalRoute"] 
                     }
-                };
+                }
+            };
 
-                const aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, { 
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) 
-                });
+            try {
+                let aiResponse;
+                
+                if (USE_BACKEND) {
+                    aiResponse = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                } else {
+                    if(!geminiApiKey || geminiApiKey === "") throw new Error("Gemini Key Missing");
+                    aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, { 
+                        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) 
+                    });
+                }
                 
                 const data = await aiResponse.json();
                 if (data && data.candidates && data.candidates[0].content) {
@@ -617,8 +644,8 @@
                     resultContainer.classList.remove('hidden');
                 } else throw new Error("Invalid AI response.");
             } catch (error) {
-                responseText.innerHTML = `<p class="text-red-600 font-bold bg-red-50 p-4 rounded-lg border border-red-200">Error: ${error.message}</p>`;
-                resultContainer.classList.remove('hidden');
+                console.error("AI Fetch Error:", error);
+                showFallbackUI(dict, dest); // Fallback-ს ვრთავთ AI-ის გათიშვის შემთხვევაშიც!
             } finally {
                 btn.innerHTML = `<i class="fas fa-magic"></i> ${dict.btnCalc}`;
                 btn.disabled = false; btn.classList.remove('opacity-70', 'cursor-not-allowed');
@@ -754,30 +781,37 @@
             const inputField = document.getElementById('chat-input');
             const message = inputField.value.trim();
             if (!message) return;
-            if(!geminiApiKey || geminiApiKey === "") return;
 
             addMessageToUI(message, 'user');
             inputField.value = '';
             const loadingId = addMessageToUI('loading...', 'bot', true);
 
-            const chatModelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
             const chatPrompt = `You are Kutaisi Premium Transfers AI Manager. We only work weekends, accept CASH only, NO off-road (Svaneti etc). Be polite. User says in ${currentLang}: ` + message;
             chatHistory.push({ role: "user", parts: [{ text: chatPrompt }] });
-
             const payload = { contents: chatHistory };
 
             try {
-                const data = await fetch(chatModelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(r=>r.json());
+                let aiResponse;
+                if (USE_BACKEND) {
+                    aiResponse = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                } else {
+                    if(!geminiApiKey || geminiApiKey === "") throw new Error("Gemini Key Missing");
+                    aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, { 
+                        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) 
+                    });
+                }
+                
+                const data = await aiResponse.json();
                 if (data && data.candidates && data.candidates[0].content) {
                     const replyText = data.candidates[0].content.parts[0].text;
                     document.getElementById(loadingId).remove();
                     addMessageToUI(replyText, 'bot');
                     chatHistory[chatHistory.length - 1] = { role: "user", parts: [{ text: message }] }; 
                     chatHistory.push({ role: "model", parts: [{ text: replyText }] });
-                }
+                } else throw new Error("Invalid AI response.");
             } catch (error) {
                 document.getElementById(loadingId).remove();
-                addMessageToUI(`Error`, 'bot');
+                addMessageToUI(`Error connecting to AI. Please message us on WhatsApp.`, 'bot');
                 chatHistory.pop();
             }
         }
