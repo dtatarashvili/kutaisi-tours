@@ -223,7 +223,6 @@
             <div id="ai-result-container" class="mt-8 hidden relative z-10">
                 <div class="border-t border-gray-200 pt-8">
                     <h3 class="font-serif text-2xl font-bold text-brandBlue mb-4 flex items-center gap-2 no-print"><i class="fas fa-file-invoice-dollar text-brandGold"></i> <span id="res-title">Your Custom Quote</span></h3>
-                    
                     <div id="ai-response-text" class="w-full">
                     </div>
                 </div>
@@ -415,24 +414,42 @@
 
         const pricingRules = `
         SYSTEM INSTRUCTIONS (STRICT ALGORITHM):
-        You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers". Vehicle: Toyota Prius.
+        You are the AI Booking Manager and an expert geographic GPS Routing Engine for "Kutaisi Premium Weekend Transfers". Vehicle: Toyota Prius.
 
         CRITICAL RULE - RESTRICTED OFF-ROAD ZONES:
         We DO NOT provide tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri.
         If requested, set "status" to "OFFROAD" and write a polite refusal message in the requested language.
 
-        ROUTING & PRICING MATH (If Safe):
-        - Start point is ALWAYS Kutaisi. If no end location, end is Kutaisi.
-        - Calculate the logical shortest geographic route.
-        - Exact Pricing Rule: Calculate TOTAL km. 
-          If D<=30: Price = D*2.25 GEL. If 30<D<=100: Price = D*1.35 GEL. If D>100: Price = D*1.0 GEL.
-        - Price Format: [Price] GEL (~ [Converted] USD/EUR/RUB). If language is 'ka', show ONLY GEL.
+        ROUTING & OPTIMIZATION LOGIC (CRITICAL):
+        - Start point is ALWAYS Kutaisi. If no end location is provided, return to Kutaisi.
+        - If the user provides multiple stops, you MUST act as a geographic GPS and reorder them to the ABSOLUTE SHORTEST path without criss-crossing the city.
+        - Real-world map knowledge is required: Group nearby locations together based on their actual map position (e.g. locations West of Kutaisi like Tskaltubo/Prometheus must be grouped, locations East like Gelati/Motsameta must be grouped).
+        - "originalRoute.itinerary" MUST show the EXACT sequence the user typed.
+        - "optimizedRoute.itinerary" MUST show your perfectly sorted, geographically shortest sequence.
+        - If the user's sequence is inefficient (makes them travel back and forth), set "status" to "OPTIMIZED".
+        - If the user's sequence is already optimal, set "status" to "STANDARD".
 
-        OPTIMIZATION LOGIC:
-        If the user provides multiple stops in an inefficient geographic order (e.g., Kvamli then Motsameta then Prometheus), you MUST sort them geographically.
-        If the sorted order is different from the user's order, set "status" to "OPTIMIZED". Provide both the 'optimizedRoute' and the 'originalRoute' with their respective distances and prices.
-        If the user's order is already optimal (or there is only 1 stop), set "status" to "STANDARD" and only provide 'optimizedRoute' (which is the same).
+        MANDATORY PRICING MATH (FLAT RATE):
+        1. Calculate TOTAL distance (D) in km for both routes separately.
+        2. Apply ONLY ONE multiplier to the ENTIRE distance:
+           - If D <= 30: Price = D * 2.25 GEL.
+           - If 30 < D <= 100: Price = D * 1.35 GEL.
+           - If D > 100: Price = D * 1.0 GEL.
         `;
+
+        async function fetchWithRetry(url, options, maxRetries = 5) {
+            let delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    if (i === maxRetries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delays[i]));
+                }
+            }
+        }
 
         async function generateCustomTour() {
             const dest = document.getElementById('ai-destination').value.trim();
@@ -466,6 +483,7 @@
             Rates: 1GEL=${exchangeRates.USD}USD, 1GEL=${exchangeRates.EUR}EUR, 1GEL=${exchangeRates.RUB}RUB.
             `;
 
+            // 🚀 Force JSON Output with a "Reasoning" step for GPS mapping
             const payload = { 
                 contents: [{ parts: [{ text: fullPrompt }] }],
                 generationConfig: {
@@ -473,6 +491,7 @@
                     responseSchema: {
                         type: "OBJECT",
                         properties: {
+                            reasoning: { type: "STRING", description: "Think step-by-step. Analyze the real-world geography of the stops relative to Kutaisi. Group stops by direction (East, West, North, South) to find the absolute shortest TSP path without criss-crossing. Explain why the optimized route is shorter." },
                             status: { type: "STRING", description: "'OFFROAD', 'OPTIMIZED', or 'STANDARD'" },
                             offroadMessage: { type: "STRING" },
                             optimizedRoute: {
@@ -481,7 +500,8 @@
                             originalRoute: {
                                 type: "OBJECT", properties: { itinerary: { type: "STRING" }, distanceKm: { type: "NUMBER" }, formattedPrice: { type: "STRING" } }
                             }
-                        }
+                        },
+                        required: ["reasoning", "status"]
                     }
                 }
             };
@@ -513,9 +533,11 @@
 
             let html = '';
             
+            // Render Two Options if Optimized
             if (data.status === 'OPTIMIZED' && data.originalRoute && data.originalRoute.distanceKm > data.optimizedRoute.distanceKm) {
                 html += `<div class="flex flex-col md:flex-row gap-6">`;
                 
+                // Option 1: Optimized
                 html += `
                 <div class="flex-1 bg-green-50 border-2 border-green-400 rounded-xl p-5 shadow-md relative overflow-hidden">
                     <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">BEST VALUE</div>
@@ -528,11 +550,12 @@
                     <button onclick="bookSpecificRoute('${data.optimizedRoute.itinerary}', '${data.optimizedRoute.formattedPrice}')" class="w-full bg-[#25D366] text-white py-2 rounded-lg font-bold hover:bg-green-600 transition flex items-center justify-center gap-2"><i class="fab fa-whatsapp"></i> ${dict.btnBook}</button>
                 </div>`;
 
+                // Option 2: Original
                 html += `
                 <div class="flex-1 bg-gray-50 border border-gray-300 rounded-xl p-5 shadow-sm opacity-90 hover:opacity-100 transition">
                     <h4 class="text-gray-700 font-bold text-lg mb-3">${dict.origTitle}</h4>
                     <ul class="text-sm text-gray-600 space-y-2 mb-4">
-                        <li><strong>📍 ${dict.itinerary}:</strong> ${data.originalRoute.itinerary}</li>
+                        <li><strong class="line-through">📍 ${dict.itinerary}:</strong> ${data.originalRoute.itinerary}</li>
                         <li><strong>🚗 ${dict.distance}:</strong> ${data.originalRoute.distanceKm} km</li>
                         <li class="text-lg"><strong>💰 ${dict.price}:</strong> ${data.originalRoute.formattedPrice}</li>
                     </ul>
@@ -541,6 +564,7 @@
                 
                 html += `</div>`;
             } else {
+                // Render Single Option
                 html += `
                 <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 shadow-sm">
                     <ul class="text-gray-800 space-y-3 mb-6 text-lg">
@@ -559,20 +583,6 @@
             const dateInfo = currentDateStr ? ` Date: ${currentDateStr} at ${currentTimeStr}` : '';
             const msg = `Hello! I would like to book this exact route:\n\n📍 ${itinerary}\n💰 Price: ${price}\n📅 ${dateInfo}\n\nIs the driver available?`;
             window.open('https://wa.me/995568004140?text=' + encodeURIComponent(msg), '_blank');
-        }
-
-        async function fetchWithRetry(url, options, maxRetries = 5) {
-            let delays = [1000, 2000, 4000, 8000, 16000];
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    return await response.json();
-                } catch (error) {
-                    if (i === maxRetries - 1) throw error;
-                    await new Promise(resolve => setTimeout(resolve, delays[i]));
-                }
-            }
         }
 
         let chatHistory = [];
