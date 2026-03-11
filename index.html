@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kutaisi Premium Weekend Transfers</title>
+    
+    <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Noto+Sans+Georgian:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
     <script>
         tailwind.config = {
             theme: {
@@ -26,24 +29,31 @@
             }
         }
     </script>
+    
     <style>
         body { background-color: #F9FAFB; color: #1F2937; scroll-behavior: smooth; }
         .glass-card { background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #E5E7EB; }
         .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(30, 58, 138, 0.1); transition: all 0.3s ease; }
         
-        .prose h3 { color: #1E3A8A; font-size: 1.2rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .prose h3 { color: #1E3A8A; font-size: 1.25rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
         .prose p { margin-bottom: 0.75rem; color: #4B5563; }
-        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4B5563; font-weight: 500;}
+        .prose ul { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; color: #4B5563; font-weight: 500;}
         .prose strong { color: #111827; }
         
         .chat-prose p { margin-bottom: 0.5rem; }
         .chat-prose ul { list-style-type: disc; padding-left: 1rem; margin-bottom: 0.5rem; }
         .chat-prose strong { color: #1E3A8A; }
 
-        .loader { border: 3px solid rgba(245, 158, 11, 0.2); border-top: 3px solid #F59E0B; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
+        .loader { border: 3px solid rgba(245, 158, 11, 0.2); border-top: 3px solid #F59E0B; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- PRINT CSS --- */
+        /* Custom Scrollbar for Autocomplete */
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 8px;}
+        .custom-scroll::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 8px;}
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+
+        /* --- PRINT CSS LOGIC --- */
         .tour-print-header, .hotel-print-section { display: none; }
 
         @media print {
@@ -106,12 +116,13 @@
     <nav class="fixed top-0 w-full z-40 bg-white/90 backdrop-blur-md border-b border-gray-200 no-print shadow-sm">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="font-serif font-bold text-2xl text-brandBlue">Kutaisi<span class="text-brandGold">Premium</span></div>
-            <div class="flex items-center gap-4">
-                <div id="lang-selector" class="flex gap-2 text-xl cursor-pointer">
-                    <span onclick="setLang('en')" class="hover:scale-110 transition" title="English">🇬🇧</span>
-                    <span onclick="setLang('de')" class="hover:scale-110 transition opacity-50 hover:opacity-100" id="flag-de" title="Deutsch">🇩🇪</span>
-                    <span onclick="setLang('ru')" class="hover:scale-110 transition opacity-50 hover:opacity-100" id="flag-ru" title="Русский">🇷🇺</span>
-                    <span onclick="setLang('ka')" class="hover:scale-110 transition opacity-50 hover:opacity-100" id="flag-ka" title="ქართული">🇬🇪</span>
+            <div class="flex items-center gap-6">
+                <!-- Text-based Language Selector -->
+                <div id="lang-selector" class="flex gap-2 text-sm font-bold cursor-pointer text-gray-400">
+                    <span onclick="setLang('en')" class="hover:text-brandBlue transition px-1" id="lang-en">EN</span>
+                    <span onclick="setLang('de')" class="hover:text-brandBlue transition px-1" id="lang-de">DE</span>
+                    <span onclick="setLang('ru')" class="hover:text-brandBlue transition px-1" id="lang-ru">RU</span>
+                    <span onclick="setLang('ka')" class="hover:text-brandBlue transition px-1" id="lang-ka">KA</span>
                 </div>
                 <a href="#contact" id="nav-btn" class="text-sm bg-brandBlue text-white px-5 py-2 rounded-lg hover:bg-blue-800 transition flex items-center gap-2 shadow-md">Book Now</a>
             </div>
@@ -119,13 +130,13 @@
     </nav>
 
     <div id="print-top-text-container" class="hidden no-print print:block text-center mb-2 mt-4">
-        <span id="print-top-text" class="text-brandBlue font-bold text-sm tracking-widest uppercase">Premium Weekend Service</span>
+        <span id="print-top-text" class="text-brandBlue font-bold text-sm tracking-widest uppercase">Premium Service</span>
     </div>
 
     <header class="relative pt-32 pb-20 text-center bg-brandBlue text-white overflow-hidden mt-0 rounded-b-[40px] shadow-lg mx-2 md:mx-4">
         <div class="absolute inset-0 z-0 opacity-10 bg-[url('https://placehold.co/100x100/ffffff/ffffff?text=+')] bg-repeat"></div>
         <div class="relative z-10 max-w-4xl mx-auto px-4">
-            <div id="hero-tag" class="inline-block px-4 py-1 rounded-full border border-brandGold text-brandGold text-sm font-bold tracking-widest uppercase mb-6 bg-brandGold/10">Exclusive Weekend Service</div>
+            <div id="hero-tag" class="inline-block px-4 py-1 rounded-full border border-brandGold text-brandGold text-sm font-bold tracking-widest uppercase mb-6 bg-brandGold/10">Premium Transfers</div>
             <h1 class="font-serif text-5xl md:text-7xl font-bold mb-4 leading-tight" id="hero-title">Private <span class="text-brandGold">Tours</span> & Transfers</h1>
             <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto font-light" id="hero-desc">Discover Georgia with a punctual, safe, and premium local guide.</p>
         </div>
@@ -149,81 +160,6 @@
         </div>
     </section>
 
-    <!-- NEW UI: Transfer Planner Section -->
-    <section id="ai-planner" class="py-16 bg-[#F4F7F6] ai-inputs relative">
-        <div class="max-w-3xl mx-auto px-4">
-            <h2 id="transfer-title" class="text-4xl font-bold text-center mb-10 text-gray-800 tracking-wide">Transfer</h2>
-            
-            <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-8 relative">
-                
-                <!-- Main Form Grid with timeline icons -->
-                <div class="flex gap-4">
-                    
-                    <!-- Left Timeline Icons -->
-                    <div class="flex flex-col items-center pt-5 pb-5 w-6 hidden sm:flex">
-                        <div class="w-3 h-3 rounded-full bg-green-500 z-10 relative"></div>
-                        <div class="w-[2px] flex-1 border-l-[3px] border-dotted border-gray-300 my-1"></div>
-                        <i class="fas fa-flag text-gray-400 text-sm z-10 bg-white pt-1"></i>
-                    </div>
-                    
-                    <!-- Right Input Fields -->
-                    <div class="flex-1 space-y-4">
-                        
-                        <!-- Point of Departure -->
-                        <div class="relative">
-                            <input type="text" id="start-location" value="Kutaisi" class="w-full border-2 border-green-500/80 rounded-xl p-4 pr-14 text-green-700 placeholder-green-600/70 focus:ring-4 focus:ring-green-100 transition outline-none font-medium bg-green-50/20" placeholder="Point of departure? Choose the airport or city">
-                            <button onclick="swapLocations()" class="absolute right-3 top-1/2 -translate-y-1/2 text-green-600 hover:bg-green-100 w-10 h-10 rounded-lg flex items-center justify-center transition" title="Swap Locations">
-                                <i class="fas fa-arrows-alt-v"></i>
-                            </button>
-                        </div>
-                        
-                        <!-- Intermediate Stops (Hidden by Default) -->
-                        <div id="stops-container" class="hidden">
-                            <input type="text" id="ai-destination" class="w-full border border-gray-200 rounded-xl p-4 text-gray-700 placeholder-gray-400 focus:border-brandBlue focus:ring-4 focus:ring-blue-50 transition outline-none shadow-sm" placeholder="Intermediate stops (e.g., Prometheus Cave)">
-                            <p id="warn-offroad" class="text-xs text-red-500 font-bold mt-2 ml-1">* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).</p>
-                        </div>
-
-                        <!-- Add Stop Button -->
-                        <button id="add-stop-btn" onclick="toggleStops()" class="w-full bg-[#6a7c92] hover:bg-[#58687c] text-white font-semibold py-3.5 rounded-xl transition text-center shadow-sm flex items-center justify-center gap-2">
-                            <i class="fas fa-plus text-sm"></i> <span id="add-stop-text">Add stop</span>
-                        </button>
-                        
-                        <!-- Point of Arrival -->
-                        <div>
-                            <input type="text" id="ai-end-location" class="w-full border border-gray-200 rounded-xl p-4 text-gray-700 placeholder-gray-400 focus:border-brandBlue focus:ring-4 focus:ring-blue-50 transition outline-none shadow-sm" placeholder="Point of arrival? Choose the airport or city">
-                        </div>
-
-                        <!-- Date/Time Inputs (Hidden by Default) -->
-                        <div id="datetime-container" class="hidden flex gap-4 pt-2">
-                            <input type="date" id="ai-date" class="flex-1 border border-gray-200 rounded-xl p-4 text-gray-700 focus:border-brandBlue focus:ring-4 focus:ring-blue-50 transition outline-none shadow-sm">
-                            <input type="time" id="ai-time" class="flex-1 border border-gray-200 rounded-xl p-4 text-gray-700 focus:border-brandBlue focus:ring-4 focus:ring-blue-50 transition outline-none shadow-sm">
-                        </div>
-
-                        <!-- Bottom Buttons (When & Calculate) -->
-                        <div class="flex flex-col sm:flex-row gap-4 pt-2">
-                            <button id="when-btn" onclick="toggleDateTime()" class="bg-[#6a7c92] hover:bg-[#58687c] text-white font-semibold py-3.5 px-8 rounded-xl transition shadow-sm flex items-center justify-center gap-3 w-full sm:w-auto">
-                                <i class="far fa-calendar-alt"></i> <span id="when-text">When ..</span>
-                            </button>
-                            
-                            <button id="generate-btn" onclick="generateCustomTour()" class="flex-1 bg-brandBlue text-white font-bold text-lg py-3.5 rounded-xl hover:bg-blue-800 transition shadow-lg flex justify-center items-center gap-2 transform active:scale-95">
-                                <i class="fas fa-magic"></i> <span id="btn-calc">Calculate Route & Price</span>
-                            </button>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-
-            <!-- AI Result Container -->
-            <div id="ai-result-container" class="mt-10 hidden relative z-10">
-                <div class="border-t border-gray-200 pt-10">
-                    <h3 class="font-serif text-2xl font-bold text-brandBlue mb-6 flex items-center gap-2 no-print"><i class="fas fa-file-invoice-dollar text-brandGold"></i> <span id="res-title">Your Custom Quote</span></h3>
-                    <div id="ai-response-text" class="w-full"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- HOTEL PRINT SECTION -->
     <div class="hotel-print-section max-w-6xl mx-auto px-4 relative">
         <div class="left-col">
@@ -241,14 +177,89 @@
         </div>
         <div class="right-col">
             <div class="qr-placeholder">
-                <img src="qr-code.png" alt="Scan to Book" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-qrcode text-brandBlue text-4xl\'></i>';">
+                <i class="fas fa-qrcode text-brandBlue text-6xl"></i>
             </div>
             <p class="mt-1 font-bold text-[0.65rem] text-brandBlue uppercase tracking-wider" id="print-scan">Scan to Plan!</p>
         </div>
     </div>
 
-    <section id="contact" class="py-16 max-w-4xl mx-auto px-4 text-center border-t border-gray-200 no-print">
-        <h2 class="font-serif text-4xl font-bold mb-4 text-brandBlue">Contact & <span class="text-brandGold">Booking</span></h2>
+    <!-- AI Tour Planner UI -->
+    <section id="ai-planner" class="py-16 bg-[#F4F7F6] ai-inputs relative">
+        <div class="max-w-3xl mx-auto px-4">
+            
+            <!-- Dynamic Title -->
+            <h2 id="transfer-title" class="text-3xl md:text-4xl font-bold text-center mb-10 text-gray-800 tracking-wide leading-tight">Transfer</h2>
+            
+            <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-8 relative">
+                
+                <!-- Dynamic Form Container -->
+                <div id="route-builder-container" class="flex flex-col w-full z-10">
+                    <!-- JS injects route nodes here -->
+                </div>
+
+                <!-- Note -->
+                <p id="warn-offroad" class="text-xs text-red-500 font-bold ml-1 mt-2 sm:ml-10 hidden">* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).</p>
+
+                <!-- Actions Area -->
+                <div class="mt-6 sm:ml-10 flex flex-col gap-4">
+                    
+                    <!-- Add Stop Button -->
+                    <button onclick="addStop()" class="w-full bg-[#6a7c92] hover:bg-[#58687c] text-white font-semibold py-3.5 rounded-xl transition text-center shadow-sm flex items-center justify-center gap-2">
+                        <i class="fas fa-plus text-sm"></i> <span id="add-stop-text">Add stop</span>
+                    </button>
+                    
+                    <div id="datetime-container" class="hidden flex flex-col sm:flex-row gap-4 pt-2">
+                        <div class="flex-1">
+                            <label class="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wider ml-1" id="lbl-date">Date</label>
+                            <input type="date" id="ai-date" class="w-full border border-gray-300 rounded-xl p-4 text-gray-700 focus:border-brandBlue focus:ring-4 focus:ring-blue-50 transition outline-none shadow-sm">
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wider ml-1" id="lbl-time">Time</label>
+                            <input type="time" id="ai-time" class="w-full border border-gray-300 rounded-xl p-4 text-gray-700 focus:border-brandBlue focus:ring-4 focus:ring-blue-50 transition outline-none shadow-sm">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                        <button id="when-btn" onclick="toggleDateTime()" class="bg-[#6a7c92] hover:bg-[#58687c] text-white font-semibold py-3.5 px-8 rounded-xl transition shadow-sm flex items-center justify-center gap-3 w-full sm:w-auto">
+                            <i class="far fa-calendar-alt"></i> <span id="when-text">When ..</span>
+                        </button>
+                        
+                        <button id="generate-btn" onclick="triggerCalculation()" class="flex-1 bg-brandBlue text-white font-bold text-lg py-3.5 rounded-xl hover:bg-blue-800 transition shadow-lg flex justify-center items-center gap-2 transform active:scale-95">
+                            <i class="fas fa-magic"></i> <span id="btn-calc">Calculate Route & Price</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Result Container -->
+            <div id="ai-result-container" class="mt-10 hidden relative z-10 w-full overflow-hidden">
+                <div class="border-t border-gray-200 pt-10">
+                    <h3 class="font-serif text-2xl font-bold text-brandBlue mb-6 flex items-center gap-2 no-print"><i class="fas fa-file-invoice-dollar text-brandGold"></i> <span id="res-title">Your Custom Quote</span></h3>
+                    <div id="ai-response-text" class="w-full"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kutaisi Return Prompt Modal -->
+    <div id="kutaisi-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl transform transition-all scale-100">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-blue-100">
+                    <i class="fas fa-map-marked-alt text-brandBlue text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2" id="k-modal-title">Return to Kutaisi?</h3>
+                <p class="text-gray-500 text-sm leading-relaxed" id="k-modal-desc">Most of our drivers are based in Kutaisi. Adding a return trip back to Kutaisi often makes the total price cheaper!</p>
+            </div>
+            <div class="flex flex-col gap-3">
+                <button onclick="confirmKutaisi(true)" class="w-full bg-brandBlue text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-800 transition shadow-md" id="k-modal-yes">Yes, add return to Kutaisi</button>
+                <button onclick="confirmKutaisi(false)" class="w-full bg-gray-100 text-gray-600 py-3.5 rounded-xl font-bold hover:bg-gray-200 hover:text-gray-800 transition" id="k-modal-no">No, finish at destination</button>
+            </div>
+        </div>
+    </div>
+
+    <section id="contact" class="py-16 max-w-4xl mx-auto px-4 text-center border-t border-gray-200 mt-12 no-print">
+        <h2 class="font-serif text-4xl font-bold mb-4 text-brandBlue" id="contact-title">Contact & <span class="text-brandGold">Booking</span></h2>
         
         <div class="flex flex-col sm:flex-row justify-center gap-6 mt-8">
             <a href="https://wa.me/995568004140" target="_blank" class="bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold text-xl hover:bg-green-600 transition shadow-lg flex items-center justify-center gap-3">
@@ -265,7 +276,7 @@
             <a href="https://wa.me/995568004140" target="_blank" class="text-white hover:text-waGreen transition text-2xl"><i class="fab fa-whatsapp"></i></a>
             <a href="mailto:dtatarashvili@gmail.com" class="text-white hover:text-blue-400 transition text-2xl"><i class="far fa-envelope"></i></a>
         </div>
-        <p class="mb-4">&copy; 2026 Premium Weekend Transfers Kutaisi. All rights reserved.</p>
+        <p class="mb-4">&copy; 2026 Premium Transfers Kutaisi. All rights reserved.</p>
         <button onclick="printHotelBrochure()" class="text-xs bg-gray-800 text-gray-300 px-4 py-2 rounded hover:text-white border border-gray-700 transition flex items-center justify-center gap-2 mx-auto mt-4">
             <i class="fas fa-print"></i> Admin: Print Hotel Brochures
         </button>
@@ -295,17 +306,16 @@
         </div>
     </div>
 
+    <!-- JAVASCRIPT CORE LOGIC -->
     <script>
-        // 🛑 BACKEND TOGGLE 
+        // 1. GLOBALS & CONFIG
         const USE_BACKEND = false; 
         const BACKEND_URL = '/api/gemini'; 
 
-        // 🛑 Google Maps-ის გასაღები 
         const mapsPart1 = "AIzaSyCSSAmwIuqY";
         const mapsPart2 = "WD71hiA6Q3WusfZTMn3I3lU";
         const mapsApiKey = mapsPart1 + mapsPart2;
 
-        // 🛑 Gemini-ს დროებითი გასაღები
         const keyPart1 = "AIzaSyCS40ob2IpovB"; 
         const keyPart2 = "PHTT-I_UJJtUFiUQDVjVg"; 
         const geminiApiKey = keyPart1 + keyPart2;
@@ -316,10 +326,582 @@
         let currentTimeStr = '';
         let lastQuoteData = null; 
 
-        // 🌐 TRANSLATION DICTIONARY
+        // Dynamic Routing State
+        function generateId() { return 'loc-' + Math.random().toString(36).substr(2, 9); }
+        let routeNodes = [
+            { id: generateId(), value: '', enName: '', mapQuery: '', error: false },
+            { id: generateId(), value: '', enName: '', mapQuery: '', error: false }
+        ];
+        const MAX_STOPS = 20;
+        window.kutaisiConfirmed = false;
+
+        // 2. LOCATIONS DB (Fully Translated + Universal Keywords + MapQueries)
+        const locationsDB = [
+            { en: "Abasha", ka: "აბაშა", ru: "Абаша", de: "Abascha" },
+            { en: "Abastumani", ka: "აბასთუმანი", ru: "Абастумани", de: "Abastumani" },
+            { en: "Abovyan", ka: "აბოვიანი", ru: "Абовян", de: "Abowjan" },
+            { en: "Adigeni", ka: "ადიგენი", ru: "Адигени", de: "Adigeni" },
+            { en: "Adjarian Wine House", ka: "აჭარული ღვინის სახლი", ru: "Аджарский винный дом", de: "Adschariens Weinhaus" },
+            { en: "Agara", ka: "აგარა", ru: "Агара", de: "Agara" },
+            { en: "Aghveran", ka: "აღვერანი", ru: "Агверан", de: "Aghveran" },
+            { en: "Akhaldaba", ka: "ახალდაბა", ru: "Ахалдаба", de: "Achaldaba" },
+            { en: "Akhali Shuamta Monastery", ka: "ახალი შუამთის მონასტერი", ru: "Новый монастырь Шуамта", de: "Neues Kloster Schuamta" },
+            { en: "Akhalkalaki", ka: "ახალქალაქი", ru: "Ахалкалаки", de: "Achalkalaki" },
+            { en: "Akhaltsikhe", ka: "ახალციხე", ru: "Ахалцихе", de: "Achalziche" },
+            { en: "Akhalubani", ka: "ახალუბანი", ru: "Ахалубани", de: "Achalubani" },
+            { en: "Akhasheni", ka: "ახაშენი", ru: "Ахашени", de: "Achascheni" },
+            { en: "Akhmeta", ka: "ახმეტა", ru: "Ахмета", de: "Achmeta" },
+            { en: "Akhtala", ka: "ახტალა", ru: "Ахтала", de: "Achtala" },
+            { en: "Alaverdi (Armenia)", ka: "ალავერდი (სომხეთი)", ru: "Алаверди (Армения)", de: "Alaverdi (Armenien)" },
+            { en: "Alaverdi Monastery", ka: "ალავერდის მონასტერი", ru: "Монастырь Алаверди", de: "Alaverdi Kloster" },
+            { en: "Algeti National Park", ka: "ალგეთის ეროვნული პარკი", ru: "Национальный парк Алгети", de: "Algeti Nationalpark" },
+            { en: "Algeti Reservoir", ka: "ალგეთის წყალსაცავი", ru: "Алгетское водохранилище", de: "Algeti Stausee" },
+            { en: "Alismereti", ka: "ალისმერეთი", ru: "Алисмарети", de: "Alismereti" },
+            { en: "Almasiani", ka: "ალმასიანი", ru: "Алмасиани", de: "Almasiani" },
+            { en: "Amberd Fortress", ka: "ამბერდის ციხე", ru: "Крепость Амберд", de: "Festung Amberd" },
+            { en: "Ambrolauri", ka: "ამბროლაური", ru: "Амбролаури", de: "Ambrolauri" },
+            { en: "Amusement Park Tsitsinatela", ka: "პარკი ციცინათელა", ru: "Парк развлечений Цицинатела", de: "Vergnügungspark Zizinatela" },
+            { en: "Anaklia", ka: "ანაკლია", ru: "Анаклия", de: "Anaklia" },
+            { en: "Ananuri", ka: "ანანური", ru: "Ананури", de: "Ananuri" },
+            { en: "Anaseuli Tea Farm", ka: "ანასეულის ჩაის პლანტაცია", ru: "Чайная ферма Анасеули", de: "Anaseuli Teefarm" },
+            { en: "Angels' Canyon", ka: "ანგელოზების კანიონი", ru: "Каньон Ангелов", de: "Canyon der Engel" },
+            { en: "Aparan Reservoir", ka: "აპარანის წყალსაცავი", ru: "Апаранское водохранилище", de: "Aparan Stausee" },
+            { en: "Aragvi Adventure Center", ka: "არაგვის სათავგადასავლო ცენტრი", ru: "Центр приключений Арагви", de: "Aragvi Abenteuerzentrum" },
+            { en: "Arashenda", ka: "არაშენდა", ru: "Арашенда", de: "Arashenda" },
+            { en: "Archangels Church in Godogani", ka: "მთავარანგელოზთა ეკლესია გოდოგანში", ru: "Церковь Архангелов в Годогани", de: "Erzengelkirche in Godogani" },
+            { en: "Areni (cave)", ka: "არენის მღვიმე", ru: "Пещера Арени", de: "Areni Höhle" },
+            { en: "Areni Wine Factory", ka: "არენის ღვინის ქარხანა", ru: "Винный завод Арени", de: "Areni Weinfabrik" },
+            { en: "Argavand", ka: "არგავანდი", ru: "Аргаванд", de: "Argawand" },
+            { en: "Argo Cable Car Batumi", ka: "არგოს საბაგირო ბათუმი", ru: "Канатная дорога Арго", de: "Argo Seilbahn Batumi" },
+            { en: "Arjevan-Sarvani", ka: "არჯევან-სარვანი", ru: "Арджеван-Сарвани", de: "Arjevan-Sarvani" },
+            { en: "Arjut", ka: "არჯუტი", ru: "Арджут", de: "Ardschut" },
+            { en: "Armavir (Armenia)", ka: "არმავირი (სომხეთი)", ru: "Армавир", de: "Armawir" },
+            { en: "Armenian Alphabet Monument", ka: "სომხური ანბანის მონუმენტი", ru: "Памятник армянскому алфавиту", de: "Armenisches Alphabet-Denkmal" },
+            { en: "Arsha", ka: "არშა", ru: "Арша", de: "Arsha" },
+            { en: "Artana", ka: "ართანა", ru: "Артана", de: "Artana" },
+            { en: "Artashat", ka: "არტაშატი", ru: "Арташат", de: "Artaschat" },
+            { en: "Ashtarak", ka: "აშტარაკი", ru: "Аштарак", de: "Aschtarak" },
+            { en: "Aspindza", ka: "ასპინძა", ru: "Аспиндза", de: "Aspindza" },
+            { en: "Asureti", ka: "ასურეთი", ru: "Асурети", de: "Asureti" },
+            { en: "Ateni Sioni", ka: "ატენის სიონი", ru: "Атенский Сион", de: "Ateni Sioni" },
+            { en: "Atsana", ka: "აცანა", ru: "Ацана", de: "Atsana" },
+            { en: "Aygehat", ka: "აიგეჰატი", ru: "Айгеат", de: "Aygehat" },
+            { en: "Azat Reservoir", ka: "აზატის წყალსაცავი", ru: "Азатское водохранилище", de: "Azat Stausee" },
+            { en: "Babaneuri", ka: "ბაბანეური", ru: "Бабанеури", de: "Babaneuri" },
+            { en: "Badiauri", ka: "ბადიაური", ru: "Бадиаури", de: "Badiauri" },
+            { en: "Baghdati", ka: "ბაღდათი", ru: "Багдати", de: "Baghdati" },
+            { en: "Bagratashen", ka: "ბაგრატაშენი", ru: "Баграташен", de: "Bagrataschen" },
+            { en: "Bagrati Cathedral", ka: "ბაგრატის ტაძარი", ru: "Храм Баграта", de: "Bagrati-Kathedrale" },
+            { en: "Baia's Winery", ka: "ბაიას ღვინო", ru: "Винодельня Баия", de: "Baias Weingut" },
+            { en: "Bakhmaro", ka: "ბახმარო", ru: "Бахмаро", de: "Bakhmaro" },
+            { en: "Bakuriani", ka: "ბაკურიანი", ru: "Бакуриани", de: "Bakuriani" },
+            { en: "Bakurtsikhe", ka: "ბაკურციხე", ru: "Бакурцихе", de: "Bakurzikhe" },
+            { en: "Bandza", ka: "ბანძა", ru: "Бандза", de: "Bandza" },
+            { en: "Bardavan", ka: "ბარდავანი", ru: "Бардаван", de: "Bardawan" },
+            { en: "Bateti Lake", ka: "ბატეთის ტბა", ru: "Озеро Батети", de: "Bateti See" },
+            { en: "Batumi", ka: "ბათუმი", ru: "Батуми", de: "Batumi" },
+            { en: "Batumi Airport", ka: "ბათუმის აეროპორტი", ru: "Аэропорт Батуми", de: "Flughafen Batumi" },
+            { en: "Batumi Botanical Garden", ka: "ბათუმის ბოტანიკური ბაღი", ru: "Батумский ботанический сад", de: "Botanischer Garten Batumi" },
+            { en: "Batumi Central Station", ka: "ბათუმის რკინიგზის სადგური", ru: "Центральный вокзал Батуми", de: "Hauptbahnhof Batumi" },
+            { en: "Batumi Dolphinarium", ka: "ბათუმის დელფინარიუმი", ru: "Батумский дельфинарий", de: "Delfinarium Batumi" },
+            { en: "Batumi Black Sea Jazz", ka: "ბათუმის ჯაზ ფესტივალი", ru: "Батумский Джаз Фестиваль", de: "Batumi Jazz Festival" },
+            { en: "Bavra", ka: "ბავრა", ru: "Бавра", de: "Bawra" },
+            { en: "Bazaleti Lake", ka: "ბაზალეთის ტბა", ru: "Озеро Базалети", de: "Bazaleti-See" },
+            { en: "Beshumi", ka: "ბეშუმი", ru: "Бешуми", de: "Beshumi" },
+            { en: "Besini Winery", ka: "ბესინის მარანი", ru: "Винодельня Бесини", de: "Besini Weingut" },
+            { en: "Betania Monastery", ka: "ბეთანიის მონასტერი", ru: "Монастырь Бетания", de: "Betania-Kloster" },
+            { en: "Biisi", ka: "ბიისი", ru: "Бииси", de: "Biisi" },
+            { en: "Birtvisi", ka: "ბირთვისი", ru: "Биртвиси", de: "Birtwissi" },
+            { en: "Bjni Fortress", ka: "ბჯნის ციხე", ru: "Крепость Бджни", de: "Bdschni Festung" },
+            { en: "Black Fortress", ka: "შავი ციხე (გიუმრი)", ru: "Черная крепость", de: "Schwarze Festung" },
+            { en: "Bobnevi", ka: "ბობნევი", ru: "Бобневи", de: "Bobnevi" },
+            { en: "Bodbe Monastery", ka: "ბოდბის მონასტერი", ru: "Монастырь Бодбе", de: "Bodbe-Kloster" },
+            { en: "Bolnisi", ka: "ბოლნისი", ru: "Болниси", de: "Bolnisi" },
+            { en: "Bolnisi Sioni", ka: "ბოლნისის სიონი", ru: "Болнисский Сион", de: "Bolnissi Sioni" },
+            { en: "Borjomi", ka: "ბორჯომი", ru: "Боржоми", de: "Bordschomi" },
+            { en: "Botanical Garden Tbilisi", ka: "თბილისის ბოტანიკური ბაღი", ru: "Ботанический сад Тбилиси", de: "Botanischer Garten Tiflis" },
+            { en: "Bukhara", ka: "ბუხარა", ru: "Бухара", de: "Buchara" },
+            { en: "Bulachauri", ka: "ბულაჩაური", ru: "Булачаури", de: "Bulatschauri" },
+            { en: "Buriani", ka: "ბურიანი", ru: "Буриани", de: "Buriani" },
+            { en: "Busheti", ka: "ბუშეთი", ru: "Бушети", de: "Buscheti" },
+            { en: "Byurakan Astrophysical Observatory", ka: "ბიურაკანის ობსერვატორია", ru: "Бюраканская обсерватория", de: "Bjurokan Observatorium" },
+            { en: "Castle of Rukhi", ka: "რუხის ციხე", ru: "Замок Рухи", de: "Schloss von Rukhi" },
+            { en: "Central Bus Station Ortachala", ka: "ორთაჭალის ავტოსადგური", ru: "Автовокзал Ортачала", de: "Busbahnhof Ortatschala" },
+            { en: "Chailuri (Niakhura) Castle", ka: "ჩაილურის ციხე", ru: "Замок Чаилури", de: "Tschailuri Burg" },
+            { en: "Chaisubani", ka: "ჩაისუბანი", ru: "Чаисубани", de: "Tschaisubani" },
+            { en: "Chakvi", ka: "ჩაქვი", ru: "Чакви", de: "Tschakwi" },
+            { en: "Chanchkhalo", ka: "ჩანჩხალო", ru: "Чанчхало", de: "Tschantschchalo" },
+            { en: "Chardakhi", ka: "ჩარდახი", ru: "Чардахи", de: "Tschardachi" },
+            { en: "Charents' Arch", ka: "ჩარენცის თაღი", ru: "Арка Чаренца", de: "Tscharenz Bogen" },
+            { en: "Charles Aznavour Square (Gyumri)", ka: "აზნავურის მოედანი", ru: "Площадь Азнавура", de: "Charles Aznavour Platz" },
+            { en: "Chateau Chapiteau", ka: "შატო შაპიტო", ru: "Шато Шапито", de: "Chateau Chapiteau" },
+            { en: "Chateau Iveri", ka: "შატო ივერი", ru: "Шато Ивери", de: "Chateau Iveri" },
+            { en: "Chateau Milisi", ka: "შატო მილისი", ru: "Шато Милиси", de: "Chateau Milisi" },
+            { en: "Chateau Mukhrani Winery", ka: "შატო მუხრანი", ru: "Шато Мухрани", de: "Chateau Mukhrani" },
+            { en: "Chiatura", ka: "ჭიათურა", ru: "Чиатура", de: "Tschiatura" },
+            { en: "Chimgan", ka: "ჩიმგანი", ru: "Чимган", de: "Tschimgan" },
+            { en: "Chinaz", ka: "ჩინაზი", ru: "Чиназ", de: "Tschinas" },
+            { en: "Chitakhevi", ka: "ჩითახევი", ru: "Читахеви", de: "Tschitachewi" },
+            { en: "Chkhorotsqu", ka: "ჩხოროწყუ", ru: "Чхороцку", de: "Tschchorozqu" },
+            { en: "Chobiskhevi", ka: "ჩობისხევი", ru: "Чобисхеви", de: "Tschobischewi" },
+            { en: "Chocheti", ka: "ჩოჩეთი", ru: "Чочети", de: "Tshotscheti" },
+            { en: "Chokhatauri", ka: "ჩოხატაური", ru: "Чохатаури", de: "Tschuchatauri" },
+            { en: "Chorvila", ka: "ჭორვილა", ru: "Чорвила", de: "Tschorwila" },
+            { en: "Chronicle of Georgia", ka: "საქართველოს მატიანე", ru: "Летопись Грузии", de: "Chronik von Georgien" },
+            { en: "Chumlaki", ka: "ჩუმლაყი", ru: "Чумлаки", de: "Tschumlaki" },
+            { en: "Confluence of the Chorokhi and Adjaristskali Rivers", ka: "ჭოროხის და აჭარისწყლის შესართავი", ru: "Слияние рек Чорохи и Аджарисцкали", de: "Zusammenfluss von Tschorochi und Adschariszqali" },
+            { en: "Dadiani Palace", ka: "დადიანების სასახლე", ru: "Дворец Дадиани", de: "Dadiani Palast" },
+            { en: "Dariali", ka: "დარიალი", ru: "Дарьял", de: "Dariali" },
+            { en: "Dashtadem Fortress", ka: "დაშტადემის ციხე", ru: "Крепость Даштадем", de: "Daschtadem Festung" },
+            { en: "Dashbashi Canyon", ka: "დაშბაშის კანიონი", ru: "Каньон Дашбаши", de: "Daschbaschi-Canyon" },
+            { en: "David Gareji Monastery", ka: "დავით გარეჯის მონასტერი", ru: "Монастырь Давид-Гареджи", de: "David Garedschi Kloster" },
+            { en: "Debed Canyon", ka: "დებედას კანიონი", ru: "Ущелье Дебед", de: "Debed Canyon" },
+            { en: "Dedoplistsqaro", ka: "დედოფლისწყარო", ru: "Дедоплисцкаро", de: "Dedopliszqaro" },
+            { en: "Devil's Bridge", ka: "ეშმაკის ხიდი", ru: "Чертов мост", de: "Teufelsbrücke" },
+            { en: "Dilijan", ka: "დილიჯანი", ru: "Дилиджан", de: "Dilidschan" },
+            { en: "Dmanisi", ka: "დმანისი", ru: "Дманиси", de: "Dmanissi" },
+            { en: "Dmanisi Museum-Reserve", ka: "დმანისის მუზეუმ-ნაკრძალი", ru: "Дманисский музей-заповедник", de: "Museumsreservat Dmanissi" },
+            { en: "Duisi", ka: "დუისი", ru: "Дуиси", de: "Duissi" },
+            { en: "Dusheti", ka: "დუშეთი", ru: "Душети", de: "Duscheti" },
+            { en: "Dzalisi", ka: "ძალისი", ru: "Дзалиси", de: "Dzalisi" },
+            { en: "Dzegvi", ka: "ძეგვი", ru: "Дзегви", de: "Dzegvi" },
+            { en: "Dzoraget", ka: "ძორაგეტი", ru: "Дзорагет", de: "Dsoraget" },
+            { en: "Dzveli Shuamta Monastery", ka: "ძველი შუამთის მონასტერი", ru: "Монастырь Дзвели Шуамта", de: "Dzveli Shuamta Kloster" },
+            { en: "Enguri Dam", ka: "ენგურჰესი", ru: "Ингурская ГЭС", de: "Enguri-Staudamm" },
+            { en: "Eniseli", ka: "ენისელი", ru: "Энисели", de: "Enisseli" },
+            { en: "Ergneti", ka: "ერგნეთი", ru: "Эргнети", de: "Ergneti" },
+            { en: "Ertatsminda Cathedral", ka: "ერთაწმინდას ტაძარი", ru: "Собор Эртацминда", de: "Ertazminda Kathedrale" },
+            { en: "Etchmiadzin Cathedral", ka: "ეჩმიაძინის ტაძარი", ru: "Эчмиадзинский собор", de: "Etschmiadsin Kathedrale" },
+            { en: "Ethnographic Museum Borjgalo", ka: "ეთნოგრაფიული მუზეუმი ბორჯღალო", ru: "Этнографический музей Борджгало", de: "Ethnografisches Museum Bordschgalo" },
+            { en: "Etseri", ka: "ეცერი", ru: "Эцери", de: "Etseri" },
+            { en: "Farmer's Market", ka: "აგრო ბაზარი", ru: "Фермерский рынок", de: "Bauernmarkt" },
+            { en: "Fergana", ka: "ფერგანა", ru: "Фергана", de: "Fergana" },
+            { en: "Forest Sabaduri", ka: "საბადურის ტყე", ru: "Сабадурский лес", de: "Sabaduri Wald" },
+            { en: "Friendship Monument", ka: "მეგობრობის მონუმენტი", ru: "Арка Дружбы народов", de: "Freundschaftsdenkmal" },
+            { en: "Gamarjveba", ka: "გამარჯვება", ru: "Гамарджвеба", de: "Gamardschweba" },
+            { en: "Gardabani", ka: "გარდაბანი", ru: "Гардабани", de: "Gardabani" },
+            { en: "Gavar", ka: "გავარი", ru: "Гавар", de: "Gawar" },
+            { en: "Gegelidzeebi", ka: "გეგელიძეები", ru: "Гегелидзеэби", de: "Gegelidseebi" },
+            { en: "Geguti Palace", ka: "გეგუთის სასახლე", ru: "Гегутский дворец", de: "Geguti Palast" },
+            { en: "Geghama Petroglyphs", ka: "გეღამის პეტროგლიფები", ru: "Петроглифы Гегама", de: "Geghama Petroglyphen" },
+            { en: "Geghard", ka: "გეღარდი", ru: "Гехард", de: "Geghard" },
+            { en: "Gelati Monastery", ka: "გელათის მონასტერი", ru: "Гелатский монастырь", de: "Gelati-Kloster", mapQuery: "Gelati Monastery, Motsameta, Georgia" },
+            { en: "Georgia-Russia border", ka: "საქართველო-რუსეთის საზღვარი", ru: "Грузино-российская граница", de: "Georgisch-russische Grenze" },
+            { en: "Ghebi", ka: "ღები", ru: "Геби", de: "Ghebi" },
+            { en: "Glola", ka: "გლოლა", ru: "Глола", de: "Glola" },
+            { en: "Gntuniq", ka: "გნტუნიკი", ru: "Гнтуник", de: "Gntunik" },
+            { en: "Gogavan", ka: "გოგავანი", ru: "Гогаван", de: "Gogawan" },
+            { en: "Gomarduli", ka: "გომარდული", ru: "Гомардули", de: "Gomarduli" },
+            { en: "Gomi", ka: "გომი", ru: "Гоми", de: "Gomi" },
+            { en: "Gomismta", ka: "გომისმთა", ru: "Гомисмта", de: "Gomismta" },
+            { en: "Gonio", ka: "გონიო", ru: "Гонио", de: "Gonio" },
+            { en: "Gonio Fortress", ka: "გონიოს ციხე", ru: "Крепость Гонио", de: "Festung Gonio" },
+            { en: "Gorelovka", ka: "გორელოვკა", ru: "Гореловка", de: "Gorelowka" },
+            { en: "Gori", ka: "გორი", ru: "Гори", de: "Gori" },
+            { en: "Goris", ka: "გორისი", ru: "Горис", de: "Goris" },
+            { en: "Goshavank", ka: "გოშავანქი", ru: "Гошаванк", de: "Goschawank" },
+            { en: "Graneli Winery", ka: "გრანელის მარანი", ru: "Винодельня Гранели", de: "Graneli Weingut" },
+            { en: "Green Lake", ka: "მწვანე ტბა", ru: "Зеленое озеро", de: "Grüner See" },
+            { en: "GreenGold Tea Farm", ka: "გრინგოლდის ჩაის პლანტაცია", ru: "Чайная ферма GreenGold", de: "GreenGold Teefarm" },
+            { en: "Gremi", ka: "გრემი", ru: "Греми", de: "Gremi" },
+            { en: "Grigoleti", ka: "გრიგოლეთი", ru: "Григолети", de: "Grigoleti" },
+            { en: "Gudauri", ka: "გუდაური", ru: "Гудаури", de: "Gudauri" },
+            { en: "Gulelebi", ka: "გულელები", ru: "Гулелеби", de: "Gulelebi" },
+            { en: "Gulistan", ka: "გულისტანი", ru: "Гулистан", de: "Gulistan" },
+            { en: "Gurjaani", ka: "გურჯაანი", ru: "Гурджаани", de: "Gurdschaani" },
+            { en: "Gutanasar", ka: "გუტანასარი", ru: "Гутанасар", de: "Gutanasar" },
+            { en: "Gvara Fortress", ka: "გვარას ციხე", ru: "Крепость Гвара", de: "Festung Gwara" },
+            { en: "Gveleti", ka: "გველეთი", ru: "Гвелети", de: "Gweleti" },
+            { en: "Gyumri", ka: "გიუმრი", ru: "Гюмри", de: "Gjumri" },
+            { en: "Haghartsin Monastery", ka: "აღარწინის მონასტერი", ru: "Монастырь Агарцин", de: "Hagharzin Kloster" },
+            { en: "Haghpat Monastery", ka: "აღპატის მონასტერი", ru: "Монастырь Ахпат", de: "Haghpat Kloster" },
+            { en: "Halidzor", ka: "ალიძორი", ru: "Алидзор", de: "Halidsor" },
+            { en: "Hankavam", ka: "ანკავანი", ru: "Анкаван", de: "Hankawan" },
+            { en: "Hartavan", ka: "არტავანი", ru: "Артаван", de: "Hartawan" },
+            { en: "Hatsik", ka: "ჰაწიკი", ru: "Ацик", de: "Hatsik" },
+            { en: "Hayravank monastery", ka: "აირავანქის მონასტერი", ru: "Монастырь Айраванк", de: "Hayravank Kloster" },
+            { en: "Hin Khot", ka: "ძველი ხოტი", ru: "Старый Хот", de: "Hin Khot" },
+            { en: "Holy Trinity Cathedral of Tbilisi (Sameba)", ka: "სამების საკათედრო ტაძარი", ru: "Собор Святой Троицы (Самеба)", de: "Dreifaltigkeitskathedrale (Sameba)" },
+            { en: "Hovhannavank", ka: "ოვანავანქი", ru: "Ованаванк", de: "Hovhannavank" },
+            { en: "Hrazdan", ka: "რაზდანი", ru: "Раздан", de: "Hrasdan" },
+            { en: "Ibis Tbilisi Airport", ka: "იბის თბილისის აეროპორტი", ru: "Ibis Тбилиси Аэропорт", de: "Ibis Tiflis Flughafen" },
+            { en: "Igoeti", ka: "იგოეთი", ru: "Игоети", de: "Igoeti" },
+            { en: "Ijevan", ka: "იჯევანი", ru: "Иджеван", de: "Idschedwan" },
+            { en: "Ikalto", ka: "იყალთო", ru: "Икалто", de: "Ikalto" },
+            { en: "Ilia Lake", ka: "ილიას ტბა", ru: "Озеро Илия", de: "Ilia-See" },
+            { en: "Jakhunderi", ka: "ჯახუნდერი", ru: "Джахундери", de: "Dschachunderi" },
+            { en: "Jandari Lake", ka: "ჯანდარის ტბა", ru: "Озеро Джандари", de: "Dschandari-See" },
+            { en: "Javakhishvili Wine Cellar", ka: "ჯავახიშვილის მარანი", ru: "Винный погреб Джавахишвили", de: "Dschawachischwili Weinkeller" },
+            { en: "Jermuk", ka: "ჯერმუკი", ru: "Джермук", de: "Dschermuk" },
+            { en: "Jewelberry Shuaguli Glamping", ka: "ჯუელბერი შუაგული გლემპინგი", ru: "Jewelberry Shuaguli Glamping", de: "Jewelberry Shuaguli Glamping" },
+            { en: "Jizzakh", ka: "ჯიზახი", ru: "Джизак", de: "Dschizak" },
+            { en: "Jokolo", ka: "ჯოყოლო", ru: "Джоколо", de: "Dschokolo" },
+            { en: "Jvari", ka: "ჯვარი", ru: "Джвари", de: "Dschwari" },
+            { en: "Jvari (town)", ka: "ჯვარი (ქალაქი)", ru: "Джвари (город)", de: "Dschwari (Stadt)" },
+            { en: "Kachreti", ka: "კაჭრეთი", ru: "Качрети", de: "Katschreti" },
+            { en: "Kakabeti", ka: "კაკაბეთი", ru: "Какабети", de: "Kakabeti" },
+            { en: "Kakliani", ka: "კაკლიანი", ru: "Каклиани", de: "Kakliani" },
+            { en: "Kapan", ka: "კაპანი", ru: "Капан", de: "Kapan" },
+            { en: "Kapnistavi", ka: "კაპნისთავი", ru: "Капнистави", de: "Kapnistawi" },
+            { en: "Kaprovani", ka: "კაპროვანი", ru: "Капровани", de: "Kaprowani" },
+            { en: "Kaptavank Monastery", ka: "კაპტავანქის მონასტერი", ru: "Монастырь Каптаванк", de: "Kaptawank" },
+            { en: "Karaleti", ka: "კარალეთი", ru: "Каралети", de: "Karaleti" },
+            { en: "Kardenakhi", ka: "კარდენახი", ru: "Карденахи", de: "Kardenachi" },
+            { en: "Kareli", ka: "ქარელი", ru: "Карели", de: "Kareli" },
+            { en: "Karaunj", ka: "ქარაუნჯი", ru: "Караундж", de: "Karaundsch" },
+            { en: "Kari Lake", ka: "ქარის ტბა", ru: "Озеро Кари", de: "Kari-See" },
+            { en: "Kartsakhi", ka: "კარწახი", ru: "Карцахи", de: "Karzachi" },
+            { en: "Kaspi", ka: "კასპი", ru: "Каспи", de: "Kaspi" },
+            { en: "Katskhi Pillar", ka: "კაცხის სვეტი", ru: "Столп Кацхи", de: "Kazchi-Säule" },
+            { en: "Kavtiskhevi", ka: "კავთისხევი", ru: "Кавтисхеви", de: "Kawtischewi" },
+            { en: "Kazreti", ka: "კაზრეთი", ru: "Казрети", de: "Kasreti" },
+            { en: "Keda", ka: "ქედა", ru: "Кеда", de: "Keda" },
+            { en: "Khaishi", ka: "ხაიში", ru: "Хаиши", de: "Chaischi" },
+            { en: "Khala", ka: "ხალა", ru: "Хала", de: "Chala" },
+            { en: "Khani", ka: "ხანი", ru: "Хани", de: "Chani" },
+            { en: "Kharagauli", ka: "ხარაგაული", ru: "Харагаули", de: "Charagauli" },
+            { en: "Khashmi", ka: "ხაშმი", ru: "Хашми", de: "Chaschmi" },
+            { en: "Khashuri", ka: "ხაშური", ru: "Хашури", de: "Chaschuri" },
+            { en: "Khertvisi Fortress", ka: "ხერთვისის ციხე", ru: "Крепость Хертвиси", de: "Chertwissi Festung" },
+            { en: "Khirsa St. Stephan Monastery", ka: "ხირსის მონასტერი", ru: "Монастырь Хирса", de: "Chirsa Kloster" },
+            { en: "Khiva", ka: "ხივა", ru: "Хива", de: "Chiwa" },
+            { en: "Khndzoresk", ka: "ხნძორესკი", ru: "Хндзореск", de: "Chndsoresk" },
+            { en: "Khobi", ka: "ხობი", ru: "Хоби", de: "Chobi" },
+            { en: "Khobi Convent", ka: "ხობის მონასტერი", ru: "Хобский монастырь", de: "Chobi Kloster" },
+            { en: "Khoni", ka: "ხონი", ru: "Хони", de: "Choni" },
+            { en: "Khor Virap", ka: "ხორ-ვირაპი", ru: "Хор Вирап", de: "Chor Wirap" },
+            { en: "Khulo", ka: "ხულო", ru: "Хуло", de: "Chulo" },
+            { en: "Khvamli Mountain", ka: "ხვამლის მთა", ru: "Гора Хвамли", de: "Chwamli Berg" },
+            { en: "Khvanchkara", ka: "ხვანჭკარა", ru: "Хванчкара", de: "Chwantschkara" },
+            { en: "Kiketi", ka: "კიკეთი", ru: "Кикети", de: "Kiketi" },
+            { en: "Kiketi Farm", ka: "კიკეთის ფერმა", ru: "Ферма Кикети", de: "Kiketi Farm" },
+            { en: "Kinchkha Waterfall", ka: "კინჩხას ჩანჩქერი", ru: "Водопад Кинчха", de: "Kintschcha-Wasserfall" },
+            { en: "Kindzmarauli Marani", ka: "ქინძმარაულის მარანი", ru: "Киндзмараули Марани", de: "Kindzmarauli Marani" },
+            { en: "Kintsvisi Monastery", ka: "ყინწვისის მონასტერი", ru: "Кинцвисский монастырь", de: "Kinzissi Kloster" },
+            { en: "Kirnati", ka: "კირნათი", ru: "Кирнати", de: "Kirnati" },
+            { en: "Kisiskhevi", ka: "კისიხევი", ru: "Кисисхеви", de: "Kissischewi" },
+            { en: "Kitokhi", ka: "კიტოხი", ru: "Китехи", de: "Kitochi" },
+            { en: "Kobadze", ka: "კობაძე", ru: "Кобадзе", de: "Kobadse" },
+            { en: "Kobayr Monastery", ka: "ქობაირის მონასტერი", ru: "Монастырь Кобайр", de: "Kobayr Kloster" },
+            { en: "Kobi", ka: "კობი", ru: "Коби", de: "Kobi" },
+            { en: "Kobuleti", ka: "ქობულეთი", ru: "Кобулети", de: "Kobuleti" },
+            { en: "Kojori", ka: "კოჯორი", ru: "Коджори", de: "Kodscheri" },
+            { en: "Kokand", ka: "კოკანდი", ru: "Коканд", de: "Kokand" },
+            { en: "Kokhi", ka: "კოხი", ru: "Кохи", de: "Kochi" },
+            { en: "Kokotauri", ka: "კოკოტაური", ru: "Кокотаури", de: "Kokotauri" },
+            { en: "Kolagiri", ka: "ქოლაგირი", ru: "Колагири", de: "Kolagiri" },
+            { en: "Kolkheti National Park", ka: "კოლხეთის ეროვნული პარკი", ru: "Национальный парк Колхети", de: "Kolkheti Nationalpark" },
+            { en: "Kondoli", ka: "კონდოლი", ru: "Кондоли", de: "Kondoli" },
+            { en: "Ksani", ka: "ქსანი", ru: "Ксани", de: "Ksani" },
+            { en: "Ksovrisi Church", ka: "ქსოვრისის ეკლესია", ru: "Церковь Ксовриси", de: "Ksowrissi Kirche" },
+            { en: "Kuchatani", ka: "კუჭატანი", ru: "Кучатани", de: "Kutsachatani" },
+            { en: "Kulevi", ka: "ყულევი", ru: "Кулеви", de: "Kulewi" },
+            { en: "Kumisi Lake", ka: "კუმისის ტბა", ru: "Озеро Кумиси", de: "Kumissi-See" },
+            { en: "Kutaisi", ka: "ქუთაისი", ru: "Кутаиси", de: "Kutaissi", mapQuery: "Kutaisi Central Square, Kutaisi, Georgia" },
+            { en: "Kutaisi Airport", ka: "ქუთაისის აეროპორტი", ru: "Аэропорт Кутаиси", de: "Flughafen Kutaisi" },
+            { en: "Kutaisi Botanical Garden", ka: "ქუთაისის ბოტანიკური ბაღი", ru: "Кутаисский ботанический сад", de: "Botanischer Garten Kutaissi" },
+            { en: "Kvabiskhevi", ka: "ქვაბისხევი", ru: "Квабисхеви", de: "Kwabischewi" },
+            { en: "Kvareli", ka: "ყვარელი", ru: "Кварели", de: "Kwareli" },
+            { en: "Kvariati", ka: "კვარიათი", ru: "Квариати", de: "Kwariati" },
+            { en: "Kvashta", ka: "კვაშტა", ru: "Квашта", de: "Kwaschta" },
+            { en: "Kvatakhevi", ka: "ქვათახევი", ru: "Кватахеви", de: "Kwatachewi" },
+            { en: "Kveda Bakhvi", ka: "ქვედა ბახვი", ru: "Кведа Бахви", de: "Kweda Bachwi" },
+            { en: "Kveda Chkhutuneti", ka: "ქვედა ჩხუტუნეთი", ru: "Кведа Чхутунети", de: "Kweda Tschchutuneti" },
+            { en: "Kveda Pona", ka: "ქვედა ფონა", ru: "Кведа Пона", de: "Kweda Pona" },
+            { en: "Kvemo Alvani", ka: "ქვემო ალვანი", ru: "Квемо Алвани", de: "Kwemo Alwani" },
+            { en: "Kvemo Magharo", ka: "ქვემო მაღარო", ru: "Квемо Магаро", de: "Kwemo Magharo" },
+            { en: "Kvemo Marghi", ka: "ქვემო მარღი", ru: "Квемо Марги", de: "Kwemo Marghi" },
+            { en: "Kvemo Mleta", ka: "ქვემო მლეთა", ru: "Квемо Млета", de: "Kwemo Mleta" },
+            { en: "Kvemo Teleti", ka: "ქვემო თელეთი", ru: "Квемо Телети", de: "Kwemo Teleti" },
+            { en: "Kveshi Fortress", ka: "ქვეშის ციხე", ru: "Крепость Квеши", de: "Kweschi Festung" },
+            { en: "Kvibisi", ka: "ქვიბისი", ru: "Квибиси", de: "Kwibissi" },
+            { en: "Kvishkheti", ka: "ქვიშხეთი", ru: "Квишхети", de: "Kwischcheti" },
+            { en: "Kvitkiristskaro St. George Church & Petre Tower", ka: "ქვითკირისწყაროს წმინდა გიორგის ეკლესია", ru: "Церковь Квиткирисцкаро", de: "Kwitkiriszqaro Kirche" },
+            { en: "Lagodekhi", ka: "ლაგოდეხი", ru: "Лагодехи", de: "Lagodechi" },
+            { en: "Lailashi", ka: "ლაილაში", ru: "Лаилаши", de: "Lailaschi" },
+            { en: "Lanchkhuti", ka: "ლანჩხუთი", ru: "Ланчхути", de: "Lantschchuti" },
+            { en: "Lapankuri", ka: "ლაფანყური", ru: "Лапанкури", de: "Lapankuri" },
+            { en: "Ledzadzame", ka: "ლეძაძამე", ru: "Ледзадзаме", de: "Ledsadsame" },
+            { en: "Lentekhi", ka: "ლენტეხი", ru: "Лентехи", de: "Lentechi" },
+            { en: "Likani", ka: "ლიკანი", ru: "Ликани", de: "Likani" },
+            { en: "Lilo Mall", ka: "ლილოს მოლი", ru: "Торговый центр Лило", de: "Lilo Mall" },
+            { en: "Lisi Lake", ka: "ლისის ტბა", ru: "Озеро Лиси", de: "Lisi-See" },
+            { en: "Lopota Lake", ka: "ლოპოტას ტბა", ru: "Озеро Лопота", de: "Lopota-See" },
+            { en: "Lori Berd Fortress", ka: "ლორის ციხე", ru: "Крепость Лори", de: "Lori Berd" },
+            { en: "Machakhela National Park", ka: "მაჭახელას ეროვნული პარკი", ru: "Национальный парк Мачахела", de: "Matschachela Nationalpark" },
+            { en: "Madatapa Lake", ka: "მადათაფას ტბა", ru: "Озеро Мадатапа", de: "Madatapa-See" },
+            { en: "Magraneti", ka: "მაღრანეთი", ru: "Магранети", de: "Maghraneti" },
+            { en: "Makhinjauri", ka: "მახინჯაური", ru: "Махинджаури", de: "Machindschauri" },
+            { en: "Makhuntseti Waterfall", ka: "მახუნცეთის ჩანჩქერი", ru: "Водопад Махунцети", de: "Machunzeti-Wasserfall" },
+            { en: "Maltakva", ka: "მალთაყვა", ru: "Малтаква", de: "Maltakwa" },
+            { en: "Mamkoda", ka: "მამკოდა", ru: "Мамкода", de: "Mamkoda" },
+            { en: "Manavi", ka: "მანავი", ru: "Манави", de: "Manawi" },
+            { en: "Manglisi", ka: "მანგლისი", ru: "Манглиси", de: "Manglissi" },
+            { en: "Maralik", ka: "მარალიკი", ru: "Маралик", de: "Maralik" },
+            { en: "Marmashen Monastery", ka: "მარმაშენის მონასტერი", ru: "Мармашенский монастырь", de: "Marmaschen" },
+            { en: "Marneuli", ka: "მარნეული", ru: "Марнеули", de: "Marneuli" },
+            { en: "Martkopi monastery", ka: "მარტყოფის მონასტერი", ru: "Монастырь Марткопи", de: "Martqopi Kloster" },
+            { en: "Martuni", ka: "მარტუნი", ru: "Мартуни", de: "Martuni" },
+            { en: "Martvili", ka: "მარტვილი", ru: "Мартвили", de: "Martvili" },
+            { en: "Martvili Canyon", ka: "მარტვილის კანიონი", ru: "Мартвильский каньон", de: "Martvili Canyon" },
+            { en: "Mazeri", ka: "მაზერი", ru: "Мазери", de: "Maseri" },
+            { en: "Meghri", ka: "მეგრი", ru: "Мегри", de: "Meghri" },
+            { en: "Menji Sanatorium", ka: "მენჯის სანატორიუმი", ru: "Санаторий Менджи", de: "Mendschi Sanatorium" },
+            { en: "Meore Obcha", ka: "მეორე ობჩა", ru: "Меоре Обча", de: "Meore Obtscha" },
+            { en: "Merisi", ka: "მერისი", ru: "Мериси", de: "Merissi" },
+            { en: "Mestia", ka: "მესტია", ru: "Местия", de: "Mestia" },
+            { en: "Metsamor", ka: "მეწამორი", ru: "Мецамор", de: "Mezamor" },
+            { en: "Mgvimevi Monastery", ka: "მღვიმევის მონასტერი", ru: "Монастырь Мгвимеви", de: "Mghwimewi Kloster" },
+            { en: "Mikoyan Brothers Museum", ka: "მიქოიანების მუზეუმი", ru: "Музей братьев Микоян", de: "Mikojan Museum" },
+            { en: "Miniature Park", ka: "მინიატურების პარკი", ru: "Парк миниатюр", de: "Miniaturenpark" },
+            { en: "Mirzaani", ka: "მირზაანი", ru: "Мирзаани", de: "Mirsaani" },
+            { en: "Misaktsieli", ka: "მისაქციელი", ru: "Мисакциели", de: "Misakzieli" },
+            { en: "Mlashe", ka: "მლაშე", ru: "Млаше", de: "Mlasche" },
+            { en: "Monastery of St. John", ka: "იოანე ნათლისმცემლის მონასტერი", ru: "Монастырь Святого Иоанна", de: "Kloster des Heiligen Johannes" },
+            { en: "Mother Armenia (Gyumri)", ka: "დედა სომხეთი (გიუმრი)", ru: "Мать Армения (Гюмри)", de: "Mutter Armenien" },
+            { en: "Motsameta Monastery", ka: "მოწამეთას მონასტერი", ru: "Монастырь Моцамета", de: "Motsameta Kloster" },
+            { en: "Mravaltskaro Reservoir", ka: "მრავალწყაროს წყალსაცავი", ru: "Водохранилище Мравалцкаро", de: "Mrawalzqaro Stausee" },
+            { en: "Mshvenieradze winery", ka: "მშვენიერაძის მარანი", ru: "Винодельня Мшвениерадзе", de: "Mschwenieradse Weingut" },
+            { en: "Mskhaldidi", ka: "მსხალდიდი", ru: "Мсхалдиди", de: "Mschaldidi" },
+            { en: "Mtatsminda Park", ka: "მთაწმინდის პარკი", ru: "Парк Мтацминда", de: "Mtazminda Park" },
+            { en: "Mtirala National Park", ka: "მტირალას ეროვნული პარკი", ru: "Национальный парк Мтирала", de: "Mtirala Nationalpark" },
+            { en: "Mtskheta", ka: "მცხეთა", ru: "Мцхета", de: "Mtskheta" },
+            { en: "Mtsvane Kontskhi", ka: "მწვანე კონცხი", ru: "Зеленый Мыс", de: "Grünes Kap (Mzwane Konzchi)" },
+            { en: "Mtsvane Monastery", ka: "მწვანე მონასტერი", ru: "Зеленый монастырь", de: "Grünes Kloster" },
+            { en: "Mukhatskaro", ka: "მუხათწყარო", ru: "Мухатцкаро", de: "Muchatzqaro" },
+            { en: "Mukhrani", ka: "მუხრანი", ru: "Мухрани", de: "Muchrani" },
+            { en: "Mukhuri", ka: "მუხური", ru: "Мухури", de: "Muchuri" },
+            { en: "Mukuzani", ka: "მუკუზანი", ru: "Мукузани", de: "Mukusani" },
+            { en: "Mutso", ka: "მუცო", ru: "Муцо", de: "Muzo" },
+            { en: "Myler Mountain Resort", ka: "მილერის კურორტი", ru: "Курорт Майлер", de: "Myler Resort" },
+            { en: "Nagomari Tea House", ka: "ნაგომარის ჩაის სახლი", ru: "Чайный дом Нагомари", de: "Nagomari Teehaus" },
+            { en: "Nakalakevi", ka: "ნაქალაქევი", ru: "Накалакеви", de: "Nakalakewi" },
+            { en: "Nakhshirghele", ka: "ნახშირღელე", ru: "Нахширгеле", de: "Nachschirghele" },
+            { en: "Namangan", ka: "ნამანგანი", ru: "Наманган", de: "Namangan" },
+            { en: "Naoza", ka: "ნაოზა", ru: "Наоза", de: "Naosa" },
+            { en: "Napareuli", ka: "ნაფარეული", ru: "Напареули", de: "Napareuli" },
+            { en: "Nardevani", ka: "ნარდევანი", ru: "Нардевани", de: "Nardewani" },
+            { en: "Narikala Fortress", ka: "ნარიყალას ციხე", ru: "Крепость Нарикала", de: "Narikala Festung" },
+            { en: "Natakhtari", ka: "ნატახტარი", ru: "Натахтари", de: "Natachtari" },
+            { en: "Navazi", ka: "ნავაზი", ru: "Навази", de: "Nawasi" },
+            { en: "Navenakhevi Cave", ka: "ნავენახევის მღვიმე", ru: "Пещера Навенахеви", de: "Nawenachewi Höhle" },
+            { en: "Navoiy", ka: "ნავოი", ru: "Навои", de: "Nawoi" },
+            { en: "Nekresi", ka: "ნეკრესი", ru: "Некреси", de: "Nekressi" },
+            { en: "Niko Pirosrmani museum", ka: "ნიკო ფიროსმანის მუზეუმი", ru: "Музей Нико Пиросмани", de: "Niko Pirosmani Museum" },
+            { en: "Nikortsminda", ka: "ნიკორწმინდა", ru: "Никорцминда", de: "Nikortsminda" },
+            { en: "Ninotsminda", ka: "ნინოწმინდა", ru: "Ниноцминда", de: "Ninozminda" },
+            { en: "Ninotsminda (Kakheti)", ka: "ნინოწმინდა (კახეთი)", ru: "Ниноцминда (Кахетия)", de: "Ninozminda (Kachetien)" },
+            { en: "Noemberyan", ka: "ნოემბერიანი", ru: "Ноемберян", de: "Noemberjan" },
+            { en: "Nokalakevi", ka: "ნოქალაქევი", ru: "Нокалакеви", de: "Nokalakewi" },
+            { en: "Noratus", ka: "ნორატუსი", ru: "Норатус", de: "Noratus" },
+            { en: "Noravank Monastery", ka: "ნორავანქის მონასტერი", ru: "Монастырь Нораванк", de: "Norawank Kloster" },
+            { en: "Norio", ka: "ნორიო", ru: "Норио", de: "Norio" },
+            { en: "Nukriani", ka: "ნუკრიანი", ru: "Нукриани", de: "Nukriani" },
+            { en: "Odzun Church", ka: "ოძუნის ეკლესია", ru: "Церковь Одзун", de: "Odsun Kirche" },
+            { en: "Ohanavan", ka: "ოჰანავანი", ru: "Оганаван", de: "Ohanawan" },
+            { en: "Okami", ka: "ოკამი", ru: "Оками", de: "Okami" },
+            { en: "Okatse Canyon", ka: "ოკაცეს კანიონი", ru: "Каньон Окаце", de: "Okatse Canyon" },
+            { en: "Olaverdi", ka: "ოლავერდი", ru: "Олаверди", de: "Olawerdi" },
+            { en: "Omalo", ka: "ომალო", ru: "Омало", de: "Omalo" },
+            { en: "Oni", ka: "ონი", ru: "Они", de: "Oni" },
+            { en: "Orbelian Caravanserai", ka: "ორბელიანების ქარვასლა", ru: "Караван-сарай Орбелянов", de: "Orbeljan Karawanserei" },
+            { en: "Orbeti", ka: "ორბეთი", ru: "Орбети", de: "Orbeti" },
+            { en: "Oshakan", ka: "ოშაკანი", ru: "Ошакан", de: "Oschakan" },
+            { en: "Ozurgeti", ka: "ოზურგეთი", ru: "Озургети", de: "Osurgeti" },
+            { en: "Pansheti", ka: "ფანშეტი", ru: "Паншети", de: "Panscheti" },
+            { en: "Paravani Lake", ka: "ფარავნის ტბა", ru: "Озеро Паравани", de: "Parawani-See" },
+            { en: "Paruyr Sevak", ka: "პარუირ სევაკი", ru: "Паруйр Севак", de: "Parujr Sewak" },
+            { en: "Parz Lake", ka: "პარზის ტბა", ru: "Озеро Парз", de: "Pars-See" },
+            { en: "Pasanauri", ka: "ფასანაური", ru: "Пасанаури", de: "Passanauri" },
+            { en: "Patara Khurvaleti", ka: "პატარა ხურვალეთი", ru: "Патара Хурвалети", de: "Patara Churwaleti" },
+            { en: "Patara Zanavi", ka: "პატარა ზანავი", ru: "Патара Занави", de: "Patara Sanawi" },
+            { en: "Petra Fortress", ka: "პეტრას ციხე", ru: "Крепость Петра", de: "Petra Festung" },
+            { en: "Phanaga", ka: "ფანაგა", ru: "Фанага", de: "Phanaga" },
+            { en: "Pichkhovani", ka: "ფიჩხოვანი", ru: "Пичховани", de: "Pitschchowani" },
+            { en: "Poka", ka: "ფოკა", ru: "Пока", de: "Poka" },
+            { en: "Poka St. Nino Monastery", ka: "ფოკის წმინდა ნინოს მონასტერი", ru: "Монастырь Святой Нино в Фоке", de: "Poka St. Nino Kloster" },
+            { en: "Poti", ka: "ფოთი", ru: "Поти", de: "Poti" },
+            { en: "Prometheus Cave", ka: "პრომეთეს მღვიმე", ru: "Пещера Прометея", de: "Prometheus Höhle", mapQuery: "Prometheus Cave Natural Monument, Kumistavi, Georgia" },
+            { en: "Pshaveli", ka: "ფშაველი", ru: "Пшавели", de: "Pschaweli" },
+            { en: "Qarshi", ka: "კარში", ru: "Карши", de: "Karschi" },
+            { en: "Rabati Castle", ka: "რაბათის ციხე", ru: "Крепость Рабат", de: "Rabati Burg" },
+            { en: "Radio Optical Observatory", ka: "რადიო ობსერვატორია", ru: "Радиообсерватория", de: "Radioobservatorium" },
+            { en: "Red Bridge Customs Post", ka: "წითელი ხიდი", ru: "Таможенный пост Красный мост", de: "Rote Brücke Zoll" },
+            { en: "Renegade Tea Estate", ka: "რენეგეიდის ჩაის პლანტაცია", ru: "Чайная плантация Renegade", de: "Renegade Teeplantage" },
+            { en: "Rioni Railway Station", ka: "რიონის რკინიგზის სადგური", ru: "Железнодорожная станция Риони", de: "Rioni Bahnhof" },
+            { en: "Rkoni Monastery", ka: "რკონის მონასტერი", ru: "Монастырь Ркони", de: "Rkoni Kloster" },
+            { en: "Ruispiri", ka: "რუისპირი", ru: "Руиспири", de: "Ruispiri" },
+            { en: "Rustavi", ka: "რუსთავი", ru: "Рустави", de: "Rustavi" },
+            { en: "Saakadze", ka: "სააკაძე", ru: "Саакадзе", de: "Saakadse" },
+            { en: "Sachkhere", ka: "საჩხერე", ru: "Сачхере", de: "Satschchere" },
+            { en: "Sagarejo", ka: "საგარეჯო", ru: "Сагареджо", de: "Sagaredscho" },
+            { en: "Saghrasheni", ka: "საღრაშენი", ru: "Саграшени", de: "Saghrascheni" },
+            { en: "Saguramo", ka: "საგურამო", ru: "Сагурамо", de: "Saguramo" },
+            { en: "Saint Arsenius the Archbishop of Serbia Church", ka: "წმინდა არსენ სერბელის ეკლესია", ru: "Церковь Святого Арсения Сербского", de: "Kirche des Heiligen Arsenius von Serbien" },
+            { en: "Saint Gayane Church", ka: "წმინდა გაიანეს ეკლესია", ru: "Церковь Святой Гаяне", de: "St. Gajane Kirche" },
+            { en: "Saint George Church (Ziari)", ka: "წმინდა გიორგის ეკლესია (ზია)", ru: "Церковь Святого Георгия (Зиари)", de: "St. Georg Kirche (Ziari)" },
+            { en: "Saint Hovhanes chapel", ka: "წმინდა ოვანესის კაპელა", ru: "Часовня Святого Ованнеса", de: "St. Hovhannes Kapelle" },
+            { en: "Saint Hripsime Church", ka: "წმინდა რიფსიმეს ეკლესია", ru: "Церковь Святой Рипсимэ", de: "St. Hripsime Kirche" },
+            { en: "Saint Nino Monument (Tbilisi)", ka: "წმინდა ნინოს მონუმენტი (თბილისი)", ru: "Памятник Святой Нино (Тбилиси)", de: "St. Nino Denkmal (Tiflis)" },
+            { en: "Sairme", ka: "საირმე", ru: "Саирме", de: "Sairme" },
+            { en: "Salkhino Dadiani Summer Residence", ka: "სალხინოს დადიანების სასახლე", ru: "Летняя резиденция Дадиани в Салхино", de: "Salchino Dadiani Sommerresidenz" },
+            { en: "Samarkand", ka: "სამარყანდი", ru: "Самарканд", de: "Samarkand" },
+            { en: "Sameba Mountain", ka: "სამების მთა", ru: "Гора Самеба", de: "Sameba Berg" },
+            { en: "Samshvilde", ka: "სამშვილდე", ru: "Самшвилде", de: "Samschwilde" },
+            { en: "Samtavisi Cathedral", ka: "სამთავისის ტაძარი", ru: "Собор Самтависи", de: "Samtawissi Kathedrale" },
+            { en: "Samtavro Monastery", ka: "სამთავროს მონასტერი", ru: "Монастырь Самтавро", de: "Samtawro Kloster" },
+            { en: "Samtredia", ka: "სამტრედია", ru: "Самтредиа", de: "Samtredia", mapQuery: "Samtredia, Georgia" },
+            { en: "Sanahin", ka: "სანაჰინი", ru: "Санаин", de: "Sanahin" },
+            { en: "Sardarapat Memorial & Museum", ka: "სარდარაპატის მუზეუმი", ru: "Мемориал Сардарапат", de: "Sardarapat Museum" },
+            { en: "Sarpi", ka: "სარფი", ru: "Сарпи", de: "Sarpi" },
+            { en: "Sartichala", ka: "სართიჭალა", ru: "Сартичала", de: "Sartitschala" },
+            { en: "Sasadilo", ka: "სასადილო", ru: "Сасадило", de: "Sasadilo" },
+            { en: "Sasakhlo", ka: "სასახლო", ru: "Сасахло", de: "Sasachlo" },
+            { en: "Sataplia", ka: "სათაფლია", ru: "Сатаплия", de: "Sataplia" },
+            { en: "Satskhenisi", ka: "საცხენისი", ru: "Сацхениси", de: "Sazchenissi" },
+            { en: "Senaki", ka: "სენაკი", ru: "Сенаки", de: "Senaki" },
+            { en: "Sepe", ka: "სეფე", ru: "Сепе", de: "Sepe" },
+            { en: "Sevan", ka: "სევანი", ru: "Севан", de: "Sewan" },
+            { en: "Sevanavank", ka: "სევანავანქი", ru: "Севанаванк", de: "Sewanawank" },
+            { en: "Shahrisabz", ka: "შაჰრისაბზი", ru: "Шахрисабз", de: "Schahrisabs" },
+            { en: "Shaki Waterfall", ka: "შაკის ჩანჩქერი", ru: "Водопад Шаки", de: "Schaki-Wasserfall" },
+            { en: "Shalauri", ka: "შალაური", ru: "Шалаури", de: "Schalauri" },
+            { en: "Shashiani", ka: "შაშიანი", ru: "Шашиани", de: "Schaschiani" },
+            { en: "Shatili", ka: "შატილი", ru: "Шатили", de: "Schatili" },
+            { en: "Shavnabada Monastery", ka: "შავნაბადას მონასტერი", ru: "Монастырь Шавнабада", de: "Schawnabada Kloster" },
+            { en: "Shekvetili", ka: "შეკვეთილი", ru: "Шекветили", de: "Schekwetili" },
+            { en: "Shekvetili Dendrological Park", ka: "შეკვეთილის დენდროლოგიური პარკი", ru: "Дендрологический парк Шекветили", de: "Dendrologischer Park Schekwetili" },
+            { en: "Shekvetili Music Park", ka: "შეკვეთილის მუსიკოსთა პარკი", ru: "Музыкальный парк Шекветили", de: "Musikpark Schekwetili" },
+            { en: "Shemokmedi Monastery", ka: "შემოქმედის მონასტერი", ru: "Монастырь Шемокмеди", de: "Schemokmedi Kloster" },
+            { en: "Shervashidze Wine Cellar", ka: "შერვაშიძეების მარანი", ru: "Винный погреб Шервашидзе", de: "Scherwaschidse Weinkeller" },
+            { en: "Shilda", ka: "შილდა", ru: "Шилда", de: "Schilda" },
+            { en: "Shindisi", ka: "შინდისი", ru: "Шиндиси", de: "Schindissi" },
+            { en: "Shiomghvime Monastery", ka: "შიომღვიმის მონასტერი", ru: "Монастырь Шиомгвиме", de: "Schiomghwime Kloster" },
+            { en: "Shirak International Airport (Gyumri)", ka: "შირაქის აეროპორტი", ru: "Аэропорт Ширак", de: "Flughafen Schirak" },
+            { en: "Shiraki Military Airfield", ka: "შირაქის სამხედრო აეროდრომი", ru: "Военный аэродром Шираки", de: "Militärflugplatz Schiraki" },
+            { en: "Shkhepi Fortress", ka: "შხეფის ციხე", ru: "Крепость Шхепи", de: "Schchepi Festung" },
+            { en: "Shovi", ka: "შოვი", ru: "Шови", de: "Schowi" },
+            { en: "Shroma", ka: "შრომა", ru: "Шрома", de: "Schroma" },
+            { en: "Shuakhevi", ka: "შუახევი", ru: "Шуахеви", de: "Schuachewi" },
+            { en: "Shulaveri", ka: "შულავერი", ru: "Шулавери", de: "Schulaweri" },
+            { en: "Shumi winery", ka: "შუმის მარანი", ru: "Винодельня Шуми", de: "Schumi Weingut" },
+            { en: "Signagi", ka: "სიღნაღი", ru: "Сигнаги", de: "Signagi" },
+            { en: "Sioni Reservoir", ka: "სიონის წყალსაცავი", ru: "Сионское водохранилище", de: "Sioni Stausee" },
+            { en: "Sno", ka: "სნო", ru: "Сно", de: "Sno" },
+            { en: "Spitak", ka: "სპიტაკი", ru: "Спитак", de: "Spitak" },
+            { en: "St Nino Monastery (Kutaisi)", ka: "წმინდა ნინოს მონასტერი (ქუთაისი)", ru: "Монастырь Святой Нино (Кутаиси)", de: "St. Nino Kloster (Kutaissi)" },
+            { en: "St. Andrew's Waterfall", ka: "ანდრია პირველწოდებულის ჩანჩქერი", ru: "Водопад Святого Андрея", de: "St. Andreas Wasserfall" },
+            { en: "St. Thekla Monastery", ka: "წმინდა თეკლას მონასტერი", ru: "Монастырь Святой Феклы", de: "St. Thekla Kloster" },
+            { en: "Stalin Museum", ka: "სტალინის მუზეუმი", ru: "Музей Сталина", de: "Stalin Museum" },
+            { en: "Stepanavan", ka: "სტეპანავანი", ru: "Степанаван", de: "Stepanawan" },
+            { en: "Stepanavan Dendropark", ka: "სტეპანავანის დენდროპარკი", ru: "Степанаванский дендропарк", de: "Stepanawan Dendropark" },
+            { en: "Stepantsminda(Kazbegi)", ka: "სტეფანწმინდა (ყაზბეგი)", ru: "Степанцминда (Казбеги)", de: "Stepantsminda (Kasbegi)", keywords: "казбеги ყაზბეგი kazbeki" },
+            { en: "Surami", ka: "სურამი", ru: "Сурами", de: "Surami" },
+            { en: "Svetitskhoveli Cathedral", ka: "სვეტიცხოველი", ru: "Светицховели", de: "Swetizchoweli Kathedrale" },
+            { en: "Symphony of Stones", ka: "ქვების სიმფონია", ru: "Симфония камней", de: "Symphonie der Steine" },
+            { en: "Syrdarya", ka: "სირდარია", ru: "Сырдарья", de: "Syrdarja" },
+            { en: "Taba Tea House", ka: "ტაბას ჩაის სახლი", ru: "Чайный дом Таба", de: "Taba Teehaus" },
+            { en: "Tabakhmela", ka: "ტაბახმელა", ru: "Табахмела", de: "Tabachmela" },
+            { en: "Tabatskuri", ka: "ტაბაწყური", ru: "Табацкури", de: "Tabazkuri" },
+            { en: "Talin", ka: "ტალინი", ru: "Талин", de: "Talin" },
+            { en: "Tambovka", ka: "ტამბოვკა", ru: "Тамбовка", de: "Tambowka" },
+            { en: "Tapatagh", ka: "ტაპატაღი", ru: "Тапатаг", de: "Tapatagh" },
+            { en: "Tashkent", ka: "ტაშკენტი", ru: "Ташкент", de: "Taschkent" },
+            { en: "Tashkent International Airport", ka: "ტაშკენტის აეროპორტი", ru: "Аэропорт Ташкент", de: "Flughafen Taschkent" },
+            { en: "Tatev Monastery", ka: "ტატევის მონასტერი", ru: "Монастырь Татев", de: "Tatew Kloster" },
+            { en: "Tbilisi", ka: "თბილისი", ru: "Тбилиси", de: "Tiflis", keywords: "тифлис tiflis" },
+            { en: "Tbilisi Airport", ka: "თბილისის აეროპორტი", ru: "Аэропорт Тбилиси", de: "Flughafen Tiflis" },
+            { en: "Tbilisi Mall", ka: "თბილისი მოლი", ru: "Тбилиси Молл", de: "Tbilisi Mall" },
+            { en: "Tbilisi Open Air Museum of Ethnography", ka: "თბილისის ეთნოგრაფიული მუზეუმი", ru: "Тбилисский этнографический музей", de: "Ethnografisches Freilichtmuseum Tiflis" },
+            { en: "Tbilisi Outlet Village", ka: "თბილისი აუტლეტ ვილიჯი", ru: "Тбилиси Аутлет Виллидж", de: "Tbilisi Outlet Village" },
+            { en: "Tbilisi Railway Station", ka: "თბილისის რკინიგზის სადგური", ru: "Железнодорожный вокзал Тбилиси", de: "Bahnhof Tiflis" },
+            { en: "Tbisi (village)", ka: "ტბისი (სოფელი)", ru: "Тбиси (село)", de: "Tbissi (Dorf)" },
+            { en: "Telavi", ka: "თელავი", ru: "Телави", de: "Telavi" },
+            { en: "Temple of Garni", ka: "გარნის ტაძარი", ru: "Храм Гарни", de: "Garni-Tempel" },
+            { en: "Temple of Saint Seraphim of Sarov", ka: "წმინდა სერაფიმ საროველის ეკლესია", ru: "Храм Святого Серафима Саровского", de: "Kirche des Heiligen Seraphim von Sarow" },
+            { en: "Terjola", ka: "თერჯოლა", ru: "Тержола", de: "Terdschola" },
+            { en: "Tetra Cave", ka: "თეთრა მღვიმე", ru: "Белая пещера (Тетра)", de: "Tetra Höhle" },
+            { en: "Tetritsqaro", ka: "თეთრიწყარო", ru: "Тетрицкаро", de: "Tetriszqaro" },
+            { en: "The Iron Fountain (Gyumri)", ka: "რკინის შადრევანი", ru: "Железный фонтан", de: "Eiserner Brunnen" },
+            { en: "Tianeti", ka: "თიანეთი", ru: "Тианети", de: "Tianeti" },
+            { en: "Tibaani", ka: "ტიბაანი", ru: "Тибаани", de: "Tibaani" },
+            { en: "Tkhilnari", ka: "თხილნარი", ru: "Тхилнари", de: "Tchilnari" },
+            { en: "Tkibuli", ka: "ტყიბული", ru: "Ткибули", de: "Tqibuli" },
+            { en: "Tkviavi", ka: "ტყვიავი", ru: "Тквиави", de: "Tqwiawi" },
+            { en: "Tmogvi Fortress", ka: "თმოგვის ციხე", ru: "Крепость Тмогви", de: "Tmogwi Festung" },
+            { en: "Tsageri", ka: "ცაგერი", ru: "Цагери", de: "Zageri" },
+            { en: "Tsaghveri", ka: "წაღვერი", ru: "Цагвери", de: "Zaghweri" },
+            { en: "Tsaghkadzor", ka: "წაღკაძორი", ru: "Цахкадзор", de: "Zachkadzor" },
+            { en: "Tsaishi Cathedral", ka: "ცაიშის ტაძარი", ru: "Цаишский собор", de: "Zaischi Kathedrale" },
+            { en: "Tsakhi", ka: "ცახი", ru: "Цахи", de: "Zachi" },
+            { en: "Tsalka", ka: "წალკა", ru: "Цалка", de: "Zalka" },
+            { en: "Tsamakaberd", ka: "წამაკაბერდი", ru: "Цамакаберд", de: "Tsamakaberd" },
+            { en: "Tsavkisi", ka: "წავკისი", ru: "Цавкиси", de: "Zawkissi" },
+            { en: "Tserovani", ka: "წეროვანი", ru: "Церовани", de: "Zerowani" },
+            { en: "Tsikhisdziri", ka: "ციხისძირი", ru: "Цихисдзири", de: "Zichisdsiri" },
+            { en: "Tsilkani Cathedral", ka: "წილკნის ტაძარი", ru: "Цилканский собор", de: "Zilkani Kathedrale" },
+            { en: "Tsinandali", ka: "წინანდალი", ru: "Цинандали", de: "Zinandali" },
+            { en: "Tsinsvla", ka: "წინსვლა", ru: "Цинсвла", de: "Zinswla" },
+            { en: "Tsintskaro", ka: "წინწყარო", ru: "Цинцкаро", de: "Zinzqaro" },
+            { en: "Tsitelmta", ka: "წითელმთა", ru: "Цителмта", de: "Zitelmta" },
+            { en: "Tskaltbila", ka: "წყალთბილა", ru: "Цкалтбила", de: "Zqaltbila" },
+            { en: "Tskaltubo", ka: "წყალტუბო", ru: "Цхалтубо (Цкалтубо)", de: "Tskaltubo", keywords: "цкалтубо ckhaltubo tskhaltubo" },
+            { en: "Tskhrajvari", ka: "ცხრაჯვარი", ru: "Цхраджвари", de: "Zchradschwari" },
+            { en: "Tskhvarichamia", ka: "ცხვარიჭამია", ru: "Цхваричамия", de: "Zchwaritschamia" },
+            { en: "Tskneti", ka: "წყნეთი", ru: "Цкнети", de: "Zqneti" },
+            { en: "Tsnori", ka: "წნორი", ru: "Цнори", de: "Znori" },
+            { en: "Tsopi", ka: "წოფი", ru: "Цопи", de: "Zopi" },
+            { en: "Turtle Lake", ka: "კუს ტბა", ru: "Черепашье озеро", de: "Schildkrötensee" },
+            { en: "Udabno", ka: "უდაბნო", ru: "Удабно", de: "Udabno" },
+            { en: "Ujarma", ka: "უჯარმა", ru: "Уджарма", de: "Udscharma" },
+            { en: "Underground Printing House Museum", ka: "სტამბის მუზეუმი", ru: "Музей подпольной типографии", de: "Untergrunddruckerei Museum" },
+            { en: "Uplistsikhe", ka: "უფლისციხე", ru: "Уплисцихе", de: "Uplisziche" },
+            { en: "Uravi", ka: "ურავი", ru: "Урави", de: "Urawi" },
+            { en: "Ureki", ka: "ურეკი", ru: "Уреки", de: "Ureki" },
+            { en: "Vachnadziani", ka: "ვაჩნაძიანი", ru: "Вачнадзиани", de: "Watschnadsiani" },
+            { en: "Vale Border", ka: "ვალეს საზღვარი", ru: "Граница Вале", de: "Wale Grenze" },
+            { en: "Vanadzor", ka: "ვანაძორი", ru: "Ванадзор", de: "Wanadsor" },
+            { en: "Vani", ka: "ვანი", ru: "Вани", de: "Wani" },
+            { en: "Vanis Kvabebi", ka: "ვანის ქვაბები", ru: "Ванис Квабеби", de: "Wanis Kwabebi" },
+            { en: "Vardenik", ka: "ვარდენიკი", ru: "Варденик", de: "Vardenik" },
+            { en: "Vardzia", ka: "ვარძია", ru: "Вардзия", de: "Vardzia" },
+            { en: "Varjanisi", ka: "ვარჯანისი", ru: "Варджаниси", de: "Wardschanissi" },
+            { en: "Vartsikhe", ka: "ვარციხე", ru: "Варцихе", de: "Warziche" },
+            { en: "Vashlovani National Park", ka: "ვაშლოვანის ეროვნული პარკი", ru: "Вашловани", de: "Waschlowani Nationalpark" },
+            { en: "Vashlovani Tower (Salkhino)", ka: "ვაშლოვანის კოშკი", ru: "Башня Вашловани", de: "Waschlowani Turm" },
+            { en: "Vaziani Winery", ka: "ვაზიანის მარანი", ru: "Винодельня Вазиани", de: "Waziani Weingut" },
+            { en: "Vazisubani", ka: "ვაზისუბანი", ru: "Вазисубани", de: "Wasisubani" },
+            { en: "Vejini", ka: "ვეჯინი", ru: "Веджини", de: "Wedschini" },
+            { en: "Velistsikhe", ka: "ველისციხე", ru: "Велисціхе", de: "Welisziche" },
+            { en: "Vladikavkaz", ka: "ვლადიკავკაზი", ru: "Владикавказ", de: "Wladikawkas" },
+            { en: "Vladikavkaz International Airport (Beslan)", ka: "ვლადიკავკაზის აეროპორტი (ბესლანი)", ru: "Аэропорт Владикавказ (Беслан)", de: "Flughafen Wladikawkas" },
+            { en: "Vladimir Mayakovski House Museum", ka: "მაიაკოვსკის მუზეუმი", ru: "Дом-музей Маяковского", de: "Majakowski Museum" },
+            { en: "Waterfall Mirveti", ka: "მირვეთის ჩანჩქერი", ru: "Водопад Мирвети", de: "Mirweti Wasserfall" },
+            { en: "Winery Khareba", ka: "მეღვინეობა ხარება", ru: "Винодельня Хареба", de: "Weingut Khareba" },
+            { en: "Wings of Tatev", ka: "ტატევის ფრთები", ru: "Крылья Татева", de: "Flügel von Tatev" },
+            { en: "Yeghegnadzor", ka: "ეგეგნაძორი", ru: "Ехегнадзор", de: "Jeghegnadsor" },
+            { en: "Yenokavan", ka: "ენოკავანი", ru: "Енокаван", de: "Jenokawan" },
+            { en: "Yerevan", ka: "ერევანი", ru: "Ереван", de: "Eriwan" },
+            { en: "Yerevan Airport", ka: "ერევნის აეროპორტი", ru: "Аэропорт Ереван", de: "Flughafen Eriwan" },
+            { en: "Zanavi", ka: "ზანავი", ru: "Занави", de: "Sanawi" },
+            { en: "Zeda Sazano", ka: "ზედა საზანო", ru: "Зеда Сазано", de: "Seda Sasano" },
+            { en: "Zedazeni Monastery", ka: "ზედაზნის მონასტერი", ru: "Монастырь Зедазени", de: "Sedaseni Kloster" },
+            { en: "Zegani", ka: "ზეგანი", ru: "Зегани", de: "Segani" },
+            { en: "Zemo Alvani", ka: "ზემო ალვანი", ru: "Земо Алвани", de: "Semo Alwani" },
+            { en: "Zemo Mleta", ka: "ზემო მლეთა", ru: "Земо Млета", de: "Semo Mleta" },
+            { en: "Zemo-Machkhaani", ka: "ზემო მაჩხაანი", ru: "Земо Мачхаани", de: "Semo Matschchaani" },
+            { en: "Zestaponi", ka: "ზესტაფონი", ru: "Зестафони", de: "Sestaponi" },
+            { en: "Zhinvali Water Reservoir", ka: "ჟინვალის წყალსაცავი", ru: "Жинвальское водохранилище", de: "Schinwali Stausee" },
+            { en: "Zovuni", ka: "ზოვუნი", ru: "Зовуни", de: "Sowuni" },
+            { en: "Zugdidi", ka: "ზუგდიდი", ru: "Зугдиди", de: "Zugdidi" },
+            { en: "Zvartnots Cathedral", ka: "ზვართნოცის ტაძარი", ru: "Храм Звартноц", de: "Swartnoz Kathedrale" },
+            { en: "Zvari Church", ka: "ზვარის ეკლესია", ru: "Церковь Звари", de: "Swari Kirche" }
+        ];
+
+        // 3. UI DICTIONARY
         const uiDict = {
             'en': {
-                nav: "Book Now", heroTag: "Exclusive Weekend Service", heroTitle: "Private <span class='text-brandGold'>Tours</span> & Transfers",
+                nav: "Book Now", heroTag: "Premium Transfers", heroTitle: "Private <span class='text-brandGold'>Tours</span> & Transfers",
                 heroDesc: "Discover Georgia with a punctual, safe, and premium local guide.",
                 fTitle: "Your Local Expert & <span class='text-brandGold'>Premium Ride</span>",
                 f1: "<strong>Professional Driver:</strong> Fluent in local routes, safe and comfortable.",
@@ -328,19 +910,31 @@
                 f4: "<strong>Refreshments:</strong> Complimentary bottled water included.",
                 f5: "<strong>Languages:</strong> Driver speaks English, German, Russian, and Georgian.",
                 transferTitle: "Transfer",
+                transferFrom: "Transfer from",
+                transferTo: "to",
                 depPlaceholder: "Point of departure? Choose the airport or city",
                 arrPlaceholder: "Point of arrival? Choose the airport or city",
-                stopsPlaceholder: "Intermediate stops (e.g., Prometheus Cave)",
+                stopsPlaceholder: "Intermediate stop (e.g., Prometheus Cave)",
                 addStop: "Add stop", whenBtn: "When ..",
+                lblDate: "Date", lblTime: "Time",
                 btnCalc: "Calculate Route & Price", resTitle: "Your Custom Quote", 
-                btnBook: "Book this Option", printTop: "Premium Weekend Service", printTitle: "✨ Custom AI Tour Planner", printDesc: "Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!", printScan: "Scan to Plan!",
-                warnOffroad: "* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).", errWeekend: "Please select a Saturday or Sunday. We only operate on weekends!", chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!",
+                btnBook: "Book this Option", printTop: "Premium Service", printTitle: "✨ Custom AI Tour Planner", printDesc: "Scan the QR code to let our AI design your perfect tour based on your interests. It calculates exact prices instantly!", printScan: "Scan to Plan!",
+                warnOffroad: "* Note: We do not operate off-road tours (Svaneti, Tusheti, Bakhmaro, Zekari, Tabatskuri).", chatGreeting: "Hello! I am the AI Booking Manager. Tell me where you want to go, and I will calculate the exact price for your trip!",
                 optTitle: "💡 Recommended Route (Cheaper & Shorter)", origTitle: "🧭 Your Original Requested Route",
                 detailReportTitle: "Detailed Route Itinerary", segment: "Segment", distTh: "Distance", timeTh: "Est. Time", totalDriveTime: "Total Driving Time", price: "Final Price",
-                sysOverload: "System overloaded, please write to us on WhatsApp for exact pricing."
+                sysOverload: "System overloaded, please write to us on WhatsApp for exact pricing.",
+                maxStopsReached: "Maximum 20 stops allowed.",
+                kutaisiLoc: "Kutaisi",
+                modalTitle: "Return to Kutaisi?",
+                modalDesc: "Most of our drivers are based in Kutaisi. Adding a return trip back to Kutaisi often makes the total price cheaper!",
+                modalYes: "Yes, add return to Kutaisi",
+                modalNo: "No, finish at destination",
+                offroadAlert: "We do not operate off-road tours to Svaneti, Tusheti, Bakhmaro, Zekari, or Tabatskuri. Please change your destination.",
+                fillDateTime: "Please select Date and Time before booking.",
+                contactTitle: "Contact & Booking"
             },
             'ka': {
-                nav: "დაჯავშნა", heroTag: "პრემიუმ სერვისი შაბათ-კვირას", heroTitle: "პირადი <span class='text-brandGold'>ტურები</span> და ტრანსფერები",
+                nav: "დაჯავშნა", heroTag: "პრემიუმ ტრანსფერები", heroTitle: "პირადი <span class='text-brandGold'>ტურები</span> და ტრანსფერები",
                 heroDesc: "იმოგზაურეთ საქართველოში უსაფრთხოდ, პუნქტუალურ ადგილობრივ მძღოლთან ერთად.",
                 fTitle: "თქვენი მეგზური და <span class='text-brandGold'>პრემიუმ ავტო</span>",
                 f1: "<strong>პროფესიონალი მძღოლი:</strong> უსაფრთხო და კომფორტული მგზავრობა.",
@@ -349,19 +943,31 @@
                 f4: "<strong>გაგრილება:</strong> უფასო სასმელი წყალი მგზავრებისთვის.",
                 f5: "<strong>ენები:</strong> მძღოლი საუბრობს ინგლისურად, გერმანულად, რუსულად და ქართულად.",
                 transferTitle: "ტრანსფერი",
+                transferFrom: "ტრანსფერი:",
+                transferTo: "➔",
                 depPlaceholder: "გამგზავრების ადგილი? აირჩიეთ აეროპორტი/ქალაქი",
                 arrPlaceholder: "დანიშნულების ადგილი? აირჩიეთ აეროპორტი/ქალაქი",
-                stopsPlaceholder: "შუალედური გაჩერებები (მაგ. მღვიმე, კანიონი)",
+                stopsPlaceholder: "შუალედური გაჩერება (მაგ. მღვიმე, კანიონი)",
                 addStop: "გაჩერების დამატება", whenBtn: "როდის ..",
+                lblDate: "თარიღი", lblTime: "დრო",
                 btnCalc: "ფასის და მარშრუტის დათვლა", resTitle: "თქვენი შეთავაზება",
-                btnBook: "ამ ვარიანტის დაჯავშნა", printTop: "პრემიუმ სერვისი შაბათ-კვირას", printTitle: "✨ AI ტურის დამგეგმავი", printDesc: "დაასკანერეთ QR კოდი და დაგეგმეთ ტური AI-ს დახმარებით. კალკულატორი წამებში დაგითვლით ზუსტ ფასს!", printScan: "დაასკანერე!",
-                warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).", errWeekend: "გთხოვთ აირჩიოთ შაბათი ან კვირა. ტრანსფერებს ვასრულებთ მხოლოდ დასვენების დღეებში!", chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!",
+                btnBook: "ამ ვარიანტის დაჯავშნა", printTop: "პრემიუმ სერვისი", printTitle: "✨ AI ტურის დამგეგმავი", printDesc: "დაასკანერეთ QR კოდი და დაგეგმეთ ტური AI-ს დახმარებით. კალკულატორი წამებში დაგითვლით ზუსტ ფასს!", printScan: "დაასკანერე!",
+                warnOffroad: "* შენიშვნა: არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, თუშეთი, ბახმარო, ტაბაწყური, ზეკარი).", chatGreeting: "გამარჯობა! მე ვარ AI მენეჯერი. მომწერეთ სად გსურთ გამგზავრება და დაგითვლით ზუსტ ფასს!",
                 optTitle: "💡 რეკომენდებული მარშრუტი (მოკლე და იაფი)", origTitle: "🧭 თქვენს მიერ მოთხოვნილი მარშრუტი",
                 detailReportTitle: "მარშრუტის დეტალური კილომეტრაჟი", segment: "მონაკვეთი", distTh: "მანძილი", timeTh: "სავარაუდო დრო", totalDriveTime: "ჯამური დრო (მხოლოდ გზა)", price: "საბოლოო ფასი",
-                sysOverload: "სისტემა გადატვირთულია, გთხოვთ მოგვწეროთ WhatsApp-ში ზუსტი ფასისთვის."
+                sysOverload: "სისტემა გადატვირთულია, გთხოვთ მოგვწეროთ WhatsApp-ში ზუსტი ფასისთვის.",
+                maxStopsReached: "მაქსიმუმ 20 გაჩერებაა დაშვებული.",
+                kutaisiLoc: "ქუთაისი",
+                modalTitle: "დაბრუნება ქუთაისში?",
+                modalDesc: "ჩვენი მძღოლების ბაზა მდებარეობს ქუთაისში. მარშრუტის ქუთაისში დასრულება ხშირად ამცირებს ჯამურ ფასს!",
+                modalYes: "კი, დაამატე ქუთაისი ბოლოში",
+                modalNo: "არა, დაასრულე დანიშნულების ადგილას",
+                offroadAlert: "ჩვენ არ ვასრულებთ ტურებს მაღალმთიან ზონებში (სვანეთი, მესტია, უშგული, თუშეთი, ბახმარო, ზეკარი, ტაბაწყური). გთხოვთ შეცვალოთ ლოკაცია.",
+                fillDateTime: "გთხოვთ, დაჯავშნამდე აირჩიოთ თარიღი და დრო.",
+                contactTitle: "კონტაქტი და დაჯავშნა"
             },
             'de': {
-                nav: "Buchen", heroTag: "Exklusiver Wochenend-Service", heroTitle: "Private <span class='text-brandGold'>Touren</span> & Transfers",
+                nav: "Buchen", heroTag: "Premium Transfers", heroTitle: "Private <span class='text-brandGold'>Touren</span> & Transfers",
                 heroDesc: "Entdecken Sie Georgien mit einem pünktlichen und sicheren lokalen Guide.",
                 fTitle: "Ihr lokaler Experte & <span class='text-brandGold'>Premium Fahrt</span>",
                 f1: "<strong>Professioneller Fahrer:</strong> Sicher und komfortabel.",
@@ -370,19 +976,31 @@
                 f4: "<strong>Erfrischungen:</strong> Kostenloses Wasser inklusive.",
                 f5: "<strong>Sprachen:</strong> Fahrer spricht Englisch, Deutsch, Russisch und Georgisch.",
                 transferTitle: "Transfer",
+                transferFrom: "Transfer von",
+                transferTo: "nach",
                 depPlaceholder: "Abfahrtsort? Wählen Sie Flughafen oder Stadt",
                 arrPlaceholder: "Ankunftsort? Wählen Sie Flughafen oder Stadt",
-                stopsPlaceholder: "Zwischenstopps (z. B. Prometheus-Höhle)",
+                stopsPlaceholder: "Zwischenstopp (z. B. Prometheus-Höhle)",
                 addStop: "Stopp hinzufügen", whenBtn: "Wann ..",
+                lblDate: "Datum", lblTime: "Uhrzeit",
                 btnCalc: "Route & Preis berechnen", resTitle: "Ihr Angebot", 
-                btnBook: "Diese Option buchen", printTop: "Premium Wochenend-Service", printTitle: "✨ KI-Tourenplaner", printDesc: "Scannen Sie den QR-Code, um Ihre perfekte Tour mit unserer KI zu planen. Sie berechnet sofort die genauen Preise!", printScan: "Zum Planen scannen!",
-                warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).", errWeekend: "Bitte wählen Sie einen Samstag oder Sonntag. Wir fahren nur am Wochenende!", chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!",
+                btnBook: "Diese Option buchen", printTop: "Premium Service", printTitle: "✨ KI-Tourenplaner", printDesc: "Scannen Sie den QR-Code, um Ihre perfekte Tour mit unserer KI zu planen. Sie berechnet sofort die genauen Preise!", printScan: "Zum Planen scannen!",
+                warnOffroad: "* Hinweis: Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri).", chatGreeting: "Hallo! Ich bin der AI Manager. Sagen Sie mir, wohin Sie fahren möchten, und ich berechne den genauen Preis!",
                 optTitle: "💡 Empfohlene Route (Günstiger & Kürzer)", origTitle: "🧭 Ihre angeforderte Originalroute",
                 detailReportTitle: "Detaillierter Reiseverlauf", segment: "Abschnitt", distTh: "Entfernung", timeTh: "Geschätzte Zeit", totalDriveTime: "Gesamte Fahrzeit", price: "Endpreis",
-                sysOverload: "System überlastet, bitte kontaktieren Sie uns auf WhatsApp für genaue Preise."
+                sysOverload: "System überlastet, bitte kontaktieren Sie uns auf WhatsApp für genaue Preise.",
+                maxStopsReached: "Maximal 20 Stopps erlaubt.",
+                kutaisiLoc: "Kutaissi",
+                modalTitle: "Zurück nach Kutaissi?",
+                modalDesc: "Die meisten unserer Fahrer sind in Kutaissi stationiert. Die Rückkehr nach Kutaissi macht den Gesamtpreis oft günstiger!",
+                modalYes: "Ja, Kutaissi hinzufügen",
+                modalNo: "Nein, am Zielort beenden",
+                offroadAlert: "Wir fahren nicht in Offroad-Bergregionen (Swanetien, Tuschetien, Bachmaro, Zekari, Tabazkuri). Bitte ändern Sie Ihr Ziel.",
+                fillDateTime: "Bitte wählen Sie Datum und Uhrzeit vor der Buchung.",
+                contactTitle: "Kontakt & Buchung"
             },
             'ru': {
-                nav: "Бронь", heroTag: "Эксклюзивный сервис на выходных", heroTitle: "Частные <span class='text-brandGold'>Туры</span> и Трансферы",
+                nav: "Бронь", heroTag: "Премиум Трансферы", heroTitle: "Частные <span class='text-brandGold'>Туры</span> и Трансферы",
                 heroDesc: "Откройте для себя Грузию с пунктуальным и безопасным местным гидом.",
                 fTitle: "Ваш местный эксперт и <span class='text-brandGold'>Премиум авто</span>",
                 f1: "<strong>Профессиональный водитель:</strong> Безопасно и комфортно.",
@@ -391,33 +1009,281 @@
                 f4: "<strong>Напитки:</strong> Бесплатная вода включена.",
                 f5: "<strong>Языки:</strong> Водитель говорит на английском, немецком, русском и грузинском.",
                 transferTitle: "Трансфер",
+                transferFrom: "Трансфер:",
+                transferTo: "➔",
                 depPlaceholder: "Место отправления? Выберите аэропорт/город",
                 arrPlaceholder: "Место прибытия? Выберите аэропорт/город",
-                stopsPlaceholder: "Промежуточные остановки (напр., Пещера Прометея)",
+                stopsPlaceholder: "Промежуточная остановка (напр., Пещера Прометея)",
                 addStop: "Добавить остановку", whenBtn: "Когда ..",
+                lblDate: "Дата", lblTime: "Время",
                 btnCalc: "Рассчитать маршрут и цену", resTitle: "Ваше предложение", 
-                btnBook: "Забронировать этот вариант", printTop: "Премиум сервис на выходных", printTitle: "✨ ИИ-планировщик туров", printDesc: "Отсканируйте QR-код, чтобы спланировать идеальный тур с помощью ИИ. Он мгновенно рассчитает точную цену!", printScan: "Сканируй!",
-                warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).", errWeekend: "Пожалуйста, выберите субботу или воскресенье. Мы работаем только по выходным!", chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!",
+                btnBook: "Забронировать этот вариант", printTop: "Премиум сервис", printTitle: "✨ ИИ-планировщик туров", printDesc: "Отсканируйте QR-код, чтобы спланировать идеальный тур с помощью ИИ. Он мгновенно рассчитывает точную цену!", printScan: "Сканируй!",
+                warnOffroad: "* Примечание: Мы не ездим по бездорожью (Сванетия, Тушетия, Бахмаро, Зекари, Табацкури).", chatGreeting: "Здравствуйте! Я ИИ-менеджер. Скажите, куда вы хотите поехать, и я рассчитаю точную цену!",
                 optTitle: "💡 Рекомендуемый маршрут (Дешевле и короче)", origTitle: "🧭 Ваш запрошенный маршрут",
                 detailReportTitle: "Детальный маршрут (километраж)", segment: "Участок", distTh: "Расстояние", timeTh: "Примерное время", totalDriveTime: "Общее время (в пути)", price: "Итоговая цена",
-                sysOverload: "Система перегружена, пожалуйста, напишите нам в WhatsApp для получения точной цены."
+                sysOverload: "Система перегружена, пожалуйста, напишите нам в WhatsApp для получения точной цены.",
+                maxStopsReached: "Допускается максимум 20 остановок.",
+                kutaisiLoc: "Кутаиси",
+                modalTitle: "Вернуться в Кутаиси?",
+                modalDesc: "Наши водители базируются в Кутаиси. Завершение маршрута в Кутаиси часто делает общую цену дешевле!",
+                modalYes: "Да, добавить Кутаиси",
+                modalNo: "Нет, закончить в пункте назначения",
+                offroadAlert: "Мы не совершаем туры по бездорожью (Сванетия, Местия, Ушгули, Тушетия, Бахмаро, Зекари, Табацкури). Пожалуйста, измените пункт назначения.",
+                fillDateTime: "Пожалуйста, выберите дату и время перед бронированием.",
+                contactTitle: "Контакт и Бронирование"
+            }
+        };
+
+        // 4. CORE DYNAMIC ROUTE LOGIC
+        
+        function cleanGoogleAddress(addr) {
+            if (!addr) return "";
+            return addr.replace(/^[A-Z0-9+]{6,15}\s+/g, '').replace(/, Georgia$/, '').trim();
+        }
+
+        function getLocName(locObj, lang) {
+            if (lang === 'ka' && locObj.ka) return locObj.ka;
+            if (lang === 'ru' && locObj.ru) return locObj.ru;
+            if (lang === 'de' && locObj.de) return locObj.de;
+            return locObj.en; 
+        }
+
+        function updateInputLanguage() {
+            routeNodes.forEach(node => {
+                if(node.enName) {
+                    const locObj = locationsDB.find(l => l.en === node.enName);
+                    if(locObj) node.value = getLocName(locObj, currentLang);
+                }
+            });
+        }
+
+        function checkOffroadAndMark() {
+            const offroadKeywords = ['svaneti', 'tusheti', 'bakhmaro', 'zekari', 'tabatskuri', 'სვანეთი', 'თუშეთი', 'ბახმარო', 'ზეკარი', 'ტაბაწყური', 'сванети', 'тушети', 'бахмаро', 'зекари', 'табацкури', 'mestia', 'მესტია', 'местія', 'ushguli', 'უშგული', 'ушгули'];
+            let hasOffroad = false;
+            
+            routeNodes.forEach(node => {
+                const val = node.value.toLowerCase();
+                const enVal = (node.enName || "").toLowerCase();
+                if (offroadKeywords.some(kw => val.includes(kw) || enVal.includes(kw))) {
+                    node.error = true;
+                    hasOffroad = true;
+                }
+            });
+            
+            if (hasOffroad) renderRouteBuilder(); 
+            return hasOffroad;
+        }
+
+        function onRouteChanged() {
+            document.getElementById('ai-result-container').classList.add('hidden');
+            window.kutaisiConfirmed = false;
+        }
+
+        function updateDynamicTitle() {
+            const titleEl = document.getElementById('transfer-title');
+            const dict = uiDict[currentLang];
+            const validStops = routeNodes.map(n => n.value.trim()).filter(v => v);
+            
+            if (validStops.length < 2) {
+                titleEl.innerHTML = dict.transferTitle;
+                return;
+            }
+            
+            if (currentLang === 'en' || currentLang === 'de') {
+                titleEl.innerHTML = `${dict.transferFrom} <span class="text-brandBlue">${validStops[0]}</span> ` + 
+                    validStops.slice(1).map(s => `${dict.transferTo} <span class="text-brandBlue">${s}</span>`).join(' ');
+            } else {
+                titleEl.innerHTML = `${dict.transferFrom} <span class="text-brandBlue">${validStops.join(` ${dict.transferTo} `)}</span>`;
             }
         }
 
-        window.onload = async () => {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('ai-date').setAttribute('min', today);
-            setLang('en'); 
-            try {
-                const res = await fetch('https://open.er-api.com/v6/latest/GEL');
-                const data = await res.json();
-                if(data && data.rates) {
-                    exchangeRates.USD = data.rates.USD;
-                    exchangeRates.EUR = data.rates.EUR;
-                    exchangeRates.RUB = data.rates.RUB;
+        function renderRouteBuilder() {
+            const container = document.getElementById('route-builder-container');
+            container.innerHTML = '';
+            const dict = uiDict[currentLang];
+
+            routeNodes.forEach((node, index) => {
+                const isFirst = index === 0;
+                const isLast = index === routeNodes.length - 1;
+                
+                let iconHtml = '';
+                if (isFirst) iconHtml = '<i class="fas fa-map-marker-alt text-green-500 text-xl relative z-10 bg-white py-1"></i>';
+                else if (isLast) iconHtml = '<i class="fa-solid fa-flag-checkered text-gray-800 text-xl relative z-10 bg-white py-1"></i>';
+                else iconHtml = '<i class="far fa-dot-circle text-green-500 text-lg relative z-10 bg-white py-1"></i>';
+
+                let placeholder = isFirst ? dict.depPlaceholder : (isLast ? dict.arrPlaceholder : dict.stopsPlaceholder);
+
+                let actionHtml = '';
+                if (isFirst) {
+                    actionHtml = `<div class="absolute right-3 top-0 bottom-0 flex items-center justify-center pointer-events-none"><button onclick="swapStartEnd(); event.preventDefault();" style="pointer-events: auto;" class="bg-[#f0fdf4] text-[#22c55e] hover:bg-[#dcfce7] w-[38px] h-[38px] rounded-lg flex items-center justify-center transition border border-[#bbf7d0]" title="Swap"><i class="fas fa-exchange-alt rotate-90 text-sm"></i></button></div>`;
+                } else if (index >= 2) { 
+                    actionHtml = `<div class="absolute right-3 top-0 bottom-0 flex items-center justify-center pointer-events-none"><button onclick="removeNode('${node.id}'); event.preventDefault();" style="pointer-events: auto;" class="text-gray-400 hover:text-red-500 hover:bg-red-50 w-[38px] h-[38px] rounded-lg flex items-center justify-center transition"><i class="fas fa-times text-lg"></i></button></div>`;
                 }
-            } catch(e) { console.log("Using fallback rates."); }
-        };
+
+                let inputClass = "w-full rounded-xl p-4 transition outline-none shadow-sm font-medium ";
+                if (node.error) {
+                    inputClass += "border-2 border-red-500 bg-red-50/10 text-red-500 placeholder-red-400 pl-12 pr-14";
+                } else {
+                    inputClass += "pl-4 pr-14 ";
+                    if (isFirst) inputClass += "border border-green-500 focus:ring-2 focus:ring-green-100 text-gray-700 bg-white";
+                    else inputClass += "border border-gray-300 focus:border-brandBlue focus:ring-2 focus:ring-blue-50 text-gray-700 bg-white";
+                }
+
+                let errorIcon = node.error ? `<i class="fas fa-exclamation-circle text-red-500 absolute left-4 top-1/2 -translate-y-1/2 z-10 text-lg"></i>` : '';
+
+                let lineHtml = '';
+                if (!isLast) {
+                    lineHtml = '<div class="w-[2px] flex-1 border-l-[2px] border-dashed border-green-500 my-1 min-h-[20px]"></div>';
+                }
+
+                const row = document.createElement('div');
+                row.className = "flex gap-4 mb-3"; 
+                
+                row.innerHTML = `
+                    <div class="flex flex-col items-center w-6 shrink-0 pt-4 hidden sm:flex">
+                        ${iconHtml}
+                        ${lineHtml}
+                    </div>
+                    <div class="flex-1">
+                        <div class="relative w-full">
+                            ${errorIcon}
+                            <input type="text" id="input-${node.id}" value="${node.value}" autocomplete="off"
+                                class="${inputClass}" placeholder="${placeholder}"
+                                oninput="handleNodeInput('${node.id}', this.value)"
+                                onfocus="renderDropdownList('${node.id}', this.value)">
+                            ${actionHtml}
+                            <div id="drop-${node.id}" class="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-gray-300 rounded-xl shadow-xl max-h-60 overflow-y-auto z-50 hidden custom-scroll"></div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(row);
+                setupAutocompleteEvents(node.id);
+            });
+            
+            updateDynamicTitle();
+        }
+
+        function addStop() {
+            onRouteChanged();
+            const dict = uiDict[currentLang];
+            
+            if (checkOffroadAndMark()) {
+                alert(dict.offroadAlert);
+                return;
+            }
+
+            let hasError = false;
+            routeNodes.forEach(node => {
+                if (!node.value.trim()) { node.error = true; hasError = true; }
+            });
+
+            if (hasError) { renderRouteBuilder(); return; }
+            if (routeNodes.length >= MAX_STOPS + 2) { alert(dict.maxStopsReached); return; }
+
+            routeNodes.push({ id: generateId(), value: '', enName: '', mapQuery: '', error: false });
+            renderRouteBuilder();
+            
+            setTimeout(() => {
+                const newId = routeNodes[routeNodes.length-1].id;
+                document.getElementById(`input-${newId}`).focus();
+            }, 50);
+        }
+
+        function removeNode(id) {
+            onRouteChanged();
+            routeNodes = routeNodes.filter(n => n.id !== id);
+            routeNodes.forEach(node => { node.error = false; }); 
+            checkOffroadAndMark();
+            renderRouteBuilder();
+        }
+
+        function swapStartEnd() {
+            if(routeNodes.length < 2) return;
+            onRouteChanged();
+            
+            const startNode = routeNodes[0];
+            const endNode = routeNodes[routeNodes.length - 1];
+            
+            const tempVal = startNode.value;
+            const tempEn = startNode.enName;
+            const tempMapQ = startNode.mapQuery;
+            
+            startNode.value = endNode.value;
+            startNode.enName = endNode.enName;
+            startNode.mapQuery = endNode.mapQuery;
+            
+            endNode.value = tempVal;
+            endNode.enName = tempEn;
+            endNode.mapQuery = tempMapQ;
+            
+            startNode.error = false; endNode.error = false;
+            renderRouteBuilder();
+        }
+
+        function handleNodeInput(id, value) {
+            onRouteChanged();
+            const node = routeNodes.find(n => n.id === id);
+            if (node) {
+                node.value = value;
+                node.enName = ''; 
+                node.mapQuery = '';
+                if (node.error) {
+                    node.error = false;
+                    renderRouteBuilder(); 
+                } else {
+                    updateDynamicTitle();
+                }
+                renderDropdownList(id, value);
+            }
+        }
+
+        function setupAutocompleteEvents(id) {
+            const input = document.getElementById(`input-${id}`);
+            const dropdown = document.getElementById(`drop-${id}`);
+            if(!input || !dropdown) return;
+            
+            document.addEventListener('click', (e) => {
+                if (e.target !== input && e.target !== dropdown && !dropdown.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        function renderDropdownList(id, filterText = "") {
+            const input = document.getElementById(`input-${id}`);
+            const dropdown = document.getElementById(`drop-${id}`);
+            dropdown.innerHTML = "";
+            const searchText = filterText.toLowerCase().trim();
+            
+            const filtered = locationsDB.filter(locObj => {
+                // Universal Search Algorithm: searches across all languages and hidden keywords
+                const searchStr = `${locObj.en} ${locObj.ka || ''} ${locObj.ru || ''} ${locObj.de || ''} ${locObj.keywords || ''}`.toLowerCase();
+                return searchStr.includes(searchText);
+            });
+            
+            if (filtered.length === 0) { dropdown.classList.add('hidden'); return; }
+
+            filtered.forEach(locObj => {
+                const displayTxt = getLocName(locObj, currentLang);
+                const div = document.createElement('div');
+                div.className = "p-3 cursor-pointer hover:bg-[#00c853] hover:text-white transition-colors border-b border-gray-100 last:border-0 text-gray-700 font-medium";
+                div.textContent = displayTxt;
+                div.onclick = () => {
+                    onRouteChanged();
+                    const node = routeNodes.find(n => n.id === id);
+                    if(node) {
+                        node.value = displayTxt;
+                        node.enName = locObj.en;
+                        node.mapQuery = locObj.mapQuery || '';
+                        node.error = false;
+                    }
+                    renderRouteBuilder();
+                    dropdown.classList.add('hidden');
+                };
+                dropdown.appendChild(div);
+            });
+            dropdown.classList.remove('hidden');
+        }
 
         function setLang(lang) {
             currentLang = lang;
@@ -438,66 +1304,65 @@
             document.getElementById('print-desc').innerHTML = dict.printDesc;
             document.getElementById('print-scan').innerHTML = dict.printScan;
             
-            // New UI Elements
-            document.getElementById('transfer-title').innerHTML = dict.transferTitle;
-            document.getElementById('start-location').placeholder = dict.depPlaceholder;
-            document.getElementById('ai-end-location').placeholder = dict.arrPlaceholder;
-            document.getElementById('ai-destination').placeholder = dict.stopsPlaceholder;
             document.getElementById('add-stop-text').innerHTML = dict.addStop;
             document.getElementById('when-text').innerHTML = dict.whenBtn;
-            
-            document.getElementById('warn-offroad').innerHTML = dict.warnOffroad;
             document.getElementById('btn-calc').innerHTML = dict.btnCalc;
-            document.getElementById('res-title').innerHTML = dict.resTitle;
-            document.getElementById('chat-greeting').innerHTML = dict.chatGreeting;
+            document.getElementById('warn-offroad').innerHTML = dict.warnOffroad;
+            document.getElementById('contact-title').innerHTML = dict.contactTitle;
+            
+            if(document.getElementById('lbl-date')) document.getElementById('lbl-date').innerHTML = dict.lblDate;
+            if(document.getElementById('lbl-time')) document.getElementById('lbl-time').innerHTML = dict.lblTime;
+
+            if(document.getElementById('res-title')) document.getElementById('res-title').innerHTML = dict.resTitle;
+            if(document.getElementById('chat-greeting')) document.getElementById('chat-greeting').innerHTML = dict.chatGreeting;
+            
+            if(document.getElementById('k-modal-title')) {
+                document.getElementById('k-modal-title').innerHTML = dict.modalTitle;
+                document.getElementById('k-modal-desc').innerHTML = dict.modalDesc;
+                document.getElementById('k-modal-yes').innerHTML = dict.modalYes;
+                document.getElementById('k-modal-no').innerHTML = dict.modalNo;
+            }
+
+            updateInputLanguage();
+            renderRouteBuilder();
 
             ['en','de','ru','ka'].forEach(l => {
-                const el = document.querySelector(`span[onclick="setLang('${l}')"]`);
-                if(l === lang) { el.classList.remove('opacity-50'); el.classList.add('opacity-100', 'scale-110'); }
-                else { el.classList.add('opacity-50'); el.classList.remove('opacity-100', 'scale-110'); }
+                const el = document.getElementById(`lang-${l}`);
+                if(l === lang) { el.classList.remove('text-gray-400'); el.classList.add('text-brandBlue', 'bg-blue-50', 'rounded'); }
+                else { el.classList.add('text-gray-400'); el.classList.remove('text-brandBlue', 'bg-blue-50', 'rounded'); }
             });
         }
 
-        // UI Toggles
-        function toggleStops() {
-            const stopsContainer = document.getElementById('stops-container');
-            const btnIcon = document.querySelector('#add-stop-btn i');
-            if(stopsContainer.classList.contains('hidden')) {
-                stopsContainer.classList.remove('hidden');
-                btnIcon.classList.remove('fa-plus');
-                btnIcon.classList.add('fa-minus');
-            } else {
-                stopsContainer.classList.add('hidden');
-                document.getElementById('ai-destination').value = '';
-                btnIcon.classList.remove('fa-minus');
-                btnIcon.classList.add('fa-plus');
-            }
-        }
+        window.onload = async () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('ai-date').setAttribute('min', today);
+            
+            setLang('en'); 
 
-        function toggleDateTime() {
-            const dtContainer = document.getElementById('datetime-container');
-            dtContainer.classList.toggle('hidden');
-        }
+            try {
+                const res = await fetch('https://open.er-api.com/v6/latest/GEL');
+                const data = await res.json();
+                if(data && data.rates) {
+                    exchangeRates.USD = data.rates.USD;
+                    exchangeRates.EUR = data.rates.EUR;
+                    exchangeRates.RUB = data.rates.RUB;
+                }
+            } catch(e) { console.log("Using fallback rates."); }
+        };
 
-        function swapLocations() {
-            const startInput = document.getElementById('start-location');
-            const endInput = document.getElementById('ai-end-location');
-            const temp = startInput.value;
-            startInput.value = endInput.value;
-            endInput.value = temp;
-        }
+        function toggleDateTime() { document.getElementById('datetime-container').classList.toggle('hidden'); }
 
-        // 💰 JavaScript Helper - სუფთა მათემატიკა ვალუტებისთვის
+        // 💰 Price Logic
         function formatPriceStr(price, lang) {
-            let p = parseFloat(price);
-            if (lang === 'ka') return `${p.toFixed(2)} GEL`;
-            if (lang === 'en') return `${p.toFixed(2)} GEL (~ ${(p * exchangeRates.USD).toFixed(2)} USD)`;
-            if (lang === 'de') return `${p.toFixed(2)} GEL (~ ${(p * exchangeRates.EUR).toFixed(2)} EUR)`;
-            if (lang === 'ru') return `${p.toFixed(2)} GEL (~ ${(p * exchangeRates.RUB).toFixed(2)} RUB)`;
-            return `${p.toFixed(2)} GEL`;
+            let p = Math.round(parseFloat(price)); 
+            if (lang === 'ka') return `${p} GEL`;
+            if (lang === 'en') return `${p} GEL (~ ${Math.round(p * exchangeRates.USD)} USD)`;
+            if (lang === 'de') return `${p} GEL (~ ${Math.round(p * exchangeRates.EUR)} EUR)`;
+            if (lang === 'ru') return `${p} GEL (~ ${Math.round(p * exchangeRates.RUB)} RUB)`;
+            return `${p} GEL`;
         }
 
-        // 🚀 Google Maps ჩატვირთვა
+        // 🚀 Maps API
         function loadGoogleMaps() {
             return new Promise((resolve, reject) => {
                 if (typeof google !== 'undefined' && google.maps) { resolve(); return; }
@@ -512,7 +1377,6 @@
             });
         }
 
-        // მარშრუტის კილომეტრაჟის დათვლა
         async function runMapsRequest(directionsService, request, lang) {
             return new Promise((resolve, reject) => {
                 directionsService.route(request, (result, status) => {
@@ -526,69 +1390,93 @@
                             totalKm += leg.distance.value / 1000;
                             totalMins += leg.duration.value / 60;
                             segments.push({
-                                from: leg.start_address.split(',')[0],
-                                to: leg.end_address.split(',')[0],
+                                from: cleanGoogleAddress(leg.start_address.split(',')[0]),
+                                to: cleanGoogleAddress(leg.end_address.split(',')[0]),
                                 dist: parseFloat((leg.distance.value / 1000).toFixed(1)),
                                 time: leg.duration.text
                             });
                         });
 
-                        // 💰 ტარიფის დათვლა
                         let price = 0;
-                        if (totalKm <= 30) price = totalKm * 2.25;
-                        else if (totalKm <= 100) price = totalKm * 1.35;
-                        else price = totalKm * 1.0;
+                        if (totalKm <= 30) {
+                            price = totalKm * 2.25;
+                        } else if (totalKm <= 100) {
+                            price = totalKm * 1.75;
+                        } else {
+                            price = totalKm * 1.0;
+                        }
 
-                        let formattedPriceStr = formatPriceStr(price, lang);
+                        price = Math.round(price); 
 
                         resolve({
                             distanceKm: parseFloat(totalKm.toFixed(1)),
                             estimatedTimeMins: Math.round(totalMins),
-                            formattedPrice: formattedPriceStr,
-                            segments: segments
+                            formattedPrice: formatPriceStr(price, lang),
+                            segments: segments,
+                            waypointOrder: route.waypoint_order || []
                         });
                     } else { reject(status); }
                 });
             });
         }
 
-        async function getMapsData(startLocStr, destStr, endLocStr, lang) {
+        async function getMapsData(nodesArray, lang) {
             const directionsService = new google.maps.DirectionsService();
-            const rawDestArray = destStr.split(/[,დაиand]+/).map(s => s.trim()).filter(s => s);
             
-            let origin = startLocStr || 'Kutaisi';
-            if (!origin.toLowerCase().includes('georgia')) origin += ', Georgia';
+            // Build queries using mapQuery if available, else enName, else raw value
+            const mapQueries = nodesArray.map(n => {
+                let loc = n.mapQuery || n.enName || n.value;
+                if (!loc.toLowerCase().includes('georgia') && !loc.toLowerCase().includes('armenia')) loc += ', Georgia';
+                return loc;
+            });
 
-            let destination = endLocStr;
-            const checkLoc = destination ? destination.toLowerCase() : '';
-            if (!destination || checkLoc === 'kutaisi' || checkLoc === 'ქუთაისი' || checkLoc === 'кутаиси') {
-                destination = origin; // Round trip back to start
-            } else {
-                destination += ', Georgia';
-            }
+            let origin = mapQueries[0];
+            let destination = mapQueries[mapQueries.length - 1];
+
+            const intermediateStops = mapQueries.slice(1, -1).map(loc => {
+                return { location: loc, stopover: true };
+            });
 
             const createReq = (optimize) => ({
                 origin: origin,
                 destination: destination,
-                waypoints: rawDestArray.map(loc => ({ location: loc + ', Georgia', stopover: true })),
+                waypoints: intermediateStops,
                 optimizeWaypoints: optimize,
                 travelMode: 'DRIVING'
             });
 
-            if (rawDestArray.length <= 1) {
-                const res = await runMapsRequest(directionsService, createReq(false), lang);
-                return { optimized: res, original: res, isOptimized: false };
-            } else {
-                const [resOrig, resOpt] = await Promise.all([
-                    runMapsRequest(directionsService, createReq(false), lang), 
-                    runMapsRequest(directionsService, createReq(true), lang)
-                ]);
+            // 1. Get User's Exact Route (Unoptimized)
+            const resOrig = await runMapsRequest(directionsService, createReq(false), lang);
+            
+            // Overwrite Google Maps text with local exact names that the user typed
+            resOrig.segments.forEach((seg, index) => {
+                seg.from = nodesArray[index].value;
+                seg.to = nodesArray[index+1].value;
+            });
+
+            // 2. Try to get an Optimized Route for Comparison (if there are stops)
+            if (intermediateStops.length > 0) {
+                const resOpt = await runMapsRequest(directionsService, createReq(true), lang);
                 
-                let isOptimized = resOpt.distanceKm < (resOrig.distanceKm - 0.5);
-                return { optimized: resOpt, original: resOrig, isOptimized: isOptimized };
+                if (resOpt.distanceKm < (resOrig.distanceKm - 1.0)) {
+                    // Reconstruct display names for optimized route using waypoint_order
+                    const userWaypoints = nodesArray.slice(1, -1).map(n => n.value);
+                    const orderedWaypoints = resOpt.waypointOrder.map(index => userWaypoints[index]);
+                    const fullOrderedNames = [nodesArray[0].value, ...orderedWaypoints, nodesArray[nodesArray.length - 1].value];
+                    
+                    resOpt.segments.forEach((seg, index) => {
+                        seg.from = fullOrderedNames[index];
+                        seg.to = fullOrderedNames[index+1];
+                    });
+
+                    return { originalRoute: resOrig, optimizedRoute: resOpt, isOptimized: true };
+                }
             }
+
+            return { originalRoute: resOrig, isOptimized: false };
         }
 
+        // 🛑 Core Calculation & Fallbacks
         function showFallbackUI(dict, fullRouteQuery) {
             const container = document.getElementById('ai-response-text');
             const resultContainer = document.getElementById('ai-result-container');
@@ -609,121 +1497,84 @@
             btn.disabled = false; btn.classList.remove('opacity-70', 'cursor-not-allowed');
         }
 
-        async function generateCustomTour() {
-            const startLoc = document.getElementById('start-location').value.trim();
-            const dest = document.getElementById('ai-destination').value.trim();
-            let endLocRaw = document.getElementById('ai-end-location').value.trim();
-            const date = document.getElementById('ai-date').value;
-            const time = document.getElementById('ai-time').value;
+        function triggerCalculation() {
             const dict = uiDict[currentLang];
             
+            if (checkOffroadAndMark()) {
+                alert(dict.offroadAlert);
+                return;
+            }
+
+            let hasError = false;
+            routeNodes.forEach(node => {
+                if (!node.value.trim()) { node.error = true; hasError = true; }
+            });
+            
+            if (hasError) { renderRouteBuilder(); return; }
+
+            const endNode = routeNodes[routeNodes.length - 1];
+            const endName = (endNode.enName || endNode.value).toLowerCase();
+
+            // KUTAISI RETURN PROMPT LOGIC
+            const isKutaisi = endName.includes('kutaisi') || endName.includes('ქუთაისი') || endName.includes('кутаиси');
+            
+            if (!isKutaisi && !window.kutaisiConfirmed) {
+                document.getElementById('kutaisi-modal').classList.remove('hidden');
+                return; 
+            }
+
+            generateCustomTour();
+        }
+
+        function confirmKutaisi(addReturn) {
+            document.getElementById('kutaisi-modal').classList.add('hidden');
+            window.kutaisiConfirmed = true; 
+            
+            if (addReturn) {
+                routeNodes.push({
+                    id: generateId(),
+                    value: uiDict[currentLang].kutaisiLoc,
+                    enName: 'Kutaisi',
+                    mapQuery: '',
+                    error: false
+                });
+                renderRouteBuilder();
+            }
+            
+            generateCustomTour();
+        }
+
+        async function generateCustomTour() {
+            const dict = uiDict[currentLang];
             const btn = document.getElementById('generate-btn');
             const resultContainer = document.getElementById('ai-result-container');
-            const responseText = document.getElementById('ai-response-text');
-
-            if (!startLoc && !dest && !endLocRaw) { alert(dict.lDest); return; }
-            
-            let endLoc = endLocRaw;
-            const checkLoc = endLoc.toLowerCase();
-            if (checkLoc === 'kutaisi' || checkLoc === 'ქუთაისი' || checkLoc === 'кутаиси') {
-                endLoc = ""; 
-            }
-
-            if (date) {
-                const selectedDate = new Date(date);
-                const dayOfWeek = selectedDate.getDay(); 
-                if (dayOfWeek !== 0 && dayOfWeek !== 6) { alert(dict.errWeekend); return; }
-            }
+            const date = document.getElementById('ai-date').value;
+            const time = document.getElementById('ai-time').value;
 
             currentDateStr = date; currentTimeStr = time;
             btn.innerHTML = '<span class="loader"></span>...';
             btn.disabled = true; btn.classList.add('opacity-70', 'cursor-not-allowed');
             resultContainer.classList.add('hidden');
 
-            const queryForFallback = `${startLoc} -> ${dest} -> ${endLoc}`;
+            const allLocsLocal = routeNodes.map(n => n.value);
+            const queryForFallback = allLocsLocal.join(' -> ');
 
-            let mapsData = null;
             try {
                 await loadGoogleMaps();
-                mapsData = await getMapsData(startLoc, dest, endLocRaw, currentLang);
+                // Pass the full objects so the function can access .value AND .mapQuery
+                lastQuoteData = await getMapsData(routeNodes, currentLang);
+                
+                renderUI(lastQuoteData, dict);
+                resultContainer.classList.remove('hidden');
             } catch(e) { 
-                console.error("Maps Data Failed (Triggering Fallback):", e);
+                console.error("Maps Failed:", e);
                 showFallbackUI(dict, queryForFallback);
-                return; 
-            }
-
-            let fullPrompt = `
-            You are the AI Booking Manager for "Kutaisi Premium Weekend Transfers".
-            CRITICAL RULE - OFF-ROAD ZONES: No tours to Svaneti (Mestia, Ushguli), Gomis Mta, Bakhmaro, Zekari Pass, Tusheti, Khevsureti, Tabatskuri. If requested, set status to "OFFROAD" and return refusal message in the requested language.
-            
-            User Request: Start: ${startLoc}, Stops: ${dest}, End: ${endLoc || startLoc} | Lang: ${currentLang}.
-            
-            GOOGLE MAPS DATA (ABSOLUTE TRUTH):
-            Optimized Route: Distance: ${mapsData.optimized.distanceKm} km, Time: ${mapsData.optimized.estimatedTimeMins} mins, Price: "${mapsData.optimized.formattedPrice}", Segments: ${JSON.stringify(mapsData.optimized.segments)}.
-            Original Route: Distance: ${mapsData.original.distanceKm} km, Time: ${mapsData.original.estimatedTimeMins} mins, Price: "${mapsData.original.formattedPrice}", Segments: ${JSON.stringify(mapsData.original.segments)}.
-            `;
-
-            if (mapsData.isOptimized) {
-                fullPrompt += `Set status to "OPTIMIZED". YOU MUST POPULATE BOTH 'optimizedRoute' AND 'originalRoute'.`;
-            } else {
-                fullPrompt += `Set status to "STANDARD".`;
-            }
-
-            const payload = { 
-                contents: [{ parts: [{ text: fullPrompt }] }],
-                generationConfig: {
-                    responseMimeType: "application/json",
-                    responseSchema: {
-                        type: "OBJECT",
-                        properties: {
-                            status: { type: "STRING", description: "'OFFROAD', 'OPTIMIZED', or 'STANDARD'" },
-                            offroadMessage: { type: "STRING" },
-                            optimizedRoute: {
-                                type: "OBJECT", properties: { 
-                                    distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
-                                    segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
-                                }
-                            },
-                            originalRoute: {
-                                type: "OBJECT", properties: { 
-                                    distanceKm: { type: "NUMBER" }, estimatedTimeMins: { type: "NUMBER" }, formattedPrice: { type: "STRING" },
-                                    segments: { type: "ARRAY", items: { type: "OBJECT", properties: { from: { type: "STRING" }, to: { type: "STRING" }, dist: { type: "NUMBER" }, time: { type: "STRING" } } } }
-                                }
-                            }
-                        },
-                        required: ["status", "optimizedRoute", "originalRoute"] 
-                    }
-                }
-            };
-
-            try {
-                let aiResponse;
-                
-                if (USE_BACKEND) {
-                    aiResponse = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                } else {
-                    if(!geminiApiKey || geminiApiKey === "") throw new Error("Gemini Key Missing");
-                    aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, { 
-                        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) 
-                    });
-                }
-                
-                const data = await aiResponse.json();
-                if (data && data.candidates && data.candidates[0].content) {
-                    lastQuoteData = JSON.parse(data.candidates[0].content.parts[0].text);
-                    renderUI(lastQuoteData, dict);
-                    resultContainer.classList.remove('hidden');
-                } else throw new Error("Invalid AI response.");
-            } catch (error) {
-                console.error("AI Fetch Error:", error);
-                showFallbackUI(dict, queryForFallback); 
             } finally {
                 btn.innerHTML = `<i class="fas fa-magic"></i> ${dict.btnCalc}`;
                 btn.disabled = false; btn.classList.remove('opacity-70', 'cursor-not-allowed');
             }
         }
 
-        // 🎨 სუფთა და ლამაზი ცხრილის HTML გენერატორი 
         function buildSegmentTableHTML(route, dict) {
             let html = `
             <div class="mt-4 mb-4 bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
@@ -741,8 +1592,8 @@
                 route.segments.forEach(seg => {
                     html += `
                         <tr class="hover:bg-gray-50 transition-colors duration-150">
-                            <td class="p-3 text-gray-700">${seg.from} <i class="fas fa-arrow-right mx-1 text-gray-400 text-xs"></i> ${seg.to}</td>
-                            <td class="p-3 font-medium text-gray-800">${seg.dist} ${currentLang === 'ka' ? 'კმ' : 'km'}</td>
+                            <td class="p-3 text-gray-700"><span class="font-medium">${seg.from}</span> <i class="fas fa-arrow-right mx-1 text-brandGold text-xs"></i> <span class="font-medium">${seg.to}</span></td>
+                            <td class="p-3 font-bold text-gray-800">${seg.dist} ${currentLang === 'ka' ? 'კმ' : 'km'}</td>
                             <td class="p-3 text-gray-500">${seg.time}</td>
                         </tr>`;
                 });
@@ -755,81 +1606,88 @@
             html += `
                    </tbody>
                </table>
-               <div class="bg-gray-50 p-4 text-sm flex justify-between items-center border-t border-gray-200">
-                    <span class="font-bold text-gray-800 flex items-center gap-2"><i class="fas fa-car text-gray-400"></i> Σ ${dict.distTh}: ~${route.distanceKm} ${currentLang === 'ka' ? 'კმ' : 'km'}</span>
-                    <span class="font-bold text-gray-800 flex items-center gap-2"><i class="far fa-clock text-gray-400"></i> ~${timeStr}</span>
+               <div class="bg-blue-50 p-4 text-sm flex justify-between items-center border-t border-blue-100">
+                    <span class="font-bold text-brandBlue flex items-center gap-2"><i class="fas fa-car text-brandBlue"></i> Σ ${dict.distTh}: ~${route.distanceKm} ${currentLang === 'ka' ? 'კმ' : 'km'}</span>
+                    <span class="font-bold text-brandBlue flex items-center gap-2"><i class="far fa-clock text-brandBlue"></i> ~${timeStr}</span>
                </div>
             </div>`;
             return html;
         }
 
-        // 🎨 მთავარი UI რენდერი (მწვანე და ნაცრისფერი ბარათები)
         function renderUI(data, dict) {
             const container = document.getElementById('ai-response-text');
             container.innerHTML = '';
 
             if (data.status === 'OFFROAD') {
-                container.innerHTML = `<div class="bg-red-50 border-l-4 border-red-500 p-4"><p class="text-red-700 font-bold">${data.offroadMessage}</p></div>`;
+                container.innerHTML = `<div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-xl"><p class="text-red-700 font-bold">${data.offroadMessage}</p></div>`;
                 return;
             }
 
             let html = '';
-            
-            if (data.status === 'OPTIMIZED' && data.originalRoute && data.originalRoute.distanceKm > data.optimizedRoute.distanceKm) {
+            if (data.isOptimized && data.originalRoute && data.originalRoute.distanceKm > data.optimizedRoute.distanceKm) {
                 html += `<div class="flex flex-col lg:flex-row gap-6">`;
-                
-                // 🟩 მწვანე ბარათი (BEST VALUE)
                 html += `
                 <div class="flex-1 bg-white border-[3px] border-[#2ce06d] rounded-2xl p-6 shadow-lg relative overflow-hidden flex flex-col justify-between">
                     <div class="absolute top-0 right-0 bg-[#2ce06d] text-white text-xs font-black tracking-wider px-4 py-1.5 rounded-bl-xl uppercase shadow-sm">BEST VALUE</div>
                     <div>
-                        <h4 class="text-green-800 font-bold text-xl mb-4 pr-24 flex items-center gap-2">${dict.optTitle}</h4>
+                        <h4 class="text-green-800 font-bold text-xl mb-4 pr-24 flex items-center gap-2"><i class="far fa-lightbulb text-brandGold"></i> ${dict.optTitle}</h4>
                         ${buildSegmentTableHTML(data.optimizedRoute, dict)}
                     </div>
                     <div class="mt-4">
-                        <div class="text-2xl text-green-700 font-bold mb-4 flex items-center gap-2"><span class="bg-green-100 text-green-800 px-3 py-1 rounded-lg text-lg">💰</span> ${dict.price}: ${data.optimizedRoute.formattedPrice}</div>
+                        <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-4 text-center">
+                            <span class="text-sm text-green-800 block mb-1 uppercase font-bold tracking-wide">${dict.price}</span>
+                            <span class="text-2xl text-green-700 font-black">${data.optimizedRoute.formattedPrice}</span>
+                        </div>
                         <button onclick="bookSpecificRoute('optimized')" class="w-full bg-[#2ce06d] text-white py-3.5 rounded-xl font-bold text-lg hover:bg-green-500 hover:shadow-lg transition-all flex items-center justify-center gap-2 transform active:scale-95"><i class="fab fa-whatsapp text-2xl"></i> ${dict.btnBook}</button>
                     </div>
                 </div>`;
 
-                // ⬜ ნაცრისფერი ბარათი (Original)
                 html += `
                 <div class="flex-1 bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between opacity-95 hover:opacity-100 transition-opacity">
                     <div>
-                        <h4 class="text-gray-700 font-bold text-xl mb-4 flex items-center gap-2">${dict.origTitle}</h4>
+                        <h4 class="text-gray-700 font-bold text-xl mb-4 flex items-center gap-2"><i class="far fa-compass text-gray-400"></i> ${dict.origTitle}</h4>
                         ${buildSegmentTableHTML(data.originalRoute, dict)}
                     </div>
                     <div class="mt-4">
-                        <div class="text-xl text-gray-800 font-bold mb-4 flex items-center gap-2"><span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-lg text-lg">💰</span> ${dict.price}: ${data.originalRoute.formattedPrice}</div>
+                        <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-4 text-center">
+                            <span class="text-sm text-gray-500 block mb-1 uppercase font-bold tracking-wide">${dict.price}</span>
+                            <span class="text-xl text-gray-800 font-black">${data.originalRoute.formattedPrice}</span>
+                        </div>
                         <button onclick="bookSpecificRoute('original')" class="w-full bg-gray-800 text-white py-3.5 rounded-xl font-bold text-lg hover:bg-gray-700 hover:shadow-md transition-all flex items-center justify-center gap-2 transform active:scale-95"><i class="fab fa-whatsapp text-2xl"></i> ${dict.btnBook}</button>
                     </div>
-                </div>`;
-                
-                html += `</div>`;
+                </div></div>`;
             } else {
-                // 🟦 სტანდარტული ბარათი 
                 html += `
-                <div class="bg-white border-[3px] border-[#2ce06d] rounded-2xl p-6 shadow-lg max-w-3xl mx-auto">
+                <div class="bg-white border-[3px] border-brandBlue rounded-2xl p-6 shadow-lg max-w-3xl mx-auto">
                     <h4 class="text-brandBlue font-bold text-xl mb-4 flex items-center gap-2"><i class="fas fa-map-marked-alt text-brandGold"></i> ${dict.detailReportTitle}</h4>
-                    ${buildSegmentTableHTML(data.optimizedRoute, dict)}
+                    ${buildSegmentTableHTML(data.originalRoute, dict)}
                     <div class="bg-blue-50 border border-blue-100 rounded-xl p-6 mt-6 flex flex-col sm:flex-row items-center justify-between gap-6">
-                        <div class="text-2xl text-brandBlue font-bold flex items-center gap-3"><span class="bg-white px-3 py-1.5 rounded-lg shadow-sm">💰</span> ${data.optimizedRoute.formattedPrice}</div>
-                        <button onclick="bookSpecificRoute('optimized')" class="w-full sm:w-auto px-8 bg-[#25D366] text-white py-3.5 rounded-xl font-bold text-lg hover:bg-green-600 hover:shadow-lg transition-all flex items-center justify-center gap-2 transform active:scale-95 whitespace-nowrap"><i class="fab fa-whatsapp text-2xl"></i> ${dict.btnBook}</button>
+                        <div class="text-3xl text-brandBlue font-black tracking-tight flex items-center gap-3"><span class="bg-white px-3 py-1.5 rounded-lg shadow-sm"><i class="fas fa-money-bill-wave text-green-600"></i></span> ${data.originalRoute.formattedPrice}</div>
+                        <button onclick="bookSpecificRoute('original')" class="w-full sm:w-auto px-8 bg-[#25D366] text-white py-4 rounded-xl font-bold text-xl hover:bg-green-600 hover:shadow-lg transition-all flex items-center justify-center gap-2 transform active:scale-95 whitespace-nowrap"><i class="fab fa-whatsapp text-2xl"></i> ${dict.btnBook}</button>
                     </div>
                 </div>`;
             }
-
             container.innerHTML = html;
         }
 
+        // Rule 1: Validate Date and Time before booking
         function bookSpecificRoute(routeType) {
             const dict = uiDict[currentLang];
+            const dateVal = document.getElementById('ai-date').value;
+            const timeVal = document.getElementById('ai-time').value;
+
+            if (!dateVal || !timeVal) {
+                alert(dict.fillDateTime);
+                document.getElementById('datetime-container').classList.remove('hidden');
+                if (!dateVal) document.getElementById('ai-date').focus();
+                else document.getElementById('ai-time').focus();
+                return; 
+            }
+
             const route = routeType === 'optimized' ? lastQuoteData.optimizedRoute : lastQuoteData.originalRoute;
             
             let msg = `Hello! I would like to book this route:\n\n`;
             msg += `📍 *${dict.detailReportTitle}*\n`;
-            msg += `-----------------------------------\n`;
-            msg += `${dict.segment} | ${dict.distTh} | ${dict.timeTh}\n`;
             msg += `-----------------------------------\n`;
             
             if (route && route.segments) {
@@ -847,74 +1705,65 @@
             msg += `*${dict.totalDriveTime}:* ~${timeStr}\n\n`;
             msg += `💰 *${dict.price}:* ${route.formattedPrice}\n`;
             
-            if (currentDateStr) {
-                msg += `📅 Date: ${currentDateStr}`;
-                if (currentTimeStr) msg += ` at ${currentTimeStr}`;
-                msg += `\n`;
-            }
-            
-            msg += `\nIs the driver available?`;
+            msg += `📅 Date: ${dateVal} at ${timeVal}\n\n`;
+            msg += `Is the driver available?`;
             
             window.open('https://wa.me/995568004140?text=' + encodeURIComponent(msg), '_blank');
         }
 
-        let chatHistory = [];
         function toggleChat() { document.getElementById('chatbot-panel').classList.toggle('hidden'); }
 
         async function sendChatMessage() {
             const inputField = document.getElementById('chat-input');
             const message = inputField.value.trim();
-            if (!message) return;
+            if (!message || !geminiApiKey) return;
 
             addMessageToUI(message, 'user');
             inputField.value = '';
             const loadingId = addMessageToUI('loading...', 'bot', true);
 
-            const chatPrompt = `You are Kutaisi Premium Transfers AI Manager. We only work weekends, accept CASH only, NO off-road (Svaneti etc). Be polite. User says in ${currentLang}: ` + message;
-            chatHistory.push({ role: "user", parts: [{ text: chatPrompt }] });
-            const payload = { contents: chatHistory };
-
+            const chatModelUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
+            const chatPrompt = `You are Kutaisi Premium Transfers AI Manager. Be polite. User says in ${currentLang}: ` + message;
+            
+            if (typeof window.chatHistory === 'undefined') {
+                window.chatHistory = [];
+            }
+            
+            window.chatHistory.push({ role: "user", parts: [{ text: chatPrompt }] });
+            
             try {
-                let aiResponse;
-                if (USE_BACKEND) {
-                    aiResponse = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                } else {
-                    if(!geminiApiKey || geminiApiKey === "") throw new Error("Gemini Key Missing");
-                    aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, { 
-                        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) 
-                    });
-                }
+                const res = await fetch(chatModelUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({contents: window.chatHistory}) }).then(r=>r.json());
                 
-                const data = await aiResponse.json();
-                if (data && data.candidates && data.candidates[0].content) {
-                    const replyText = data.candidates[0].content.parts[0].text;
+                if (res && res.candidates && res.candidates[0].content) {
+                    const text = res.candidates[0].content.parts[0].text;
                     document.getElementById(loadingId).remove();
-                    addMessageToUI(replyText, 'bot');
-                    chatHistory[chatHistory.length - 1] = { role: "user", parts: [{ text: message }] }; 
-                    chatHistory.push({ role: "model", parts: [{ text: replyText }] });
-                } else throw new Error("Invalid AI response.");
-            } catch (error) {
+                    addMessageToUI(text, 'bot');
+                    window.chatHistory[window.chatHistory.length - 1] = { role: "user", parts: [{ text: message }] }; 
+                    window.chatHistory.push({ role: "model", parts: [{ text }] });
+                }
+            } catch (e) {
                 document.getElementById(loadingId).remove();
-                addMessageToUI(`Error connecting to AI. Please message us on WhatsApp.`, 'bot');
-                chatHistory.pop();
+                addMessageToUI(`Error`, 'bot');
+                window.chatHistory.pop();
             }
         }
 
         function addMessageToUI(text, sender, isLoading = false) {
             const container = document.getElementById('chat-messages');
-            const msgDiv = document.createElement('div');
+            if(!container) return;
+            
+            const div = document.createElement('div');
             const id = 'msg-' + Date.now();
-            msgDiv.id = id;
-
+            div.id = id;
             if (sender === 'user') {
-                msgDiv.className = 'bg-brandBlue text-white p-3 rounded-xl rounded-tr-sm self-end max-w-[85%] text-sm shadow-sm';
-                msgDiv.textContent = text;
+                div.className = 'bg-brandBlue text-white p-3 rounded-xl rounded-tr-sm self-end max-w-[85%] text-sm shadow-sm';
+                div.textContent = text;
             } else {
-                msgDiv.className = 'bg-blue-100 text-brandBlue p-3 rounded-xl rounded-tl-sm self-start max-w-[85%] text-sm shadow-sm chat-prose';
-                if (isLoading) msgDiv.innerHTML = '<span class="loader" style="width:16px; height:16px; border-width: 2px;"></span>';
-                else msgDiv.innerHTML = marked.parse(text);
+                div.className = 'bg-blue-100 text-brandBlue p-3 rounded-xl rounded-tl-sm self-start max-w-[85%] text-sm shadow-sm chat-prose';
+                if (isLoading) div.innerHTML = '<span class="loader"></span>';
+                else div.innerHTML = marked.parse(text);
             }
-            container.appendChild(msgDiv);
+            container.appendChild(div);
             container.scrollTop = container.scrollHeight;
             return id;
         }
